@@ -5,8 +5,11 @@
  */
 package com.espe.edu.ec.services;
 
+import com.espe.edu.ec.facade.BeaconFacade;
 import com.espe.edu.ec.model.Beacon;
+import java.util.Date;
 import java.util.List;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ejb.LocalBean;
 
@@ -16,42 +19,40 @@ import javax.ejb.LocalBean;
  */
 @Stateless
 @LocalBean
-public class BeaconService  implements InterfaceService<Beacon>{
+public class BeaconService implements InterfaceService<Beacon> {
+
+    @EJB
+    BeaconFacade beaconFacade;
 
     @Override
-    public void create(Beacon object) {
+    public void crear(Beacon object) {
+        object.setInserted(new Date());
+        beaconFacade.create(object);
+    }
+
+    @Override
+    public void actualizar(Beacon object) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public void update(Beacon object) {
+    public void eliminar(Beacon object) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public void delete(Beacon object) {
+    public List<Beacon> buscarTodos() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public List<Beacon> all() {
+    public Beacon buscar(Integer id) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public Beacon findBy(Beacon object) {
+    public List<Beacon> traerLazzy(Integer first, Integer size) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
-    @Override
-    public Beacon find(Integer id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public List<Beacon> retrieve(Integer first, Integer size) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
 
 }

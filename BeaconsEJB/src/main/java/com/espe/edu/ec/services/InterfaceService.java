@@ -13,18 +13,16 @@ import java.util.List;
  */
 public interface InterfaceService<T> {
 
-    public void create(T object);
+    public void crear(T object);
 
-    public void update(T object);
+    public void actualizar(T object);
 
-    public void delete(T object);
+    public void eliminar(T object);
 
-    public List<T> all();
-
-    public T findBy(T object);
+    public List<T> buscarTodos();
     
-    public T find(Integer id);
+    public T buscar(Integer id);
 
-    public List<T> retrieve(Integer first, Integer size);
+    public List<T> traerLazzy(Integer first, Integer size);
 
 }
