@@ -6,9 +6,11 @@
 package com.espe.edu.ec.facade;
 
 import com.espe.edu.ec.model.Perfil;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -28,5 +30,12 @@ public class PerfilFacade extends AbstractFacade<Perfil> {
     public PerfilFacade() {
         super(Perfil.class);
     }
-    
+
+    public List<Perfil> traerLazzy(Integer first, Integer size) {
+        Query q = em.createNamedQuery("Perfil.findAll");
+        q.setFirstResult(first);
+        q.setMaxResults(size);
+        List<Perfil> perfiles = q.getResultList();
+        return perfiles;
+    }
 }

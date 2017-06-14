@@ -6,9 +6,11 @@
 package com.espe.edu.ec.facade;
 
 import com.espe.edu.ec.model.Historial;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -28,5 +30,12 @@ public class HistorialFacade extends AbstractFacade<Historial> {
     public HistorialFacade() {
         super(Historial.class);
     }
-    
+
+    public List<Historial> traerLazzy(Integer first, Integer size) {
+        Query q = em.createNamedQuery("Historial.findAll");
+        q.setFirstResult(first);
+        q.setMaxResults(size);
+        List<Historial> historiales = q.getResultList();
+        return historiales;
+    }
 }
