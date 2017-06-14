@@ -38,8 +38,4 @@ public class BeaconFacade extends AbstractFacade<Beacon> {
         return q.getResultList();
     }
 
-    public List<Beacon> obtenerTodosRegistros() {
-        return em.createNamedQuery("Beacon.findAll").getResultList();
-    }
-
 }

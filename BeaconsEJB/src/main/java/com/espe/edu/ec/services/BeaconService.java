@@ -38,22 +38,24 @@ public class BeaconService implements InterfaceService<Beacon> {
 
     @Override
     public void eliminar(Beacon object) {
-        
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public List<Beacon> buscarTodos() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return beaconFacade.findAll();
     }
 
     @Override
     public Beacon buscar(Integer id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Beacon b = new Beacon();
+        b.setBeaconId(id);
+        return beaconFacade.find(b);
     }
 
     @Override
     public List<Beacon> traerLazzy(Integer first, Integer size) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return beaconFacade.traerLazzy(first, size);
     }
 
 }
