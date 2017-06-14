@@ -10,5 +10,6 @@
     <module>BeaconsEAR</module>
     <module>BeaconsUI</module>
     <module>BeaconsEJB</module>
+    <module>BeaconWS</module>
   </modules>
 </project>

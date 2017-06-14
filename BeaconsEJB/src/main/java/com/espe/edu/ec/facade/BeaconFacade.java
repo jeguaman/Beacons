@@ -6,9 +6,11 @@
 package com.espe.edu.ec.facade;
 
 import com.espe.edu.ec.model.Beacon;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -28,5 +30,16 @@ public class BeaconFacade extends AbstractFacade<Beacon> {
     public BeaconFacade() {
         super(Beacon.class);
     }
-    
+
+    public List<Beacon> traerLazzy(Integer first, Integer size) {
+        Query q = em.createNamedQuery("Beacon.findAll");
+        q.setFirstResult(first);
+        q.setMaxResults(size);
+        return q.getResultList();
+    }
+
+    public List<Beacon> obtenerTodosRegistros() {
+        return em.createNamedQuery("Beacon.findAll").getResultList();
+    }
+
 }

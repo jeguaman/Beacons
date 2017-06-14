@@ -32,12 +32,13 @@ public class BeaconService implements InterfaceService<Beacon> {
 
     @Override
     public void actualizar(Beacon object) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        object.setUpdated(new Date());
+        beaconFacade.edit(object);
     }
 
     @Override
     public void eliminar(Beacon object) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
     }
 
     @Override
