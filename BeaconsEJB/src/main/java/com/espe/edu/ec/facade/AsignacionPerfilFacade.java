@@ -6,9 +6,11 @@
 package com.espe.edu.ec.facade;
 
 import com.espe.edu.ec.model.AsignacionPerfil;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -29,4 +31,10 @@ public class AsignacionPerfilFacade extends AbstractFacade<AsignacionPerfil> {
         super(AsignacionPerfil.class);
     }
     
+    public List<AsignacionPerfil> traerLazzy(Integer first, Integer size) {
+        Query q = em.createNamedQuery("AsignacionPerfil.findAll");
+        q.setFirstResult(first);
+        q.setMaxResults(size);
+        return q.getResultList();
+    }
 }

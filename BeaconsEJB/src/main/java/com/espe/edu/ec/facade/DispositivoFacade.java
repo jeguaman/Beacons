@@ -5,10 +5,13 @@
  */
 package com.espe.edu.ec.facade;
 
+import com.espe.edu.ec.model.AsignacionPerfil;
 import com.espe.edu.ec.model.Dispositivo;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -28,5 +31,12 @@ public class DispositivoFacade extends AbstractFacade<Dispositivo> {
     public DispositivoFacade() {
         super(Dispositivo.class);
     }
-    
+
+    public List<Dispositivo> traerLazzy(Integer first, Integer size) {
+        Query q = em.createNamedQuery("Dispositivo.findAll");
+        q.setFirstResult(first);
+        q.setMaxResults(size);
+        return q.getResultList();
+    }
+
 }
