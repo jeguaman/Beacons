@@ -6,9 +6,11 @@
 package com.espe.edu.ec.facade;
 
 import com.espe.edu.ec.model.Lugar;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -28,5 +30,13 @@ public class LugarFacade extends AbstractFacade<Lugar> {
     public LugarFacade() {
         super(Lugar.class);
     }
-    
+
+    public List<Lugar> traerLazzy(Integer first, Integer size) {
+        Query q = em.createNamedQuery("Lugar.findAll");
+        q.setFirstResult(first);
+        q.setMaxResults(size);
+        List<Lugar> lugares = q.getResultList();
+        return lugares;
+    }
+
 }

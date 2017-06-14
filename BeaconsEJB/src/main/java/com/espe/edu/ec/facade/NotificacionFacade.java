@@ -6,9 +6,11 @@
 package com.espe.edu.ec.facade;
 
 import com.espe.edu.ec.model.Notificacion;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -28,5 +30,12 @@ public class NotificacionFacade extends AbstractFacade<Notificacion> {
     public NotificacionFacade() {
         super(Notificacion.class);
     }
-    
+
+    public List<Notificacion> traerLazzy(Integer first, Integer size) {
+        Query q = em.createNamedQuery("Notificacion.findAll");
+        q.setFirstResult(first);
+        q.setMaxResults(size);
+        List<Notificacion> notificaciones = q.getResultList();
+        return notificaciones;
+    }
 }

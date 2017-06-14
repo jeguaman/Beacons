@@ -45,15 +45,14 @@ public class RegistroService implements InterfaceService<Registro> {
 
     @Override
     public Registro buscar(Integer id) {
-        return registroFacade.find(id);
+        Registro re = new Registro();
+        re.setRegistroId(id);
+        return registroFacade.find(re);
     }
 
     @Override
-    public List<Registro> traerLazzy(Integer first, Integer size) {
-        int[] range = new int[2];
-        range[0] = first;
-        range[1] = size;
-        return registroFacade.findRange(range);
+    public List<Registro> traerLazzy(Integer first, Integer size) {       
+        return registroFacade.traerLazzy(first, size);
     }
 
     // Add business logic below. (Right-click in editor and choose

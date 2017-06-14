@@ -45,15 +45,14 @@ public class PerfilService implements InterfaceService<Perfil> {
 
     @Override
     public Perfil buscar(Integer id) {
-        return perfilFacade.find(id);
+        Perfil perfil= new Perfil();
+        perfil.setPerfilId(id);
+        return perfilFacade.find(perfil);
     }
 
     @Override
     public List<Perfil> traerLazzy(Integer first, Integer size) {
-        int[] range = new int[2];
-        range[0] = first;
-        range[1] = size;
-        return perfilFacade.findRange(range);
+        return perfilFacade.traerLazzy(first, size);
     }
 
     // Add business logic below. (Right-click in editor and choose

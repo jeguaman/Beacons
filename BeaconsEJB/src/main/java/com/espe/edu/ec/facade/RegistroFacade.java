@@ -6,9 +6,11 @@
 package com.espe.edu.ec.facade;
 
 import com.espe.edu.ec.model.Registro;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -29,4 +31,11 @@ public class RegistroFacade extends AbstractFacade<Registro> {
         super(Registro.class);
     }
     
+        public List<Registro> traerLazzy(Integer first, Integer size) {
+        Query q = em.createNamedQuery("Registro.findAll");
+        q.setFirstResult(first);
+        q.setMaxResults(size);
+        List<Registro> registros = q.getResultList();
+        return registros;
+    }
 }

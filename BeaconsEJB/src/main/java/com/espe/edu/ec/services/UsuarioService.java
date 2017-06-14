@@ -50,15 +50,14 @@ public class UsuarioService implements InterfaceService<Usuario> {
 
     @Override
     public Usuario buscar(Integer id) {
-        return usuarioFacade.find(id);
+        Usuario u = new Usuario();
+        u.setUsuarioId(id);
+        return usuarioFacade.find(u);
     }
 
     @Override
     public List<Usuario> traerLazzy(Integer first, Integer size) {
-        int[] range = new int[2];
-        range[0] = first;
-        range[1] = size;
-        return usuarioFacade.findRange(range);
+        return usuarioFacade.traerLazzy(first, size);
     }
 
 }

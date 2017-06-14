@@ -6,9 +6,11 @@
 package com.espe.edu.ec.facade;
 
 import com.espe.edu.ec.model.Usuario;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -28,5 +30,12 @@ public class UsuarioFacade extends AbstractFacade<Usuario> {
     public UsuarioFacade() {
         super(Usuario.class);
     }
-    
+
+    public List<Usuario> traerLazzy(Integer first, Integer size) {
+        Query q = em.createNamedQuery("Usuario.findAll");
+        q.setFirstResult(first);
+        q.setMaxResults(size);
+        List<Usuario> usuarios = q.getResultList();
+        return usuarios;
+    }
 }

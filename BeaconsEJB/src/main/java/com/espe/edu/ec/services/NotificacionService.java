@@ -5,8 +5,10 @@
  */
 package com.espe.edu.ec.services;
 
+import com.espe.edu.ec.facade.NotificacionFacade;
 import com.espe.edu.ec.model.Notificacion;
 import java.util.List;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ejb.LocalBean;
 
@@ -16,36 +18,41 @@ import javax.ejb.LocalBean;
  */
 @Stateless
 @LocalBean
-public class NotificacionService implements InterfaceService<Notificacion>{
+public class NotificacionService implements InterfaceService<Notificacion> {
+
+    @EJB
+    NotificacionFacade notificacionFacade;
 
     @Override
     public void crear(Notificacion object) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        notificacionFacade.create(object);
     }
 
     @Override
     public void actualizar(Notificacion object) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        notificacionFacade.edit(object);
     }
 
     @Override
     public void eliminar(Notificacion object) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
     }
 
     @Override
     public List<Notificacion> buscarTodos() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return notificacionFacade.findAll();
     }
 
     @Override
     public Notificacion buscar(Integer id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Notificacion n = new Notificacion();
+        n.setNotificacionId(id);
+        return notificacionFacade.find(n);
     }
 
     @Override
     public List<Notificacion> traerLazzy(Integer first, Integer size) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return notificacionFacade.traerLazzy(first, size);
     }
 
     // Add business logic below. (Right-click in editor and choose
