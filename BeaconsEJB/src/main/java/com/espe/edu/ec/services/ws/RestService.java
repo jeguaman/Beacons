@@ -5,10 +5,6 @@
  */
 package com.espe.edu.ec.services.ws;
 
-import com.espe.edu.ec.facade.AreaFacade;
-import com.espe.edu.ec.facade.DispositivoFacade;
-import com.espe.edu.ec.facade.LugarFacade;
-import com.espe.edu.ec.facade.RegistroFacade;
 import com.espe.edu.ec.model.Area;
 import com.espe.edu.ec.model.Dispositivo;
 import com.espe.edu.ec.model.Registro;
@@ -30,20 +26,23 @@ import org.jboss.logging.Logger;
 @LocalBean
 public class RestService {
 
-    private static Logger LOGGER = Logger.getLogger(RestService.class);
+    private static final Logger LOGGER = Logger.getLogger(RestService.class);
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
-    @EJB
-    AreaService areaService;
+
     @EJB
     LugarService lugarService;
+
     @EJB
-    DispositivoService dispositivoService;
+    AreaService areaService;
+
     @EJB
     RegistroService registroService;
 
-    public WSResponse traerAreasWS() {
+    @EJB
+    DispositivoService dispositivoService;
 
+    public WSResponse traerAreasWS() {
         WSResponse response = new WSResponse();
         try {
             response.setEntity(areaService.buscarTodos());
@@ -57,6 +56,32 @@ public class RestService {
 
     public WSResponse traerAreaPorId(int idArea) {
         WSResponse response = new WSResponse();
+        try {
+            response.setEntity(areaService.buscar(idArea));
+            response.setState(true);
+        } catch (Exception e) {
+            LOGGER.error(e);
+            response.setState(false);
+        }
+        return response;
+    }
+
+    public WSResponse traerLugaresPorIdArea(Integer idArea) {
+        WSResponse response = new WSResponse();
+
+        return response;
+    }
+
+    public WSResponse traerLugarPorId() {
+        WSResponse response = new WSResponse();
+
+        return response;
+    }
+
+    public WSResponse traerAreaPorUUIDBeacon() {
+
+        WSResponse response = new WSResponse();
+
         return response;
     }
 
