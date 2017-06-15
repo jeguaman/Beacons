@@ -7,10 +7,12 @@ package com.espe.edu.ec.services.ws;
 
 import com.espe.edu.ec.facade.AreaFacade;
 import com.espe.edu.ec.facade.LugarFacade;
+import com.espe.edu.ec.model.Area;
+import com.espe.edu.ec.services.AreaService;
+import com.espe.edu.ec.services.LugarService;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ejb.LocalBean;
-import org.hibernate.annotations.common.util.impl.LoggerFactory;
 import org.jboss.logging.Logger;
 
 /**
@@ -21,19 +23,20 @@ import org.jboss.logging.Logger;
 @LocalBean
 public class RestService {
 
-    private static Logger LOGGER = Logger.getLogger(RestService.class);
+    private static final Logger LOGGER = Logger.getLogger(RestService.class);
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
+
     @EJB
-    AreaFacade areaFacade;
+    LugarService lugarService;
+
     @EJB
-    LugarFacade lugarFacade;
+    AreaService areaService;
 
     public WSResponse traerAreasWS() {
-        
         WSResponse response = new WSResponse();
         try {
-            response.setEntity(areaFacade.findAll());
+            response.setEntity(areaService.buscarTodos());
             response.setState(true);
         } catch (Exception ex) {
             LOGGER.error(ex);
@@ -44,9 +47,33 @@ public class RestService {
 
     public WSResponse traerAreaPorId(int idArea) {
         WSResponse response = new WSResponse();
+        try {
+            response.setEntity(areaService.buscar(idArea));
+            response.setState(true);
+        } catch (Exception e) {
+            LOGGER.error(e);
+            response.setState(false);
+        }
         return response;
     }
 
-    
-    
+    public WSResponse traerLugaresPorIdArea(Integer idArea) {
+        WSResponse response = new WSResponse();
+
+        return response;
+    }
+
+    public WSResponse traerLugarPorId() {
+        WSResponse response = new WSResponse();
+
+        return response;
+    }
+
+    public WSResponse traerAreaPorUUIDBeacon() {
+
+        WSResponse response = new WSResponse();
+
+        return response;
+    }
+
 }
