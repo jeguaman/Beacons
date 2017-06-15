@@ -32,7 +32,9 @@ public class GenericResource {
     }
 
     /**
-     * Retrieves representation of an instance of com.espe.edu.ec.beaconws.GenericResource
+     * Retrieves representation of an instance of
+     * com.espe.edu.ec.beaconws.GenericResource
+     *
      * @return an instance of java.lang.String
      */
     @GET
@@ -44,6 +46,7 @@ public class GenericResource {
 
     /**
      * PUT method for updating or creating an instance of GenericResource
+     *
      * @param content representation for the resource
      */
     @PUT
