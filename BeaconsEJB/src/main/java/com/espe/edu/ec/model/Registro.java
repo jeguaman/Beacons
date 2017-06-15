@@ -56,10 +56,10 @@ public class Registro implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date inserted;
     @JoinColumn(name = "area_id", referencedColumnName = "area_id")
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Area areaId;
     @JoinColumn(name = "dispositivo_id", referencedColumnName = "dispositivo_id")
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Dispositivo dispositivoId;
 
     public Registro() {

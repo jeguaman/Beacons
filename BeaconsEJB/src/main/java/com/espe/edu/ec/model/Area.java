@@ -75,13 +75,13 @@ public class Area implements Serializable {
     @Column(name = "updated")
     @Temporal(TemporalType.TIMESTAMP)
     private Date updated;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "areaId", fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "areaId", fetch = FetchType.LAZY)
     private List<AreaBeacon> areaBeaconList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "areaId", fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "areaId", fetch = FetchType.LAZY)
     private List<Lugar> lugarList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "areaId", fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "areaId", fetch = FetchType.LAZY)
     private List<Notificacion> notificacionList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "areaId", fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "areaId", fetch = FetchType.LAZY)
     private List<Registro> registroList;
 
     public Area() {

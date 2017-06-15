@@ -87,7 +87,7 @@ public class Beacon implements Serializable {
     @Column(name = "updated")
     @Temporal(TemporalType.TIMESTAMP)
     private Date updated;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "beaconId", fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "beaconId", fetch = FetchType.LAZY)
     private List<AreaBeacon> areaBeaconList;
 
     public Beacon() {

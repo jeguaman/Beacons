@@ -74,7 +74,7 @@ public class Lugar implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date updated;
     @JoinColumn(name = "area_id", referencedColumnName = "area_id")
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Area areaId;
 
     public Lugar() {

@@ -67,7 +67,7 @@ public class Dispositivo implements Serializable {
     @Column(name = "updated")
     @Temporal(TemporalType.TIMESTAMP)
     private Date updated;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "dispositivoId", fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "dispositivoId", fetch = FetchType.LAZY)
     private List<Registro> registroList;
 
     public Dispositivo() {
