@@ -69,7 +69,7 @@ public class Perfil implements Serializable {
     @Column(name = "updated")
     @Temporal(TemporalType.TIMESTAMP)
     private Date updated;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "perfilId", fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "perfilId", fetch = FetchType.LAZY)
     private List<AsignacionPerfil> asignacionPerfilList;
 
     public Perfil() {

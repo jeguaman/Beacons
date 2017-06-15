@@ -60,10 +60,10 @@ public class AreaBeacon implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date updated;
     @JoinColumn(name = "area_id", referencedColumnName = "area_id")
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Area areaId;
     @JoinColumn(name = "beacon_id", referencedColumnName = "beacon_id")
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Beacon beaconId;
 
     public AreaBeacon() {

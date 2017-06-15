@@ -55,10 +55,10 @@ public class AsignacionPerfil implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date updated;
     @JoinColumn(name = "perfil_id", referencedColumnName = "perfil_id")
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Perfil perfilId;
     @JoinColumn(name = "usuario_id", referencedColumnName = "usuario_id")
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Usuario usuarioId;
 
     public AsignacionPerfil() {
