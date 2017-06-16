@@ -11,6 +11,7 @@ import javax.ejb.EJB;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.FormParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -25,10 +26,10 @@ import javax.ws.rs.core.MediaType;
  */
 @Path("ws")
 public class WsResource {
-
+    
     @Context
     private UriInfo context;
-
+    
     @EJB
     RestService restService;
 
@@ -60,7 +61,7 @@ public class WsResource {
     @Consumes(MediaType.APPLICATION_XML)
     public void putXml(String content) {
     }
-
+    
     @POST
     @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
     @Path("/traerAreas")
@@ -68,5 +69,12 @@ public class WsResource {
         return restService.traerAreasWS();
     }
     
-    
+    @POST
+    @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
+    @Path("/registrarAreaDispositivo")
+    public WSResponse registrarAreaDispositivo(@FormParam("idArea") Integer idArea,
+            @FormParam("imei") String imei) {
+        System.out.println("");
+        return restService.registrarAreaDispositivo(idArea, imei);
+    }
 }

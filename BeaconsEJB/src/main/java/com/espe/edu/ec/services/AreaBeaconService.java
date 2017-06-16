@@ -10,11 +10,15 @@ import com.espe.edu.ec.model.AreaBeacon;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
+import javax.ejb.LocalBean;
+import javax.ejb.Stateless;
 
 /**
  *
  * @author Jose Guaman
  */
+@Stateless
+@LocalBean
 public class AreaBeaconService implements InterfaceService<AreaBeacon>{
 
     @EJB
