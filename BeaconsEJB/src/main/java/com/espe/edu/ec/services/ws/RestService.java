@@ -25,7 +25,7 @@ import org.jboss.logging.Logger;
  */
 @Stateless
 @LocalBean
-public class RestService implements Serializable{
+public class RestService implements Serializable {
 
     private static final Logger LOGGER = Logger.getLogger(RestService.class);
     // Add business logic below. (Right-click in editor and choose
@@ -55,6 +55,11 @@ public class RestService implements Serializable{
         return response;
     }
 
+    /**
+     *  Jose Guaman
+     * @param idArea
+     * @return
+     */
     public WSResponse traerAreaPorId(int idArea) {
         WSResponse response = new WSResponse();
         try {
@@ -67,6 +72,11 @@ public class RestService implements Serializable{
         return response;
     }
 
+    /**
+     * Jose Guaman
+     * @param idArea
+     * @return 
+     */
     public WSResponse traerLugaresPorIdArea(Integer idArea) {
         WSResponse response = new WSResponse();
         try {
@@ -79,6 +89,11 @@ public class RestService implements Serializable{
         return response;
     }
 
+    /**
+     * Jose Guaman
+     * @param idLugar
+     * @return 
+     */
     public WSResponse traerLugarPorId(Integer idLugar) {
         WSResponse response = new WSResponse();
         try {
@@ -91,11 +106,16 @@ public class RestService implements Serializable{
         return response;
     }
 
-    public WSResponse traerAreaPorUUIDBeacon(String uuidBeacon) {
+/**
+ * 
+ * @param uuidBeacon
+ * @return 
+ */
+ public WSResponse traerAreaPorUUIDBeacon(String uuidBeacon) {
         WSResponse response = new WSResponse();
         try {
-               response.setEntity(lugarService.traerLugaresPorIdArea(Integer.SIZE));
-               response.setState(true);
+            response.setEntity(lugarService.traerLugaresPorUUIDBeacon(uuidBeacon));
+            response.setState(true);
         } catch (Exception e) {
             LOGGER.error(e);
             response.setState(false);

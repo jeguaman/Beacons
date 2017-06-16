@@ -26,10 +26,10 @@ import javax.ws.rs.core.MediaType;
  */
 @Path("ws")
 public class WsResource {
-    
+
     @Context
     private UriInfo context;
-    
+
     @EJB
     RestService restService;
 
@@ -61,14 +61,14 @@ public class WsResource {
     @Consumes(MediaType.APPLICATION_XML)
     public void putXml(String content) {
     }
-    
+
     @POST
     @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
     @Path("/traerAreas")
     public WSResponse traerAreas() {
         return restService.traerAreasWS();
     }
-    
+
     @POST
     @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
     @Path("/registrarAreaDispositivo")
@@ -76,5 +76,13 @@ public class WsResource {
             @FormParam("imei") String imei) {
         System.out.println("");
         return restService.registrarAreaDispositivo(idArea, imei);
+    }
+
+    //2. traerLugaresPOrIdArea (solo trae el id y titulo)
+    @POST
+    @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
+    @Path("/traerLugaresPorIdArea")
+    public WSResponse traerLugaresPorIdArea(@FormParam("id_area") Integer idArea) {
+        return restService.traerLugaresPorIdArea(idArea);
     }
 }
