@@ -84,4 +84,12 @@ public class WsResource {
             @FormParam("tipo") String tipo) {
         return restService.traerNotificacionPorAreaTipo(idArea, tipo);
     }
+
+    //2. traerLugaresPOrIdArea (solo trae el id y titulo)
+    @POST
+    @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
+    @Path("/traerLugaresPorIdArea")
+    public WSResponse traerLugaresPorIdArea(@FormParam("id_area") Integer idArea) {
+        return restService.traerLugaresPorIdArea(idArea);
+    }
 }
