@@ -56,6 +56,11 @@ public class LugarService implements InterfaceService<Lugar>, Serializable {
         return lugarFacade.traerLazzy(first, size);
     }
 
-    // Add business logic below. (Right-click in editor and choose
-    // "Insert Code > Add Business Method")
+    public List<Lugar> traerLugaresPorIdArea(Integer idArea) {
+        return lugarFacade.traerLugaresPorIdArea(idArea);
+    }
+
+    public List<Lugar> traerLugaresPorUUIDBeacon(String uuidBeacon) {
+        return lugarFacade.traerLugaresPorUUIDBeacon(uuidBeacon);
+    }
 }
