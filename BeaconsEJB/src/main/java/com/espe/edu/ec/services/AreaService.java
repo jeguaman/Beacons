@@ -7,15 +7,20 @@ package com.espe.edu.ec.services;
 
 import com.espe.edu.ec.facade.AreaFacade;
 import com.espe.edu.ec.model.Area;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
+import javax.ejb.LocalBean;
+import javax.ejb.Stateless;
 
 /**
  *
  * @author Jose Guaman
  */
-public class AreaService implements InterfaceService<Area> {
+@Stateless
+@LocalBean
+public class AreaService implements InterfaceService<Area>, Serializable {
 
     @EJB
     AreaFacade areaFacade;

@@ -12,6 +12,7 @@ import com.espe.edu.ec.services.AreaService;
 import com.espe.edu.ec.services.DispositivoService;
 import com.espe.edu.ec.services.LugarService;
 import com.espe.edu.ec.services.RegistroService;
+import java.io.Serializable;
 import java.util.Date;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -24,7 +25,7 @@ import org.jboss.logging.Logger;
  */
 @Stateless
 @LocalBean
-public class RestService {
+public class RestService implements Serializable{
 
     private static final Logger LOGGER = Logger.getLogger(RestService.class);
     // Add business logic below. (Right-click in editor and choose

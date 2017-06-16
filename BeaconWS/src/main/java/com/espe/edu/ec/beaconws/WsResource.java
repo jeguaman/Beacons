@@ -74,6 +74,7 @@ public class WsResource {
     @Path("/registrarAreaDispositivo")
     public WSResponse registrarAreaDispositivo(@FormParam("idArea") Integer idArea,
             @FormParam("imei") String imei) {
+        System.out.println("");
         return restService.registrarAreaDispositivo(idArea, imei);
     }
 }

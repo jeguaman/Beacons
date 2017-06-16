@@ -24,6 +24,8 @@
             <groupId>${project.groupId}</groupId>
             <artifactId>BeaconsEJB</artifactId>
             <version>${project.version}</version>
+            <type>ejb</type>  
+            <scope>compile</scope> 
         </dependency>
         <dependency>
             <groupId>javax</groupId>

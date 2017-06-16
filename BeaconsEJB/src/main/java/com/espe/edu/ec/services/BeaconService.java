@@ -7,6 +7,7 @@ package com.espe.edu.ec.services;
 
 import com.espe.edu.ec.facade.BeaconFacade;
 import com.espe.edu.ec.model.Beacon;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
@@ -19,7 +20,7 @@ import javax.ejb.LocalBean;
  */
 @Stateless
 @LocalBean
-public class BeaconService implements InterfaceService<Beacon> {
+public class BeaconService implements InterfaceService<Beacon>, Serializable {
 
     @EJB
     BeaconFacade beaconFacade;

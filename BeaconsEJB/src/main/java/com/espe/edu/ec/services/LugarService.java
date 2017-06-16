@@ -7,6 +7,7 @@ package com.espe.edu.ec.services;
 
 import com.espe.edu.ec.facade.LugarFacade;
 import com.espe.edu.ec.model.Lugar;
+import java.io.Serializable;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -18,7 +19,7 @@ import javax.ejb.LocalBean;
  */
 @Stateless
 @LocalBean
-public class LugarService implements InterfaceService<Lugar> {
+public class LugarService implements InterfaceService<Lugar>, Serializable {
 
     @EJB
     LugarFacade lugarFacade;
