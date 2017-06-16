@@ -72,10 +72,17 @@ public class WsResource {
     @POST
     @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
     @Path("/registrarAreaDispositivo")
-    public WSResponse registrarAreaDispositivo(@FormParam("idArea") Integer idArea,
-            @FormParam("imei") String imei) {
-        System.out.println("");
-        return restService.registrarAreaDispositivo(idArea, imei);
+    public WSResponse registrarAreaDispositivo(@FormParam("id_area") Integer idArea,
+            @FormParam("imei") String imei, @FormParam("tipo") String tipo) {
+        return restService.registrarAreaDispositivo(idArea, imei, tipo);
+    }
+
+    @POST
+    @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
+    @Path("/traerNotificacionPorAreaTipo")
+    public WSResponse traerNotificacionPorAreaTipo(@FormParam("id_area") Integer idArea,
+            @FormParam("tipo") String tipo) {
+        return restService.traerNotificacionPorAreaTipo(idArea, tipo);
     }
 
     //2. traerLugaresPOrIdArea (solo trae el id y titulo)

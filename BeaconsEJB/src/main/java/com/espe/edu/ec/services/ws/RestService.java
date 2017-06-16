@@ -7,10 +7,12 @@ package com.espe.edu.ec.services.ws;
 
 import com.espe.edu.ec.model.Area;
 import com.espe.edu.ec.model.Dispositivo;
+import com.espe.edu.ec.model.Notificacion;
 import com.espe.edu.ec.model.Registro;
 import com.espe.edu.ec.services.AreaService;
 import com.espe.edu.ec.services.DispositivoService;
 import com.espe.edu.ec.services.LugarService;
+import com.espe.edu.ec.services.NotificacionService;
 import com.espe.edu.ec.services.RegistroService;
 import java.io.Serializable;
 import java.util.Date;
@@ -42,6 +44,9 @@ public class RestService implements Serializable {
 
     @EJB
     DispositivoService dispositivoService;
+
+    @EJB
+    NotificacionService notificacionService;
 
     public WSResponse traerAreasWS() {
         WSResponse response = new WSResponse();
@@ -123,7 +128,7 @@ public class RestService implements Serializable {
         return response;
     }
 
-    public WSResponse registrarAreaDispositivo(int idArea, String imeiDispositivo) {
+    public WSResponse registrarAreaDispositivo(Integer idArea, String imeiDispositivo, String tipo) {
         WSResponse response = new WSResponse();
         try {
             Dispositivo d = new Dispositivo();
@@ -138,13 +143,30 @@ public class RestService implements Serializable {
             r.setAreaId(a);
             r.setDispositivoId(d);
             r.setInserted(new Date());
-            r.setTipo("E");
+            r.setTipo(tipo);
             registroService.crear(r);
             response.setState(true);
             response.setEntity(r);
-
         } catch (Exception e) {
             LOGGER.error(e);
+            response.setState(false);
+        }
+        return response;
+    }
+
+    public WSResponse traerNotificacionPorAreaTipo(Integer idArea, String tipo) {
+        WSResponse response = new WSResponse();
+        try {
+            Notificacion notificacion = notificacionService.traerPorAreaYTipo(idArea, tipo);
+            if (notificacion != null) {
+                response.setState(true);
+            } else {
+                response.setState(false);
+            }
+            response.setEntity(notificacion);
+        } catch (Exception e) {
+            LOGGER.error(e);
+            response.setState(false);
         }
         return response;
     }
