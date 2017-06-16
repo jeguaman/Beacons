@@ -55,6 +55,10 @@ public class NotificacionService implements InterfaceService<Notificacion> {
         return notificacionFacade.traerLazzy(first, size);
     }
 
+    public Notificacion traerPorAreaYTipo(Integer areaId, String tipo) {
+        return notificacionFacade.traerPorAreaYTipo(areaId, tipo);
+    }
+
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
 }

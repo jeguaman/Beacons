@@ -11,6 +11,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import org.jboss.logging.Logger;
 
 /**
  *
@@ -18,6 +19,9 @@ import javax.persistence.Query;
  */
 @Stateless
 public class NotificacionFacade extends AbstractFacade<Notificacion> {
+
+    private static final Logger LOGGER = Logger.getLogger(NotificacionFacade.class);
+    private static final String TRAER_POR_AREA_Y_TIPO = "Select n from Notificacion as n join fetch n.areaId as a where a.areaId = :areaId and n.tipo = :tipo";
 
     @PersistenceContext(unitName = "com.espe.edu.ec_BeaconsEJB_ejb_1.0-SNAPSHOTPU")
     private EntityManager em;
@@ -37,5 +41,19 @@ public class NotificacionFacade extends AbstractFacade<Notificacion> {
         q.setMaxResults(size);
         List<Notificacion> notificaciones = q.getResultList();
         return notificaciones;
+    }
+
+    public Notificacion traerPorAreaYTipo(Integer areaId, String tipo) {
+        Query q = em.createQuery(TRAER_POR_AREA_Y_TIPO);
+        q.setParameter("areaId", areaId);
+        q.setParameter("tipo", tipo);
+        List<Notificacion> notificaciones = q.getResultList();
+        if (notificaciones != null && !notificaciones.isEmpty()) {
+            if (notificaciones.size() > 1) {
+                LOGGER.warn("Existe más de una notificación con el area " + areaId);
+            }
+            return notificaciones.get(0);
+        }
+        return null;
     }
 }

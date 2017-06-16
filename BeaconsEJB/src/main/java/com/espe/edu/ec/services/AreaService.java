@@ -24,7 +24,7 @@ public class AreaService implements InterfaceService<Area>, Serializable {
 
     @EJB
     AreaFacade areaFacade;
-    
+
     @Override
     public void crear(Area object) {
         object.setInserted(new Date());
@@ -49,14 +49,12 @@ public class AreaService implements InterfaceService<Area>, Serializable {
 
     @Override
     public Area buscar(Integer id) {
-        Area a = new Area();
-        a.setAreaId(id);
-        return areaFacade.find(a);
+        return areaFacade.find(id);
     }
 
     @Override
     public List<Area> traerLazzy(Integer first, Integer size) {
         return areaFacade.traerLazzy(first, size);
     }
-    
+
 }
