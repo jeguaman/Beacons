@@ -59,20 +59,37 @@ public class RestService {
 
     public WSResponse traerLugaresPorIdArea(Integer idArea) {
         WSResponse response = new WSResponse();
-
+        try {
+            response.setEntity(lugarService.traerLugaresPorIdArea(idArea));
+            response.setState(true);
+        } catch (Exception e) {
+            LOGGER.error(e);
+            response.setState(false);
+        }
         return response;
     }
 
-    public WSResponse traerLugarPorId() {
+    public WSResponse traerLugarPorId(Integer idLugar) {
         WSResponse response = new WSResponse();
-
+        try {
+            response.setEntity(lugarService.buscar(idLugar));
+            response.setState(true);
+        } catch (Exception e) {
+            LOGGER.error(e);
+            response.setState(false);
+        }
         return response;
     }
 
-    public WSResponse traerAreaPorUUIDBeacon() {
-
+    public WSResponse traerAreaPorUUIDBeacon(String uuidBeacon) {
         WSResponse response = new WSResponse();
-
+        try {
+               response.setEntity(lugarService.traerLugaresPorIdArea(Integer.SIZE));
+               response.setState(true);
+        } catch (Exception e) {
+            LOGGER.error(e);
+            response.setState(false);
+        }
         return response;
     }
 

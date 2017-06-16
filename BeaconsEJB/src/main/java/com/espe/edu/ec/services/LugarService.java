@@ -7,6 +7,7 @@ package com.espe.edu.ec.services;
 
 import com.espe.edu.ec.facade.LugarFacade;
 import com.espe.edu.ec.model.Lugar;
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -55,6 +56,11 @@ public class LugarService implements InterfaceService<Lugar> {
         return lugarFacade.traerLazzy(first, size);
     }
 
-    // Add business logic below. (Right-click in editor and choose
-    // "Insert Code > Add Business Method")
+    public List<Lugar> traerLugaresPorIdArea(Integer idArea) {
+        return lugarFacade.traerLugaresPorIdArea(idArea);
+    }
+
+    public List<Lugar> traerLugaresPorUUIDBeacon(String uuidBeacon) {
+        return lugarFacade.traerLugaresPorUUIDBeacon(uuidBeacon);
+    }
 }

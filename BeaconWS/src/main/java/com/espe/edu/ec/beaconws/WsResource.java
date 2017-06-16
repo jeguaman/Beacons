@@ -67,4 +67,6 @@ public class WsResource {
     public WSResponse traerAreas() {
         return restService.traerAreasWS();
     }
+    
+    
 }
