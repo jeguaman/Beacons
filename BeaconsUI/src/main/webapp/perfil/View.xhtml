@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="PerfilViewDlg" widgetVar="PerfilViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewPerfilTitle}">
+            <h:form id="PerfilViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{perfilController.selected != null}">
+                        <h:outputText value="#{bundle.ViewPerfilLabel_perfilId}"/>
+                        <h:outputText value="#{perfilController.selected.perfilId}" title="#{bundle.ViewPerfilTitle_perfilId}"/>
+                        <h:outputText value="#{bundle.ViewPerfilLabel_codigo}"/>
+                        <h:outputText value="#{perfilController.selected.codigo}" title="#{bundle.ViewPerfilTitle_codigo}"/>
+                        <h:outputText value="#{bundle.ViewPerfilLabel_descripcion}"/>
+                        <h:outputText value="#{perfilController.selected.descripcion}" title="#{bundle.ViewPerfilTitle_descripcion}"/>
+                        <h:outputText value="#{bundle.ViewPerfilLabel_inserted}"/>
+                        <h:outputText value="#{perfilController.selected.inserted}" title="#{bundle.ViewPerfilTitle_inserted}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+                        <h:outputText value="#{bundle.ViewPerfilLabel_updated}"/>
+                        <h:outputText value="#{perfilController.selected.updated}" title="#{bundle.ViewPerfilTitle_updated}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PerfilViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>
