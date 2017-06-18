@@ -54,7 +54,10 @@ public class AreaService implements InterfaceService<Area>, Serializable {
 
     @Override
     public List<Area> traerLazzy(Integer first, Integer size) {
-        return areaFacade.traerLazzy(first, size);
+        return areaFacade.traerAreasLazzy(first, size);
     }
 
+     public List<Area> traerAreasPorUUIDBeacon(String uuidBeacon) {
+        return areaFacade.traerAreasPorUUIDBeacon(uuidBeacon);
+    }
 }

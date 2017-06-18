@@ -23,7 +23,7 @@ public class LugarFacade extends AbstractFacade<Lugar> {
     @PersistenceContext(unitName = "com.espe.edu.ec_BeaconsEJB_ejb_1.0-SNAPSHOTPU")
     private EntityManager em;
 
-    private static final String TRAER_TODOS_LUGARES_POR_AREA = "SELECT l FROM Lugar as l WHERE l.areaId.areaId = :areaId";
+    private static final String TRAER_TODOS_LUGARES_POR_AREA_NO_BYTES = "SELECT new Lugar(l.lugarId, l.titulo) FROM Lugar as l JOIN l.areaId as a WHERE a.areaId = :areaId";
     private static final String TRAER_TODOS_LUGARES_POR_UUID = "SELECT l FROM Lugar as l JOIN l.areaId as a JOIN a.areaBeaconList as ab WHERE ab.beaconId.uuid = :uuid";
 
     @Override
@@ -35,7 +35,7 @@ public class LugarFacade extends AbstractFacade<Lugar> {
         super(Lugar.class);
     }
 
-    public List<Lugar> traerLazzy(Integer first, Integer size) {
+    public List<Lugar> traerLugaresLazzy(Integer first, Integer size) {
         Query q = em.createNamedQuery("Lugar.findAll");
         q.setFirstResult(first);
         q.setMaxResults(size);
@@ -43,8 +43,8 @@ public class LugarFacade extends AbstractFacade<Lugar> {
         return lugares;
     }
 
-    public List<Lugar> traerLugaresPorIdArea(Integer areaId) {
-        Query q = em.createQuery(TRAER_TODOS_LUGARES_POR_AREA);
+    public List<Lugar> traerLugaresPorIdAreaNoBytes(Integer areaId) {
+        Query q = em.createQuery(TRAER_TODOS_LUGARES_POR_AREA_NO_BYTES);
         q.setParameter("areaId", areaId);
         return q.getResultList();
     }

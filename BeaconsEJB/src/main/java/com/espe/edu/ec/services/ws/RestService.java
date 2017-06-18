@@ -61,7 +61,8 @@ public class RestService implements Serializable {
     }
 
     /**
-     *  Jose Guaman
+     * Jose Guaman
+     *
      * @param idArea
      * @return
      */
@@ -79,13 +80,14 @@ public class RestService implements Serializable {
 
     /**
      * Jose Guaman
+     *
      * @param idArea
-     * @return 
+     * @return
      */
-    public WSResponse traerLugaresPorIdArea(Integer idArea) {
+    public WSResponse traerLugaresPorIdAreaNoBytes(Integer idArea) {
         WSResponse response = new WSResponse();
         try {
-            response.setEntity(lugarService.traerLugaresPorIdArea(idArea));
+            response.setEntity(lugarService.traerLugaresPorIdAreaNoBytes(idArea));
             response.setState(true);
         } catch (Exception e) {
             LOGGER.error(e);
@@ -96,8 +98,9 @@ public class RestService implements Serializable {
 
     /**
      * Jose Guaman
+     *
      * @param idLugar
-     * @return 
+     * @return
      */
     public WSResponse traerLugarPorId(Integer idLugar) {
         WSResponse response = new WSResponse();
@@ -111,12 +114,12 @@ public class RestService implements Serializable {
         return response;
     }
 
-/**
- * 
- * @param uuidBeacon
- * @return 
- */
- public WSResponse traerAreaPorUUIDBeacon(String uuidBeacon) {
+    /**
+     *
+     * @param uuidBeacon
+     * @return
+     */
+    public WSResponse traerLugaresPorUUIDBeacon(String uuidBeacon) {
         WSResponse response = new WSResponse();
         try {
             response.setEntity(lugarService.traerLugaresPorUUIDBeacon(uuidBeacon));
@@ -171,4 +174,21 @@ public class RestService implements Serializable {
         return response;
     }
 
+    /**
+     * 
+     * @param uuidBeacon
+     * @return 
+     */
+    public WSResponse traerAreasPorUUIDBeacon(String uuidBeacon) {
+        WSResponse response = new WSResponse();
+        try {
+            response.setEntity(areaService.traerAreasPorUUIDBeacon(uuidBeacon));
+            response.setState(true);
+        } catch (Exception e) {
+            LOGGER.error(e);
+            response.setState(false);
+        }
+        return response;
+    }
+    
 }

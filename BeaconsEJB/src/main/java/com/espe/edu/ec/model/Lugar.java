@@ -80,6 +80,11 @@ public class Lugar implements Serializable {
     public Lugar() {
     }
 
+    public Lugar(Integer lugarId, String titulo) {
+        this.lugarId = lugarId;
+        this.titulo = titulo;
+    }
+
     public Lugar(Integer lugarId) {
         this.lugarId = lugarId;
     }
@@ -173,5 +178,5 @@ public class Lugar implements Serializable {
     public String toString() {
         return "com.espe.edu.ec.model.Lugar[ lugarId=" + lugarId + " ]";
     }
-    
+
 }
