@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="LugarCreateDlg" widgetVar="LugarCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateLugarTitle}">
+            <h:form id="LugarCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{lugarController.selected != null}">
+                        <p:outputLabel value="#{bundle.CreateLugarLabel_lugarId}" for="lugarId" />
+                        <p:inputText id="lugarId" value="#{lugarController.selected.lugarId}" title="#{bundle.CreateLugarTitle_lugarId}" required="true" requiredMessage="#{bundle.CreateLugarRequiredMessage_lugarId}"/>
+                        <p:outputLabel value="#{bundle.CreateLugarLabel_descripcion}" for="descripcion" />
+                        <p:inputText id="descripcion" value="#{lugarController.selected.descripcion}" title="#{bundle.CreateLugarTitle_descripcion}" required="true" requiredMessage="#{bundle.CreateLugarRequiredMessage_descripcion}"/>
+                        <p:outputLabel value="#{bundle.CreateLugarLabel_imagen}" for="imagen" />
+                        <p:inputTextarea rows="4" cols="30" id="imagen" value="#{lugarController.selected.imagen}" title="#{bundle.CreateLugarTitle_imagen}" required="true" requiredMessage="#{bundle.CreateLugarRequiredMessage_imagen}"/>
+                        <p:outputLabel value="#{bundle.CreateLugarLabel_titulo}" for="titulo" />
+                        <p:inputText id="titulo" value="#{lugarController.selected.titulo}" title="#{bundle.CreateLugarTitle_titulo}" required="true" requiredMessage="#{bundle.CreateLugarRequiredMessage_titulo}"/>
+                        <p:outputLabel value="#{bundle.CreateLugarLabel_inserted}" for="inserted" />
+                        <p:calendar id="inserted" pattern="MM/dd/yyyy HH:mm:ss" value="#{lugarController.selected.inserted}" title="#{bundle.EditLugarTitle_inserted}" required="true" requiredMessage="#{bundle.EditLugarRequiredMessage_inserted}" showOn="button"/>
+                        <p:outputLabel value="#{bundle.CreateLugarLabel_updated}" for="updated" />
+                        <p:calendar id="updated" pattern="MM/dd/yyyy HH:mm:ss" value="#{lugarController.selected.updated}" title="#{bundle.EditLugarTitle_updated}" required="true" requiredMessage="#{bundle.EditLugarRequiredMessage_updated}" showOn="button"/>
+                        <p:outputLabel value="#{bundle.CreateLugarLabel_areaId}" for="areaId" />
+                        <p:selectOneMenu id="areaId" value="#{lugarController.selected.areaId}" required="true" requiredMessage="#{bundle.EditLugarRequiredMessage_areaId}">
+                            <f:selectItems value="#{areaController.itemsAvailableSelectOne}"
+                                           var="areaIdItem"
+                                           itemValue="#{areaIdItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{lugarController.create}" value="#{bundle.Save}" update="display,:LugarListForm:datalist,:growl" oncomplete="handleSubmit(args,'LugarCreateDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="LugarCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

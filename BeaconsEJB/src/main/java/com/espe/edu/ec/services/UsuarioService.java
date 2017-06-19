@@ -33,7 +33,6 @@ public class UsuarioService implements InterfaceService<Usuario> {
 
     @Override
     public void actualizar(Usuario object) {
-        object.setInserted(new Date());
         object.setUpdated(new Date());
         usuarioFacade.edit(object);
     }
@@ -58,6 +57,11 @@ public class UsuarioService implements InterfaceService<Usuario> {
     @Override
     public List<Usuario> traerLazzy(Integer first, Integer size) {
         return usuarioFacade.traerLazzy(first, size);
+    }
+
+    public Usuario validarUsuario() {
+        Usuario u = usuarioFacade.find(this);
+        return u;
     }
 
 }

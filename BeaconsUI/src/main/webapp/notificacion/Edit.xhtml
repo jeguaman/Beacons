@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="NotificacionEditDlg" widgetVar="NotificacionEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.EditNotificacionTitle}">
+            <h:form id="NotificacionEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{notificacionController.selected != null}">
+                        <p:outputLabel value="#{bundle.EditNotificacionLabel_notificacionId}" for="notificacionId" />
+                        <p:inputText id="notificacionId" value="#{notificacionController.selected.notificacionId}" title="#{bundle.EditNotificacionTitle_notificacionId}" required="true" requiredMessage="#{bundle.EditNotificacionRequiredMessage_notificacionId}"/>
+                        <p:outputLabel value="#{bundle.EditNotificacionLabel_descripcion}" for="descripcion" />
+                        <p:inputText id="descripcion" value="#{notificacionController.selected.descripcion}" title="#{bundle.EditNotificacionTitle_descripcion}" required="true" requiredMessage="#{bundle.EditNotificacionRequiredMessage_descripcion}"/>
+                        <p:outputLabel value="#{bundle.EditNotificacionLabel_tipo}" for="tipo" />
+                        <p:inputText id="tipo" value="#{notificacionController.selected.tipo}" title="#{bundle.EditNotificacionTitle_tipo}" required="true" requiredMessage="#{bundle.EditNotificacionRequiredMessage_tipo}"/>
+                        <p:outputLabel value="#{bundle.EditNotificacionLabel_inserted}" for="inserted" />
+                        <p:calendar id="inserted" pattern="MM/dd/yyyy HH:mm:ss" value="#{notificacionController.selected.inserted}" title="#{bundle.EditNotificacionTitle_inserted}" required="true" requiredMessage="#{bundle.EditNotificacionRequiredMessage_inserted}" showOn="button"/>
+                        <p:outputLabel value="#{bundle.EditNotificacionLabel_updated}" for="updated" />
+                        <p:calendar id="updated" pattern="MM/dd/yyyy HH:mm:ss" value="#{notificacionController.selected.updated}" title="#{bundle.EditNotificacionTitle_updated}" required="true" requiredMessage="#{bundle.EditNotificacionRequiredMessage_updated}" showOn="button"/>
+                        <p:outputLabel value="#{bundle.EditNotificacionLabel_areaId}" for="areaId" />
+                        <p:selectOneMenu id="areaId" value="#{notificacionController.selected.areaId}" required="true" requiredMessage="#{bundle.EditNotificacionRequiredMessage_areaId}">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{areaController.itemsAvailableSelectOne}"
+                                           var="areaIdItem"
+                                           itemValue="#{areaIdItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{notificacionController.update}" value="#{bundle.Save}" update="display,:NotificacionListForm:datalist,:growl" oncomplete="handleSubmit(args, 'NotificacionEditDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="NotificacionEditDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

@@ -38,4 +38,21 @@ public class UsuarioFacade extends AbstractFacade<Usuario> {
         List<Usuario> usuarios = q.getResultList();
         return usuarios;
     }
+
+    public Usuario traerUsuario(String correo, String contrasenia) {
+        Usuario u = null;
+        try {
+            Query q = em.createQuery(correo);
+            q.setParameter("correo", correo);
+            q.setParameter("contrasenia", contrasenia);
+            List<Usuario> usuarios = q.getResultList();
+            if (usuarios != null) {
+                return u;
+            } else {
+                return u;
+            }
+        } catch (Exception e) {
+            return u;
+        }
+    }
 }

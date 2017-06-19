@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="BeaconViewDlg" widgetVar="BeaconViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewBeaconTitle}">
+            <h:form id="BeaconViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{beaconController.selected != null}">
+                        <h:outputText value="#{bundle.ViewBeaconLabel_beaconId}"/>
+                        <h:outputText value="#{beaconController.selected.beaconId}" title="#{bundle.ViewBeaconTitle_beaconId}"/>
+                        <h:outputText value="#{bundle.ViewBeaconLabel_uuid}"/>
+                        <h:outputText value="#{beaconController.selected.uuid}" title="#{bundle.ViewBeaconTitle_uuid}"/>
+                        <h:outputText value="#{bundle.ViewBeaconLabel_major}"/>
+                        <h:outputText value="#{beaconController.selected.major}" title="#{bundle.ViewBeaconTitle_major}"/>
+                        <h:outputText value="#{bundle.ViewBeaconLabel_minor}"/>
+                        <h:outputText value="#{beaconController.selected.minor}" title="#{bundle.ViewBeaconTitle_minor}"/>
+                        <h:outputText value="#{bundle.ViewBeaconLabel_descripcion}"/>
+                        <h:outputText value="#{beaconController.selected.descripcion}" title="#{bundle.ViewBeaconTitle_descripcion}"/>
+                        <h:outputText value="#{bundle.ViewBeaconLabel_imagen}"/>
+                        <h:outputText value="#{beaconController.selected.imagen}" title="#{bundle.ViewBeaconTitle_imagen}"/>
+                        <h:outputText value="#{bundle.ViewBeaconLabel_inserted}"/>
+                        <h:outputText value="#{beaconController.selected.inserted}" title="#{bundle.ViewBeaconTitle_inserted}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+                        <h:outputText value="#{bundle.ViewBeaconLabel_updated}"/>
+                        <h:outputText value="#{beaconController.selected.updated}" title="#{bundle.ViewBeaconTitle_updated}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="BeaconViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>
