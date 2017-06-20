@@ -22,6 +22,8 @@ public class AreaFacade extends AbstractFacade<Area> {
     @PersistenceContext(unitName = "com.espe.edu.ec_BeaconsEJB_ejb_1.0-SNAPSHOTPU")
     private EntityManager em;
 
+    private static final String TRAER_AREAS_POR_UUID = "SELECT a FROM Area as a JOIN a.areaBeaconList as b WHERE b.beaconId.uuid = :uuid";
+    
     @Override
     protected EntityManager getEntityManager() {
         return em;
@@ -31,10 +33,16 @@ public class AreaFacade extends AbstractFacade<Area> {
         super(Area.class);
     }
     
-    public List<Area> traerLazzy(Integer first, Integer size) {
+    public List<Area> traerAreasLazzy(Integer first, Integer size) {
         Query q = em.createNamedQuery("Area.findAll");
         q.setFirstResult(first);
         q.setMaxResults(size);
+        return q.getResultList();
+    }
+    
+      public List<Area> traerAreasPorUUIDBeacon(String uuidBeacon) {
+        Query q = em.createQuery(TRAER_AREAS_POR_UUID);
+        q.setParameter("uuid", uuidBeacon);
         return q.getResultList();
     }
 }

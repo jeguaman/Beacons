@@ -49,9 +49,7 @@ public class DispositivoService implements InterfaceService<Dispositivo>, Serial
 
     @Override
     public Dispositivo buscar(Integer id) {
-        Dispositivo d = new Dispositivo();
-        d.setDispositivoId(id);
-        return dispositivoFacade.find(d);
+        return dispositivoFacade.find(id);
     }
 
     @Override

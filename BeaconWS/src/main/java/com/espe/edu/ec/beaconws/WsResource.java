@@ -77,6 +77,12 @@ public class WsResource {
         return restService.registrarAreaDispositivo(idArea, imei, tipo);
     }
 
+    /**
+     *
+     * @param idArea
+     * @param tipo
+     * @return
+     */
     @POST
     @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
     @Path("/traerNotificacionPorAreaTipo")
@@ -85,11 +91,64 @@ public class WsResource {
         return restService.traerNotificacionPorAreaTipo(idArea, tipo);
     }
 
-    //2. traerLugaresPOrIdArea (solo trae el id y titulo)
+    /**
+     *
+     * @param idArea
+     * @return objeto con id y el titulo
+     */
     @POST
     @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
     @Path("/traerLugaresPorIdArea")
-    public WSResponse traerLugaresPorIdArea(@FormParam("id_area") Integer idArea) {
-        return restService.traerLugaresPorIdArea(idArea);
+    public WSResponse traerLugaresPorIdAreaNoBytes(@FormParam("id_area") Integer idArea) {
+        return restService.traerLugaresPorIdAreaNoBytes(idArea);
     }
+
+    /**
+     *
+     * @param idArea
+     * @return
+     */
+    @POST
+    @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
+    @Path("/traerAreaPorId")
+    public WSResponse traerAreaPorId(@FormParam("id_area") Integer idArea) {
+        return restService.traerAreaPorId(idArea);
+    }
+
+    /**
+     *
+     * @param idLugar
+     * @return
+     */
+    @POST
+    @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
+    @Path("/traerLugarPorId")
+    public WSResponse traerLugarPorId(@FormParam("id_lugar") Integer idLugar) {
+        return restService.traerLugarPorId(idLugar);
+    }
+
+    /**
+     *
+     * @param uuidBeacon
+     * @return
+     */
+    @POST
+    @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
+    @Path("/traerLugaresPorUUIDBeacon")
+    public WSResponse traerLugaresPorUUIDBeacon(@FormParam("id_lugar") String uuidBeacon) {
+        return restService.traerLugaresPorUUIDBeacon(uuidBeacon);
+    }
+
+    /**
+     *
+     * @param uuidBeacon
+     * @return
+     */
+    @POST
+    @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
+    @Path("/traerAreasPorUUIDBeacon")
+    public WSResponse traerAreasPorUUIDBeacon(@FormParam("id_lugar") String uuidBeacon) {
+        return restService.traerAreasPorUUIDBeacon(uuidBeacon);
+    }
+
 }
