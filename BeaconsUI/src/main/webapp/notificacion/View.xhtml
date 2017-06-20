@@ -12,20 +12,10 @@
             <h:form id="NotificacionViewForm">
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{notificacionController.selected != null}">
-                        <h:outputText value="#{bundle.ViewNotificacionLabel_notificacionId}"/>
-                        <h:outputText value="#{notificacionController.selected.notificacionId}" title="#{bundle.ViewNotificacionTitle_notificacionId}"/>
-                        <h:outputText value="#{bundle.ViewNotificacionLabel_descripcion}"/>
+                       <h:outputText value="#{bundle.ViewNotificacionLabel_descripcion}"/>
                         <h:outputText value="#{notificacionController.selected.descripcion}" title="#{bundle.ViewNotificacionTitle_descripcion}"/>
                         <h:outputText value="#{bundle.ViewNotificacionLabel_tipo}"/>
                         <h:outputText value="#{notificacionController.selected.tipo}" title="#{bundle.ViewNotificacionTitle_tipo}"/>
-                        <h:outputText value="#{bundle.ViewNotificacionLabel_inserted}"/>
-                        <h:outputText value="#{notificacionController.selected.inserted}" title="#{bundle.ViewNotificacionTitle_inserted}">
-                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
-                        </h:outputText>
-                        <h:outputText value="#{bundle.ViewNotificacionLabel_updated}"/>
-                        <h:outputText value="#{notificacionController.selected.updated}" title="#{bundle.ViewNotificacionTitle_updated}">
-                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
-                        </h:outputText>
                         <h:outputText value="#{bundle.ViewNotificacionLabel_areaId}"/>
                         <h:outputText value="#{notificacionController.selected.areaId}" title="#{bundle.ViewNotificacionTitle_areaId}"/>
                     </p:panelGrid>

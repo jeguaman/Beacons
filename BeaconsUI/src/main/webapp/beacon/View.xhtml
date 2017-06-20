@@ -12,8 +12,6 @@
             <h:form id="BeaconViewForm">
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{beaconController.selected != null}">
-                        <h:outputText value="#{bundle.ViewBeaconLabel_beaconId}"/>
-                        <h:outputText value="#{beaconController.selected.beaconId}" title="#{bundle.ViewBeaconTitle_beaconId}"/>
                         <h:outputText value="#{bundle.ViewBeaconLabel_uuid}"/>
                         <h:outputText value="#{beaconController.selected.uuid}" title="#{bundle.ViewBeaconTitle_uuid}"/>
                         <h:outputText value="#{bundle.ViewBeaconLabel_major}"/>
@@ -23,15 +21,7 @@
                         <h:outputText value="#{bundle.ViewBeaconLabel_descripcion}"/>
                         <h:outputText value="#{beaconController.selected.descripcion}" title="#{bundle.ViewBeaconTitle_descripcion}"/>
                         <h:outputText value="#{bundle.ViewBeaconLabel_imagen}"/>
-                        <h:outputText value="#{beaconController.selected.imagen}" title="#{bundle.ViewBeaconTitle_imagen}"/>
-                        <h:outputText value="#{bundle.ViewBeaconLabel_inserted}"/>
-                        <h:outputText value="#{beaconController.selected.inserted}" title="#{bundle.ViewBeaconTitle_inserted}">
-                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
-                        </h:outputText>
-                        <h:outputText value="#{bundle.ViewBeaconLabel_updated}"/>
-                        <h:outputText value="#{beaconController.selected.updated}" title="#{bundle.ViewBeaconTitle_updated}">
-                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
-                        </h:outputText>
+                        <h:outputText value="#{beaconController.selected.imagen}" title="#{bundle.ViewBeaconTitle_imagen}"/>                        
                     </p:panelGrid>
                     <p:commandButton value="#{bundle.Close}" onclick="BeaconViewDialog.hide()"/>
                 </h:panelGroup>

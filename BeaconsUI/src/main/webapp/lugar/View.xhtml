@@ -12,8 +12,6 @@
             <h:form id="LugarViewForm">
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{lugarController.selected != null}">
-                        <h:outputText value="#{bundle.ViewLugarLabel_lugarId}"/>
-                        <h:outputText value="#{lugarController.selected.lugarId}" title="#{bundle.ViewLugarTitle_lugarId}"/>
                         <h:outputText value="#{bundle.ViewLugarLabel_descripcion}"/>
                         <h:outputText value="#{lugarController.selected.descripcion}" title="#{bundle.ViewLugarTitle_descripcion}"/>
                         <h:outputText value="#{bundle.ViewLugarLabel_imagen}"/>
@@ -21,13 +19,6 @@
                         <h:outputText value="#{bundle.ViewLugarLabel_titulo}"/>
                         <h:outputText value="#{lugarController.selected.titulo}" title="#{bundle.ViewLugarTitle_titulo}"/>
                         <h:outputText value="#{bundle.ViewLugarLabel_inserted}"/>
-                        <h:outputText value="#{lugarController.selected.inserted}" title="#{bundle.ViewLugarTitle_inserted}">
-                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
-                        </h:outputText>
-                        <h:outputText value="#{bundle.ViewLugarLabel_updated}"/>
-                        <h:outputText value="#{lugarController.selected.updated}" title="#{bundle.ViewLugarTitle_updated}">
-                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
-                        </h:outputText>
                         <h:outputText value="#{bundle.ViewLugarLabel_areaId}"/>
                         <h:outputText value="#{lugarController.selected.areaId}" title="#{bundle.ViewLugarTitle_areaId}"/>
                     </p:panelGrid>

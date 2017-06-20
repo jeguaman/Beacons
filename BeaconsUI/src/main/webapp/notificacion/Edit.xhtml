@@ -12,17 +12,11 @@
             <h:form id="NotificacionEditForm">
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{notificacionController.selected != null}">
-                        <p:outputLabel value="#{bundle.EditNotificacionLabel_notificacionId}" for="notificacionId" />
-                        <p:inputText id="notificacionId" value="#{notificacionController.selected.notificacionId}" title="#{bundle.EditNotificacionTitle_notificacionId}" required="true" requiredMessage="#{bundle.EditNotificacionRequiredMessage_notificacionId}"/>
                         <p:outputLabel value="#{bundle.EditNotificacionLabel_descripcion}" for="descripcion" />
                         <p:inputText id="descripcion" value="#{notificacionController.selected.descripcion}" title="#{bundle.EditNotificacionTitle_descripcion}" required="true" requiredMessage="#{bundle.EditNotificacionRequiredMessage_descripcion}"/>
                         <p:outputLabel value="#{bundle.EditNotificacionLabel_tipo}" for="tipo" />
                         <p:inputText id="tipo" value="#{notificacionController.selected.tipo}" title="#{bundle.EditNotificacionTitle_tipo}" required="true" requiredMessage="#{bundle.EditNotificacionRequiredMessage_tipo}"/>
                         <p:outputLabel value="#{bundle.EditNotificacionLabel_inserted}" for="inserted" />
-                        <p:calendar id="inserted" pattern="MM/dd/yyyy HH:mm:ss" value="#{notificacionController.selected.inserted}" title="#{bundle.EditNotificacionTitle_inserted}" required="true" requiredMessage="#{bundle.EditNotificacionRequiredMessage_inserted}" showOn="button"/>
-                        <p:outputLabel value="#{bundle.EditNotificacionLabel_updated}" for="updated" />
-                        <p:calendar id="updated" pattern="MM/dd/yyyy HH:mm:ss" value="#{notificacionController.selected.updated}" title="#{bundle.EditNotificacionTitle_updated}" required="true" requiredMessage="#{bundle.EditNotificacionRequiredMessage_updated}" showOn="button"/>
-                        <p:outputLabel value="#{bundle.EditNotificacionLabel_areaId}" for="areaId" />
                         <p:selectOneMenu id="areaId" value="#{notificacionController.selected.areaId}" required="true" requiredMessage="#{bundle.EditNotificacionRequiredMessage_areaId}">
                             <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
                             <f:selectItems value="#{areaController.itemsAvailableSelectOne}"

@@ -12,18 +12,12 @@
             <h:form id="LugarEditForm">
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{lugarController.selected != null}">
-                        <p:outputLabel value="#{bundle.EditLugarLabel_lugarId}" for="lugarId" />
-                        <p:inputText id="lugarId" value="#{lugarController.selected.lugarId}" title="#{bundle.EditLugarTitle_lugarId}" required="true" requiredMessage="#{bundle.EditLugarRequiredMessage_lugarId}"/>
                         <p:outputLabel value="#{bundle.EditLugarLabel_descripcion}" for="descripcion" />
                         <p:inputText id="descripcion" value="#{lugarController.selected.descripcion}" title="#{bundle.EditLugarTitle_descripcion}" required="true" requiredMessage="#{bundle.EditLugarRequiredMessage_descripcion}"/>
                         <p:outputLabel value="#{bundle.EditLugarLabel_imagen}" for="imagen" />
                         <p:inputTextarea rows="4" cols="30" id="imagen" value="#{lugarController.selected.imagen}" title="#{bundle.EditLugarTitle_imagen}" required="true" requiredMessage="#{bundle.EditLugarRequiredMessage_imagen}"/>
                         <p:outputLabel value="#{bundle.EditLugarLabel_titulo}" for="titulo" />
                         <p:inputText id="titulo" value="#{lugarController.selected.titulo}" title="#{bundle.EditLugarTitle_titulo}" required="true" requiredMessage="#{bundle.EditLugarRequiredMessage_titulo}"/>
-                        <p:outputLabel value="#{bundle.EditLugarLabel_inserted}" for="inserted" />
-                        <p:calendar id="inserted" pattern="MM/dd/yyyy HH:mm:ss" value="#{lugarController.selected.inserted}" title="#{bundle.EditLugarTitle_inserted}" required="true" requiredMessage="#{bundle.EditLugarRequiredMessage_inserted}" showOn="button"/>
-                        <p:outputLabel value="#{bundle.EditLugarLabel_updated}" for="updated" />
-                        <p:calendar id="updated" pattern="MM/dd/yyyy HH:mm:ss" value="#{lugarController.selected.updated}" title="#{bundle.EditLugarTitle_updated}" required="true" requiredMessage="#{bundle.EditLugarRequiredMessage_updated}" showOn="button"/>
                         <p:outputLabel value="#{bundle.EditLugarLabel_areaId}" for="areaId" />
                         <p:selectOneMenu id="areaId" value="#{lugarController.selected.areaId}" required="true" requiredMessage="#{bundle.EditLugarRequiredMessage_areaId}">
                             <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>

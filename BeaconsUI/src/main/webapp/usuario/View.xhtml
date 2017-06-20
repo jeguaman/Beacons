@@ -12,8 +12,6 @@
             <h:form id="UsuarioViewForm">
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{usuarioController.selected != null}">
-                        <h:outputText value="#{bundle.ViewUsuarioLabel_usuarioId}"/>
-                        <h:outputText value="#{usuarioController.selected.usuarioId}" title="#{bundle.ViewUsuarioTitle_usuarioId}"/>
                         <h:outputText value="#{bundle.ViewUsuarioLabel_nombres}"/>
                         <h:outputText value="#{usuarioController.selected.nombres}" title="#{bundle.ViewUsuarioTitle_nombres}"/>
                         <h:outputText value="#{bundle.ViewUsuarioLabel_apellidos}"/>
@@ -26,14 +24,6 @@
                         <h:outputText value="#{usuarioController.selected.contrasenia}" title="#{bundle.ViewUsuarioTitle_contrasenia}"/>
                         <h:outputText value="#{bundle.ViewUsuarioLabel_estado}"/>
                         <h:outputText value="#{usuarioController.selected.estado}" title="#{bundle.ViewUsuarioTitle_estado}"/>
-                        <h:outputText value="#{bundle.ViewUsuarioLabel_inserted}"/>
-                        <h:outputText value="#{usuarioController.selected.inserted}" title="#{bundle.ViewUsuarioTitle_inserted}">
-                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
-                        </h:outputText>
-                        <h:outputText value="#{bundle.ViewUsuarioLabel_updated}"/>
-                        <h:outputText value="#{usuarioController.selected.updated}" title="#{bundle.ViewUsuarioTitle_updated}">
-                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
-                        </h:outputText>
                     </p:panelGrid>
                     <p:commandButton value="#{bundle.Close}" onclick="UsuarioViewDialog.hide()"/>
                 </h:panelGroup>

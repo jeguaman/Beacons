@@ -22,6 +22,8 @@ public class UsuarioFacade extends AbstractFacade<Usuario> {
     @PersistenceContext(unitName = "com.espe.edu.ec_BeaconsEJB_ejb_1.0-SNAPSHOTPU")
     private EntityManager em;
 
+    private final String TRAER_POR_CORREO_PASS = "select u from Usuario u where u.correoElectronico = :correoElectronico and u.contrasenia = :contrasenia ";
+
     @Override
     protected EntityManager getEntityManager() {
         return em;
@@ -42,17 +44,28 @@ public class UsuarioFacade extends AbstractFacade<Usuario> {
     public Usuario traerUsuario(String correo, String contrasenia) {
         Usuario u = null;
         try {
-            Query q = em.createQuery(correo);
-            q.setParameter("correo", correo);
+            Query q = em.createQuery(TRAER_POR_CORREO_PASS);
+            q.setParameter("correoElectronico", correo);
             q.setParameter("contrasenia", contrasenia);
-            List<Usuario> usuarios = q.getResultList();
-            if (usuarios != null) {
-                return u;
+            u = (Usuario) q.getSingleResult();
+            return u;
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    public boolean verificarUsuario(String correo) {
+        try {
+            Query q = em.createNamedQuery("Usuario.findByCorreoElectronico");
+            q.setParameter("correoElectronico", correo);
+            Usuario u = (Usuario) q.getSingleResult();
+            if (u != null) {
+                return true;
             } else {
-                return u;
+                return false;
             }
         } catch (Exception e) {
-            return u;
+            return false;
         }
     }
 }

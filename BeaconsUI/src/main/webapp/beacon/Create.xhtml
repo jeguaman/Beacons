@@ -12,8 +12,6 @@
             <h:form id="BeaconCreateForm">
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{beaconController.selected != null}">
-                        <p:outputLabel value="#{bundle.CreateBeaconLabel_beaconId}" for="beaconId" />
-                        <p:inputText id="beaconId" value="#{beaconController.selected.beaconId}" title="#{bundle.CreateBeaconTitle_beaconId}" required="true" requiredMessage="#{bundle.CreateBeaconRequiredMessage_beaconId}"/>
                         <p:outputLabel value="#{bundle.CreateBeaconLabel_uuid}" for="uuid" />
                         <p:inputText id="uuid" value="#{beaconController.selected.uuid}" title="#{bundle.CreateBeaconTitle_uuid}" required="true" requiredMessage="#{bundle.CreateBeaconRequiredMessage_uuid}"/>
                         <p:outputLabel value="#{bundle.CreateBeaconLabel_major}" for="major" />
@@ -24,10 +22,6 @@
                         <p:inputText id="descripcion" value="#{beaconController.selected.descripcion}" title="#{bundle.CreateBeaconTitle_descripcion}" required="true" requiredMessage="#{bundle.CreateBeaconRequiredMessage_descripcion}"/>
                         <p:outputLabel value="#{bundle.CreateBeaconLabel_imagen}" for="imagen" />
                         <p:inputTextarea rows="4" cols="30" id="imagen" value="#{beaconController.selected.imagen}" title="#{bundle.CreateBeaconTitle_imagen}" required="true" requiredMessage="#{bundle.CreateBeaconRequiredMessage_imagen}"/>
-                        <p:outputLabel value="#{bundle.CreateBeaconLabel_inserted}" for="inserted" />
-                        <p:calendar id="inserted" pattern="MM/dd/yyyy HH:mm:ss" value="#{beaconController.selected.inserted}" title="#{bundle.EditBeaconTitle_inserted}" required="true" requiredMessage="#{bundle.EditBeaconRequiredMessage_inserted}" showOn="button"/>
-                        <p:outputLabel value="#{bundle.CreateBeaconLabel_updated}" for="updated" />
-                        <p:calendar id="updated" pattern="MM/dd/yyyy HH:mm:ss" value="#{beaconController.selected.updated}" title="#{bundle.EditBeaconTitle_updated}" required="true" requiredMessage="#{bundle.EditBeaconRequiredMessage_updated}" showOn="button"/>
                     </p:panelGrid>
                     <p:commandButton actionListener="#{beaconController.create}" value="#{bundle.Save}" update="display,:BeaconListForm:datalist,:growl" oncomplete="handleSubmit(args,'BeaconCreateDialog');"/>
                     <p:commandButton value="#{bundle.Cancel}" onclick="BeaconCreateDialog.hide()"/>

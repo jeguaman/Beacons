@@ -12,20 +12,10 @@
             <h:form id="PerfilViewForm">
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{perfilController.selected != null}">
-                        <h:outputText value="#{bundle.ViewPerfilLabel_perfilId}"/>
-                        <h:outputText value="#{perfilController.selected.perfilId}" title="#{bundle.ViewPerfilTitle_perfilId}"/>
                         <h:outputText value="#{bundle.ViewPerfilLabel_codigo}"/>
                         <h:outputText value="#{perfilController.selected.codigo}" title="#{bundle.ViewPerfilTitle_codigo}"/>
                         <h:outputText value="#{bundle.ViewPerfilLabel_descripcion}"/>
-                        <h:outputText value="#{perfilController.selected.descripcion}" title="#{bundle.ViewPerfilTitle_descripcion}"/>
-                        <h:outputText value="#{bundle.ViewPerfilLabel_inserted}"/>
-                        <h:outputText value="#{perfilController.selected.inserted}" title="#{bundle.ViewPerfilTitle_inserted}">
-                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
-                        </h:outputText>
-                        <h:outputText value="#{bundle.ViewPerfilLabel_updated}"/>
-                        <h:outputText value="#{perfilController.selected.updated}" title="#{bundle.ViewPerfilTitle_updated}">
-                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
-                        </h:outputText>
+                        <h:outputText value="#{perfilController.selected.descripcion}" title="#{bundle.ViewPerfilTitle_descripcion}"/>                        
                     </p:panelGrid>
                     <p:commandButton value="#{bundle.Close}" onclick="PerfilViewDialog.hide()"/>
                 </h:panelGroup>

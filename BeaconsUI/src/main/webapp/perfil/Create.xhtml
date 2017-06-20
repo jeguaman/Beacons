@@ -12,16 +12,10 @@
             <h:form id="PerfilCreateForm">
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{perfilController.selected != null}">
-                        <p:outputLabel value="#{bundle.CreatePerfilLabel_perfilId}" for="perfilId" />
-                        <p:inputText id="perfilId" value="#{perfilController.selected.perfilId}" title="#{bundle.CreatePerfilTitle_perfilId}" required="true" requiredMessage="#{bundle.CreatePerfilRequiredMessage_perfilId}"/>
                         <p:outputLabel value="#{bundle.CreatePerfilLabel_codigo}" for="codigo" />
                         <p:inputText id="codigo" value="#{perfilController.selected.codigo}" title="#{bundle.CreatePerfilTitle_codigo}" required="true" requiredMessage="#{bundle.CreatePerfilRequiredMessage_codigo}"/>
                         <p:outputLabel value="#{bundle.CreatePerfilLabel_descripcion}" for="descripcion" />
                         <p:inputText id="descripcion" value="#{perfilController.selected.descripcion}" title="#{bundle.CreatePerfilTitle_descripcion}" required="true" requiredMessage="#{bundle.CreatePerfilRequiredMessage_descripcion}"/>
-                        <p:outputLabel value="#{bundle.CreatePerfilLabel_inserted}" for="inserted" />
-                        <p:calendar id="inserted" pattern="MM/dd/yyyy HH:mm:ss" value="#{perfilController.selected.inserted}" title="#{bundle.EditPerfilTitle_inserted}" required="true" requiredMessage="#{bundle.EditPerfilRequiredMessage_inserted}" showOn="button"/>
-                        <p:outputLabel value="#{bundle.CreatePerfilLabel_updated}" for="updated" />
-                        <p:calendar id="updated" pattern="MM/dd/yyyy HH:mm:ss" value="#{perfilController.selected.updated}" title="#{bundle.EditPerfilTitle_updated}" required="true" requiredMessage="#{bundle.EditPerfilRequiredMessage_updated}" showOn="button"/>
                     </p:panelGrid>
                     <p:commandButton actionListener="#{perfilController.create}" value="#{bundle.Save}" update="display,:PerfilListForm:datalist,:growl" oncomplete="handleSubmit(args,'PerfilCreateDialog');"/>
                     <p:commandButton value="#{bundle.Cancel}" onclick="PerfilCreateDialog.hide()"/>

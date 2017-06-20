@@ -12,8 +12,6 @@
             <h:form id="UsuarioEditForm">
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{usuarioController.selected != null}">
-                        <p:outputLabel value="#{bundle.EditUsuarioLabel_usuarioId}" for="usuarioId" />
-                        <p:inputText id="usuarioId" value="#{usuarioController.selected.usuarioId}" title="#{bundle.EditUsuarioTitle_usuarioId}" required="true" requiredMessage="#{bundle.EditUsuarioRequiredMessage_usuarioId}"/>
                         <p:outputLabel value="#{bundle.EditUsuarioLabel_nombres}" for="nombres" />
                         <p:inputText id="nombres" value="#{usuarioController.selected.nombres}" title="#{bundle.EditUsuarioTitle_nombres}" required="true" requiredMessage="#{bundle.EditUsuarioRequiredMessage_nombres}"/>
                         <p:outputLabel value="#{bundle.EditUsuarioLabel_apellidos}" for="apellidos" />
@@ -26,11 +24,7 @@
                         <p:inputText id="contrasenia" value="#{usuarioController.selected.contrasenia}" title="#{bundle.EditUsuarioTitle_contrasenia}" required="true" requiredMessage="#{bundle.EditUsuarioRequiredMessage_contrasenia}"/>
                         <p:outputLabel value="#{bundle.EditUsuarioLabel_estado}" for="estado" />
                         <p:inputText id="estado" value="#{usuarioController.selected.estado}" title="#{bundle.EditUsuarioTitle_estado}" required="true" requiredMessage="#{bundle.EditUsuarioRequiredMessage_estado}"/>
-                        <p:outputLabel value="#{bundle.EditUsuarioLabel_inserted}" for="inserted" />
-                        <p:calendar id="inserted" pattern="MM/dd/yyyy HH:mm:ss" value="#{usuarioController.selected.inserted}" title="#{bundle.EditUsuarioTitle_inserted}" required="true" requiredMessage="#{bundle.EditUsuarioRequiredMessage_inserted}" showOn="button"/>
-                        <p:outputLabel value="#{bundle.EditUsuarioLabel_updated}" for="updated" />
-                        <p:calendar id="updated" pattern="MM/dd/yyyy HH:mm:ss" value="#{usuarioController.selected.updated}" title="#{bundle.EditUsuarioTitle_updated}" required="true" requiredMessage="#{bundle.EditUsuarioRequiredMessage_updated}" showOn="button"/>
-                    </p:panelGrid>
+                        </p:panelGrid>
                     <p:commandButton actionListener="#{usuarioController.update}" value="#{bundle.Save}" update="display,:UsuarioListForm:datalist,:growl" oncomplete="handleSubmit(args, 'UsuarioEditDialog');"/>
                     <p:commandButton value="#{bundle.Cancel}" onclick="UsuarioEditDialog.hide()"/>
                 </h:panelGroup>

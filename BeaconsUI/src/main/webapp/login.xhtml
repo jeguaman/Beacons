@@ -33,9 +33,17 @@ and open the template in the editor.
                 <p:password id="password" value="#{loginBean.contrasenia}" required="true" placeholder="Contraseña" />
 
                 <f:facet name="footer">
-                    <p:commandButton value="Login" update="growl" actionListener="#{loginBean.checkAccess()}" />
+                    <p:commandButton value="Login" update="growl" actionListener="#{loginBean.verificarAcceso()}" />
                 </f:facet>  
             </h:panelGrid>
+            <p:dialog 
+                widgetVar="dialogSeleccionPerfil">
+                <p:panelGrid columns="2">
+
+                    <p:commandButton value="Aceptar"/>
+                    <p:commandButton value="Cancelar" immediate="true" onclick="PF('dialogSeleccionPerfil').hide()"/>
+                </p:panelGrid>
+            </p:dialog>
         </h:form>
     </h:body>
 </html>

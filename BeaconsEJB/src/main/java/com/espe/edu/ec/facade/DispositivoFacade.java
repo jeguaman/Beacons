@@ -22,11 +22,12 @@ public class DispositivoFacade extends AbstractFacade<Dispositivo> {
 
     @PersistenceContext(unitName = "com.espe.edu.ec_BeaconsEJB_ejb_1.0-SNAPSHOTPU")
     private EntityManager em;
-
+   
     @Override
     protected EntityManager getEntityManager() {
-        return em;
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+    
 
     public DispositivoFacade() {
         super(Dispositivo.class);

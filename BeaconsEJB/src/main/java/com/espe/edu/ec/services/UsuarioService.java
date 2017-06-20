@@ -7,6 +7,7 @@ package com.espe.edu.ec.services;
 
 import com.espe.edu.ec.facade.UsuarioFacade;
 import com.espe.edu.ec.model.Usuario;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
@@ -19,7 +20,7 @@ import javax.ejb.LocalBean;
  */
 @Stateless
 @LocalBean
-public class UsuarioService implements InterfaceService<Usuario> {
+public class UsuarioService implements InterfaceService<Usuario>,Serializable {
 
     @EJB
     UsuarioFacade usuarioFacade;
@@ -59,9 +60,12 @@ public class UsuarioService implements InterfaceService<Usuario> {
         return usuarioFacade.traerLazzy(first, size);
     }
 
-    public Usuario validarUsuario() {
-        Usuario u = usuarioFacade.find(this);
-        return u;
+    public Usuario traerUsuarioPorCorreoContrasenia(String correo, String contrasenia) {
+        return usuarioFacade.traerUsuario(correo, contrasenia);
+    }
+    
+    public boolean verificarUsuarioExistente(String correo) {
+        return usuarioFacade.verificarUsuario(correo);
     }
 
 }

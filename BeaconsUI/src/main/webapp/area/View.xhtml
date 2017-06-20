@@ -12,22 +12,12 @@
             <h:form id="AreaViewForm">
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{areaController.selected != null}">
-                        <h:outputText value="#{bundle.ViewAreaLabel_areaId}"/>
-                        <h:outputText value="#{areaController.selected.areaId}" title="#{bundle.ViewAreaTitle_areaId}"/>
                         <h:outputText value="#{bundle.ViewAreaLabel_titulo}"/>
                         <h:outputText value="#{areaController.selected.titulo}" title="#{bundle.ViewAreaTitle_titulo}"/>
                         <h:outputText value="#{bundle.ViewAreaLabel_descripcion}"/>
                         <h:outputText value="#{areaController.selected.descripcion}" title="#{bundle.ViewAreaTitle_descripcion}"/>
                         <h:outputText value="#{bundle.ViewAreaLabel_imagen}"/>
-                        <h:outputText value="#{areaController.selected.imagen}" title="#{bundle.ViewAreaTitle_imagen}"/>
-                        <h:outputText value="#{bundle.ViewAreaLabel_inserted}"/>
-                        <h:outputText value="#{areaController.selected.inserted}" title="#{bundle.ViewAreaTitle_inserted}">
-                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
-                        </h:outputText>
-                        <h:outputText value="#{bundle.ViewAreaLabel_updated}"/>
-                        <h:outputText value="#{areaController.selected.updated}" title="#{bundle.ViewAreaTitle_updated}">
-                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
-                        </h:outputText>
+                        <h:outputText value="#{areaController.selected.imagen}" title="#{bundle.ViewAreaTitle_imagen}"/>                        
                     </p:panelGrid>
                     <p:commandButton value="#{bundle.Close}" onclick="AreaViewDialog.hide()"/>
                 </h:panelGroup>
