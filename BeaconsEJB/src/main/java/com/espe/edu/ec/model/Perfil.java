@@ -56,6 +56,11 @@ public class Perfil implements Serializable {
     private String codigo;
     @Basic(optional = false)
     @NotNull
+    @Size(min = 1, max = 100)
+    @Column(name = "nombre")
+    private String nombre;
+    @Basic(optional = false)
+    @NotNull
     @Size(min = 1, max = 200)
     @Column(name = "descripcion")
     private String descripcion;
@@ -79,9 +84,10 @@ public class Perfil implements Serializable {
         this.perfilId = perfilId;
     }
 
-    public Perfil(Integer perfilId, String codigo, String descripcion, Date inserted, Date updated) {
+    public Perfil(Integer perfilId, String codigo, String nombre, String descripcion, Date inserted, Date updated) {
         this.perfilId = perfilId;
         this.codigo = codigo;
+        this.nombre = nombre;
         this.descripcion = descripcion;
         this.inserted = inserted;
         this.updated = updated;
@@ -101,6 +107,14 @@ public class Perfil implements Serializable {
 
     public void setCodigo(String codigo) {
         this.codigo = codigo;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
     public String getDescripcion() {
@@ -160,5 +174,5 @@ public class Perfil implements Serializable {
     public String toString() {
         return "com.espe.edu.ec.model.Perfil[ perfilId=" + perfilId + " ]";
     }
-    
+
 }
