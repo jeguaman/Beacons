@@ -8,6 +8,7 @@ package com.espe.edu.ec.services;
 import com.espe.edu.ec.facade.LugarFacade;
 import com.espe.edu.ec.model.Lugar;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -26,11 +27,14 @@ public class LugarService implements InterfaceService<Lugar>, Serializable {
 
     @Override
     public void crear(Lugar object) {
+        object.setInserted(new Date());
+        object.setUpdated(new Date());
         lugarFacade.create(object);
     }
 
     @Override
     public void actualizar(Lugar object) {
+        object.setUpdated(new Date());
         lugarFacade.edit(object);
     }
 
@@ -60,5 +64,13 @@ public class LugarService implements InterfaceService<Lugar>, Serializable {
 
     public List<Lugar> traerLugaresPorUUIDBeacon(String uuidBeacon) {
         return lugarFacade.traerLugaresPorUUIDBeacon(uuidBeacon);
+    }
+
+    public List<Lugar> traerLugaresPorIdAreaNoBytesLazzy(Integer areaId, int first, int size) {
+        return lugarFacade.traerLugaresPorIdAreaNoBytesLazzy(areaId, first, size);
+    }
+
+    public int traerLugaresPorIdAreaNoBytesTotal(Integer areaId) {
+        return lugarFacade.traerLugaresPorIdAreaNoBytesTotal(areaId);
     }
 }

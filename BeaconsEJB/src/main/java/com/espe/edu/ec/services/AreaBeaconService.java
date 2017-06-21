@@ -19,11 +19,11 @@ import javax.ejb.Stateless;
  */
 @Stateless
 @LocalBean
-public class AreaBeaconService implements InterfaceService<AreaBeacon>{
+public class AreaBeaconService implements InterfaceService<AreaBeacon> {
 
     @EJB
     AreaBeaconFacade areaBeaconFacade;
-    
+
     @Override
     public void crear(AreaBeacon object) {
         object.setInserted(new Date());
@@ -57,5 +57,5 @@ public class AreaBeaconService implements InterfaceService<AreaBeacon>{
     public List<AreaBeacon> traerLazzy(Integer first, Integer size) {
         return areaBeaconFacade.traerLazzy(first, size);
     }
-    
+
 }

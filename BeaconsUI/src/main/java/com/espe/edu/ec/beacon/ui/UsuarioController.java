@@ -14,6 +14,7 @@ import com.espe.edu.ec.services.UsuarioService;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -26,6 +27,8 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
+import org.primefaces.model.LazyDataModel;
+import org.primefaces.model.SortOrder;
 
 @ManagedBean
 @ViewScoped
@@ -38,14 +41,17 @@ public class UsuarioController implements Serializable {
     @EJB
     private AsignacionPerfilService asignacionPerfilService;
 
-    private List<Usuario> items = null;
+    private LazyDataModel<Usuario> usuariosLazy;
     private Usuario selected;
+    
     private Integer idPerfilSeleccionado;
+    
     private List<Perfil> perfiles = new ArrayList();
 
     @PostConstruct
     public void init() {
         perfiles = perfilService.buscarTodos();
+        getUsuarios();
     }
 
     public UsuarioController() {
@@ -58,6 +64,14 @@ public class UsuarioController implements Serializable {
 
     public void setSelected(Usuario selected) {
         this.selected = selected;
+    }
+
+    public LazyDataModel<Usuario> getUsuariosLazy() {
+        return usuariosLazy;
+    }
+
+    public void setUsuariosLazy(LazyDataModel<Usuario> usuariosLazy) {
+        this.usuariosLazy = usuariosLazy;
     }
 
     public Integer getIdPerfilSeleccionado() {
@@ -94,9 +108,6 @@ public class UsuarioController implements Serializable {
 
     public void create() {
         persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("UsuarioCreated"));
-        if (!JsfUtil.isValidationFailed()) {
-            items = null;    // Invalidate list of items to trigger re-query.
-        }
     }
 
     public void update() {
@@ -107,15 +118,40 @@ public class UsuarioController implements Serializable {
         persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("UsuarioDeleted"));
         if (!JsfUtil.isValidationFailed()) {
             selected = null; // Remove selection
-            items = null;    // Invalidate list of items to trigger re-query.
         }
     }
 
-    public List<Usuario> getItems() {
-        if (items == null) {
-            items = getFacade().buscarTodos();
-        }
-        return items;
+    public void getUsuarios() {
+        usuariosLazy = new LazyDataModel() {
+            @Override
+            public List load(int first, int pageSize, String sortField, SortOrder sortOrder, Map filters) {
+                List<Usuario> comprobantes = usuarioService.traerLazzy(first, pageSize);
+                this.setRowCount(usuarioService.totalRegistros());
+                return comprobantes;
+            }
+
+            @Override
+            public void setRowIndex(int rowIndex) {
+                if (rowIndex == -1 || getPageSize() == 0) {
+                    super.setRowIndex(-1);
+                } else {
+                    super.setRowIndex(rowIndex % getPageSize());
+                }
+            }
+
+            @Override
+            public Usuario getRowData(String rowKey) {
+                List<Usuario> usuarios = (List<Usuario>) getWrappedData();
+
+                for (Usuario usuario : usuarios) {
+                    if (usuario.getUsuarioId().toString().equals(rowKey)) {
+                        return usuario;
+                    }
+                }
+                return null;
+            }
+
+        };
     }
 
     private void persist(PersistAction persistAction, String successMessage) {

@@ -3,6 +3,8 @@
   <persistence-unit name="com.espe.edu.ec_BeaconsEJB_ejb_1.0-SNAPSHOTPU" transaction-type="JTA">
     <jta-data-source>java:/BeaconEspeDS</jta-data-source>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
-    <properties/>
+    <properties>
+      <property name="hibernate.show_sql" value="true"/>
+    </properties>
   </persistence-unit>
 </persistence>

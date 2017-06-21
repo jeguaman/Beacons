@@ -1,9 +1,11 @@
 package com.espe.edu.ec.beacon.ui;
 
+import com.espe.edu.ec.beacon.ui.util.ConvertidorUtil;
 import com.espe.edu.ec.model.Lugar;
 import com.espe.edu.ec.services.LugarService;
 import com.espe.edu.ec.beacon.ui.util.JsfUtil;
 import com.espe.edu.ec.beacon.ui.util.JsfUtil.PersistAction;
+import com.espe.edu.ec.model.Area;
 
 import java.io.Serializable;
 import java.util.List;
@@ -18,6 +20,7 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
+import org.primefaces.model.UploadedFile;
 
 @ManagedBean
 @ViewScoped
@@ -27,12 +30,30 @@ public class LugarController implements Serializable {
     private LugarService lugarService;
     private List<Lugar> items = null;
     private Lugar selected;
+    private UploadedFile file;
+    private Area area;
 
     public LugarController() {
     }
 
     public Lugar getSelected() {
         return selected;
+    }
+
+    public UploadedFile getFile() {
+        return file;
+    }
+
+    public void setFile(UploadedFile file) {
+        this.file = file;
+    }
+
+    public Area getArea() {
+        return area;
+    }
+
+    public void setArea(Area area) {
+        this.area = area;
     }
 
     public void setSelected(Lugar selected) {
@@ -55,7 +76,10 @@ public class LugarController implements Serializable {
         return selected;
     }
 
-    public void create() {
+    public void create(Area area) {
+        if (area != null) {
+            this.area = area;
+        }
         persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("LugarCreated"));
         if (!JsfUtil.isValidationFailed()) {
             items = null;    // Invalidate list of items to trigger re-query.
@@ -87,8 +111,12 @@ public class LugarController implements Serializable {
             try {
                 if (persistAction != PersistAction.DELETE) {
                     if (persistAction == PersistAction.CREATE) {
+                        if (area != null) {
+                            selected.setAreaId(area);
+                        }
+                        selected.setImagen(ConvertidorUtil.encodeImage(file.getContents()).getBytes());
                         getFacade().crear(selected);
-                    } else {                        
+                    } else {
                         getFacade().actualizar(selected);
                     }
                 } else {

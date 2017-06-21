@@ -22,10 +22,8 @@
                         <h:outputText value="#{usuarioController.selected.correoElectronico}" title="#{bundle.ViewUsuarioTitle_correoElectronico}"/>
                         <h:outputText value="#{bundle.ViewUsuarioLabel_contrasenia}"/>
                         <h:outputText value="#{usuarioController.selected.contrasenia}" title="#{bundle.ViewUsuarioTitle_contrasenia}"/>
-                        <h:outputText value="#{bundle.ViewUsuarioLabel_estado}"/>
-                        <h:outputText value="#{usuarioController.selected.estado}" title="#{bundle.ViewUsuarioTitle_estado}"/>
                     </p:panelGrid>
-                    <p:commandButton value="#{bundle.Close}" onclick="UsuarioViewDialog.hide()"/>
+                    <p:commandButton value="#{bundle.Close}" oncomplete="PF('UsuarioViewDialog').hide();" immediate="true"/>
                 </h:panelGroup>
             </h:form>
         </p:dialog>

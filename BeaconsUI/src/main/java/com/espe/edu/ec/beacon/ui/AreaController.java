@@ -4,12 +4,18 @@ import com.espe.edu.ec.model.Area;
 import com.espe.edu.ec.services.AreaService;
 import com.espe.edu.ec.beacon.ui.util.JsfUtil;
 import com.espe.edu.ec.beacon.ui.util.JsfUtil.PersistAction;
+import com.espe.edu.ec.model.AreaBeacon;
+import com.espe.edu.ec.model.Lugar;
+import com.espe.edu.ec.services.AreaBeaconService;
+import com.espe.edu.ec.services.LugarService;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.faces.bean.ManagedBean;
@@ -18,6 +24,8 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
+import org.primefaces.model.LazyDataModel;
+import org.primefaces.model.SortOrder;
 
 @ManagedBean
 @ViewScoped
@@ -25,18 +33,53 @@ public class AreaController implements Serializable {
 
     @EJB
     private AreaService areaService;
-    private List<Area> items = null;
+
+    @EJB
+    private LugarService lugarService;
+
+    private LazyDataModel<Area> areasLazy;
+    private LazyDataModel<Lugar> lugarLazyDataModel;
     private Area selected;
+    private Lugar lugarSelected;
 
     public AreaController() {
+    }
+
+    @PostConstruct
+    public void init() {
+        getAreas();
+    }
+
+    public LazyDataModel<Area> getAreasLazy() {
+        return areasLazy;
+    }
+
+    public void setAreasLazy(LazyDataModel<Area> areasLazy) {
+        this.areasLazy = areasLazy;
     }
 
     public Area getSelected() {
         return selected;
     }
 
+    public LazyDataModel<Lugar> getLugarLazyDataModel() {
+        return lugarLazyDataModel;
+    }
+
+    public void setLugarLazyDataModel(LazyDataModel<Lugar> lugarLazyDataModel) {
+        this.lugarLazyDataModel = lugarLazyDataModel;
+    }
+
     public void setSelected(Area selected) {
         this.selected = selected;
+    }
+
+    public Lugar getLugarSelected() {
+        return lugarSelected;
+    }
+
+    public void setLugarSelected(Lugar lugarSelected) {
+        this.lugarSelected = lugarSelected;
     }
 
     protected void setEmbeddableKeys() {
@@ -54,12 +97,14 @@ public class AreaController implements Serializable {
         initializeEmbeddableKey();
         return selected;
     }
+    public Lugar prepareCreateLugar() {
+        lugarSelected = new Lugar();
+        initializeEmbeddableKey();
+        return lugarSelected;
+    }
 
     public void create() {
         persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("AreaCreated"));
-        if (!JsfUtil.isValidationFailed()) {
-            items = null;    // Invalidate list of items to trigger re-query.
-        }
     }
 
     public void update() {
@@ -70,15 +115,73 @@ public class AreaController implements Serializable {
         persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("AreaDeleted"));
         if (!JsfUtil.isValidationFailed()) {
             selected = null; // Remove selection
-            items = null;    // Invalidate list of items to trigger re-query.
         }
     }
 
-    public List<Area> getItems() {
-        if (items == null) {
-            items = getFacade().buscarTodos();
-        }
-        return items;
+    public void getAreas() {
+        areasLazy = new LazyDataModel() {
+            @Override
+            public List load(int first, int pageSize, String sortField, SortOrder sortOrder, Map filters) {
+                List<Area> areas = areaService.traerLazzy(first, pageSize);
+                this.setRowCount(areaService.totalRegistros());
+                return areas;
+            }
+
+            @Override
+            public void setRowIndex(int rowIndex) {
+                if (rowIndex == -1 || getPageSize() == 0) {
+                    super.setRowIndex(-1);
+                } else {
+                    super.setRowIndex(rowIndex % getPageSize());
+                }
+            }
+
+            @Override
+            public Area getRowData(String rowKey) {
+                List<Area> areas = (List<Area>) getWrappedData();
+
+                for (Area area : areas) {
+                    if (area.getAreaId().toString().equals(rowKey)) {
+                        return area;
+                    }
+                }
+                return null;
+            }
+
+        };
+    }
+
+    public void getLugaresPorArea() {
+        lugarLazyDataModel = new LazyDataModel() {
+            @Override
+            public List load(int first, int pageSize, String sortField, SortOrder sortOrder, Map filters) {
+                List<Lugar> lugares = lugarService.traerLugaresPorIdAreaNoBytesLazzy(selected.getAreaId(), first, pageSize);
+                this.setRowCount(lugarService.traerLugaresPorIdAreaNoBytesTotal(selected.getAreaId()));
+                return lugares;
+            }
+
+            @Override
+            public void setRowIndex(int rowIndex) {
+                if (rowIndex == -1 || getPageSize() == 0) {
+                    super.setRowIndex(-1);
+                } else {
+                    super.setRowIndex(rowIndex % getPageSize());
+                }
+            }
+
+            @Override
+            public Lugar getRowData(String rowKey) {
+                List<Lugar> lugares = (List<Lugar>) getWrappedData();
+
+                for (Lugar lugar : lugares) {
+                    if (lugar.getLugarId().toString().equals(rowKey)) {
+                        return lugar;
+                    }
+                }
+                return null;
+            }
+
+        };
     }
 
     private void persist(PersistAction persistAction, String successMessage) {
@@ -88,7 +191,7 @@ public class AreaController implements Serializable {
                 if (persistAction != PersistAction.DELETE) {
                     if (persistAction == PersistAction.CREATE) {
                         getFacade().crear(selected);
-                    } else {                        
+                    } else {
                         getFacade().actualizar(selected);
                     }
                 } else {

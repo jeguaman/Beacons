@@ -19,7 +19,7 @@
                         <p:outputLabel value="#{bundle.EditAreaLabel_imagen}" for="imagen" />
                         <p:inputTextarea rows="4" cols="30" id="imagen" value="#{areaController.selected.imagen}" title="#{bundle.EditAreaTitle_imagen}" required="true" requiredMessage="#{bundle.EditAreaRequiredMessage_imagen}"/>
                     </p:panelGrid>
-                    <p:commandButton actionListener="#{areaController.update}" value="#{bundle.Save}" update="display,:AreaListForm:datalist,:growl" oncomplete="handleSubmit(args, 'AreaEditDialog');"/>
+                    <p:commandButton actionListener="#{areaController.update}" value="#{bundle.Save}" update="display,:AreaListForm:datalistArea,:growl" oncomplete="handleSubmit(args, 'AreaEditDialog');"/>
                     <p:commandButton value="#{bundle.Cancel}" onclick="AreaEditDialog.hide()"/>
                 </h:panelGroup>
             </h:form>

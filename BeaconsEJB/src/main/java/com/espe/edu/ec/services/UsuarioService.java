@@ -20,7 +20,7 @@ import javax.ejb.LocalBean;
  */
 @Stateless
 @LocalBean
-public class UsuarioService implements InterfaceService<Usuario>,Serializable {
+public class UsuarioService implements InterfaceService<Usuario>, Serializable {
 
     @EJB
     UsuarioFacade usuarioFacade;
@@ -63,9 +63,13 @@ public class UsuarioService implements InterfaceService<Usuario>,Serializable {
     public Usuario traerUsuarioPorCorreoContrasenia(String correo, String contrasenia) {
         return usuarioFacade.traerUsuario(correo, contrasenia);
     }
-    
+
     public boolean verificarUsuarioExistente(String correo) {
         return usuarioFacade.verificarUsuario(correo);
+    }
+
+    public Integer totalRegistros() {
+        return usuarioFacade.count();
     }
 
 }

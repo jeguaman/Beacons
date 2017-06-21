@@ -21,7 +21,7 @@ public class AreaBeaconFacade extends AbstractFacade<AreaBeacon> {
 
     @PersistenceContext(unitName = "com.espe.edu.ec_BeaconsEJB_ejb_1.0-SNAPSHOTPU")
     private EntityManager em;
-
+    
     @Override
     protected EntityManager getEntityManager() {
         return em;
@@ -33,6 +33,13 @@ public class AreaBeaconFacade extends AbstractFacade<AreaBeacon> {
 
     public List<AreaBeacon> traerLazzy(Integer first, Integer size) {
         Query q = em.createNamedQuery("AreaBeacon.findAll");
+        q.setFirstResult(first);
+        q.setMaxResults(size);
+        return q.getResultList();
+    }
+
+    public List<AreaBeacon> traerPorAreaIdFectchLugar(Integer areaId, Integer first, Integer size) {
+        Query q = em.createQuery("AreaBeacon.findAll");
         q.setFirstResult(first);
         q.setMaxResults(size);
         return q.getResultList();

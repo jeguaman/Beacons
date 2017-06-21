@@ -14,16 +14,18 @@
         </ui:define>
 
         <ui:define name="contenido">
-            <h:form id="AreaListForm">
-                <p:panelGrid columns="2">
+            <p:panelGrid columns="2">
+                <h:form id="AreaListForm">
                     <p:panel header="#{bundle.ListAreaTitle}" >
-                        <p:dataTable id="datalist" value="#{areaController.items}" var="item"
+                        <p:dataTable id="datalistArea" value="#{areaController.areasLazy}" var="item"
                                      selectionMode="single" selection="#{areaController.selected}"
                                      paginator="true"
                                      rowKey="#{item.areaId}"
-                                     rows="10"
-                                     rowsPerPageTemplate="10,20,30,40,50">
-                            <p:ajax event="rowSelect"   update="createButton viewButton editButton deleteButton"/>
+                                     lazy="true"
+                                     rows="10">
+                            <p:ajax event="rowSelect"   update="createButton viewButton editButton deleteButton LugarListForm:datalistLugar " 
+                                    listener="#{areaController.getLugaresPorArea()}"
+                                    />
                             <p:ajax event="rowUnselect" update="createButton viewButton editButton deleteButton"/>
                             <p:column>
                                 <f:facet name="header">
@@ -41,17 +43,22 @@
                                 <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{areaController.prepareCreate}" update=":AreaCreateForm" oncomplete="PF('AreaCreateDialog').show()"/>
                                 <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{bundle.View}" update=":AreaViewForm" oncomplete="PF('AreaViewDialog').show()" disabled="#{empty areaController.selected}"/>
                                 <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update=":AreaEditForm" oncomplete="PF('AreaEditDialog').show()" disabled="#{empty areaController.selected}"/>
-                                <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{areaController.destroy}" update=":growl,datalist" disabled="#{empty areaController.selected}"/>
+                                <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{areaController.destroy}" update=":growl,datalistArea" disabled="#{empty areaController.selected}"/>
                             </f:facet>
                         </p:dataTable>
                     </p:panel>
+                </h:form>
+                <h:form id="LugarListForm">
                     <p:panel header="#{bundle.ListAreaTitle}" >
-                        <p:dataTable id="datalist" value="#{areaController.items}" var="item"
-                                     selectionMode="single" selection="#{areaController.selected}"
+                        <p:dataTable id="datalistLugar" value="#{areaController.lugarLazyDataModel}" var="item"
+                                     selectionMode="single"
                                      paginator="true"
-                                     rowKey="#{item.areaId}"
+                                     lazy="true"
+                                     selection="#{areaController.lugarSelected}"
+                                     rowKey="#{item.lugarId}"
+                                     emptyMessage="No se encontraron lugares"
                                      rows="10"
-                                     rowsPerPageTemplate="10,20,30,40,50">
+                                     >
                             <p:ajax event="rowSelect"   update="createButton viewButton editButton deleteButton"/>
                             <p:ajax event="rowUnselect" update="createButton viewButton editButton deleteButton"/>
                             <p:column>
@@ -59,27 +66,24 @@
                                     <h:outputText value="#{bundle.ListAreaTitle_titulo}"/>
                                 </f:facet>
                                 <h:outputText value="#{item.titulo}"/>
-                            </p:column>
-                            <p:column>
-                                <f:facet name="header">
-                                    <h:outputText value="#{bundle.ListAreaTitle_descripcion}"/>
-                                </f:facet>
-                                <h:outputText value="#{item.descripcion}"/>
                             </p:column>                       
                             <f:facet name="footer">
-                                <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{areaController.prepareCreate}" update=":AreaCreateForm" oncomplete="PF('AreaCreateDialog').show()"/>
-                                <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{bundle.View}" update=":AreaViewForm" oncomplete="PF('AreaViewDialog').show()" disabled="#{empty areaController.selected}"/>
-                                <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update=":AreaEditForm" oncomplete="PF('AreaEditDialog').show()" disabled="#{empty areaController.selected}"/>
-                                <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{areaController.destroy}" update=":growl,datalist" disabled="#{empty areaController.selected}"/>
+                                <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{lugarController.prepareCreate()}" update=":LugarCreateForm" oncomplete="PF('LugarCreateDialog').show()" disabled="#{empty areaController.selected}"/>
+                                <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{bundle.View}" update=":LugarViewForm" oncomplete="PF('LugarViewDialog').show()" disabled="#{empty lugarController.selected}"/>
+                                <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update=":LugarEditForm" oncomplete="PF('LugarEditDialog').show()" disabled="#{empty lugarController.selected}"/>
+                                <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{lugarController.destroy}" update=":growl,datalistLugar" disabled="#{empty lugarController.selected}" rendered="false"/>
                             </f:facet>
                         </p:dataTable>
                     </p:panel>
-                </p:panelGrid>
-            </h:form>
+                </h:form>
+            </p:panelGrid>
 
             <ui:include src="Create.xhtml"/>
             <ui:include src="Edit.xhtml"/>
             <ui:include src="View.xhtml"/>
+            <ui:include src="../lugar/Create.xhtml"/>
+            <ui:include src="../lugar/Edit.xhtml"/>
+            <ui:include src="../lugar/View.xhtml"/>
         </ui:define>
     </ui:composition>
 

@@ -26,7 +26,7 @@
                                            itemValue="#{areaIdItem}"/>
                         </p:selectOneMenu>
                     </p:panelGrid>
-                    <p:commandButton actionListener="#{lugarController.update}" value="#{bundle.Save}" update="display,:LugarListForm:datalist,:growl" oncomplete="handleSubmit(args, 'LugarEditDialog');"/>
+                    <p:commandButton actionListener="#{lugarController.update}" value="#{bundle.Save}" update="display,:LugarListForm:datalistLugar,:growl" oncomplete="handleSubmit(args, 'LugadatalistrEditDialog');"/>
                     <p:commandButton value="#{bundle.Cancel}" onclick="LugarEditDialog.hide()"/>
                 </h:panelGroup>
             </h:form>
