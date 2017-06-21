@@ -98,7 +98,7 @@ public class WsResource {
      */
     @POST
     @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
-    @Path("/traerLugaresPorIdArea")
+    @Path("/traerLugaresPorIdAreaNoBytes")
     public WSResponse traerLugaresPorIdAreaNoBytes(@FormParam("id_area") Integer idArea) {
         return restService.traerLugaresPorIdAreaNoBytes(idArea);
     }
@@ -135,7 +135,7 @@ public class WsResource {
     @POST
     @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
     @Path("/traerLugaresPorUUIDBeacon")
-    public WSResponse traerLugaresPorUUIDBeacon(@FormParam("id_lugar") String uuidBeacon) {
+    public WSResponse traerLugaresPorUUIDBeacon(@FormParam("uuid") String uuidBeacon) {
         return restService.traerLugaresPorUUIDBeacon(uuidBeacon);
     }
 
@@ -147,7 +147,7 @@ public class WsResource {
     @POST
     @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
     @Path("/traerAreasPorUUIDBeacon")
-    public WSResponse traerAreasPorUUIDBeacon(@FormParam("id_lugar") String uuidBeacon) {
+    public WSResponse traerAreasPorUUIDBeacon(@FormParam("uuid") String uuidBeacon) {
         return restService.traerAreasPorUUIDBeacon(uuidBeacon);
     }
 
