@@ -59,4 +59,7 @@ public class BeaconService implements InterfaceService<Beacon>, Serializable {
         return beaconFacade.traerLazzy(first, size);
     }
 
+     public Integer totalRegistros() {
+        return beaconFacade.count();
+    }
 }

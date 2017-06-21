@@ -4,12 +4,16 @@ import com.espe.edu.ec.model.Beacon;
 import com.espe.edu.ec.services.BeaconService;
 import com.espe.edu.ec.beacon.ui.util.JsfUtil;
 import com.espe.edu.ec.beacon.ui.util.JsfUtil.PersistAction;
+import com.espe.edu.ec.model.Area;
+import com.espe.edu.ec.services.AreaService;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.faces.bean.ManagedBean;
@@ -18,6 +22,8 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
+import org.primefaces.model.LazyDataModel;
+import org.primefaces.model.SortOrder;
 
 @ManagedBean
 @ViewScoped
@@ -25,18 +31,21 @@ public class BeaconController implements Serializable {
 
     @EJB
     private BeaconService beaconService;
-    private List<Beacon> items = null;
-    private Beacon selected;
+
+    @EJB
+    private AreaService areaService;
+
+    private LazyDataModel<Beacon> beaconsLazzy;
+    private LazyDataModel<Area> areasLazzy;
+    private Area areaSelected;
+    private Beacon beaconSelected;
 
     public BeaconController() {
     }
 
-    public Beacon getSelected() {
-        return selected;
-    }
-
-    public void setSelected(Beacon selected) {
-        this.selected = selected;
+    @PostConstruct
+    public void init() {
+        getBeacons();
     }
 
     protected void setEmbeddableKeys() {
@@ -50,16 +59,51 @@ public class BeaconController implements Serializable {
     }
 
     public Beacon prepareCreate() {
-        selected = new Beacon();
+        beaconSelected = new Beacon();
         initializeEmbeddableKey();
-        return selected;
+        return beaconSelected;
+    }
+
+    public Area prepareCreateArea() {
+        areaSelected = new Area();
+        initializeEmbeddableKey();
+        return areaSelected;
+    }
+
+    public LazyDataModel<Beacon> getBeaconsLazzy() {
+        return beaconsLazzy;
+    }
+
+    public void setBeaconsLazzy(LazyDataModel<Beacon> beaconsLazzy) {
+        this.beaconsLazzy = beaconsLazzy;
+    }
+
+    public LazyDataModel<Area> getAreasLazzy() {
+        return areasLazzy;
+    }
+
+    public void setAreasLazzy(LazyDataModel<Area> areasLazzy) {
+        this.areasLazzy = areasLazzy;
+    }
+
+    public Area getAreaSelected() {
+        return areaSelected;
+    }
+
+    public void setAreaSelected(Area areaSelected) {
+        this.areaSelected = areaSelected;
+    }
+
+    public Beacon getBeaconSelected() {
+        return beaconSelected;
+    }
+
+    public void setBeaconSelected(Beacon beaconSelected) {
+        this.beaconSelected = beaconSelected;
     }
 
     public void create() {
         persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("BeaconCreated"));
-        if (!JsfUtil.isValidationFailed()) {
-            items = null;    // Invalidate list of items to trigger re-query.
-        }
     }
 
     public void update() {
@@ -68,31 +112,85 @@ public class BeaconController implements Serializable {
 
     public void destroy() {
         persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("BeaconDeleted"));
-        if (!JsfUtil.isValidationFailed()) {
-            selected = null; // Remove selection
-            items = null;    // Invalidate list of items to trigger re-query.
-        }
     }
 
-    public List<Beacon> getItems() {
-        if (items == null) {
-            items = getFacade().buscarTodos();
-        }
-        return items;
+    public void getBeacons() {
+        beaconsLazzy = new LazyDataModel<Beacon>() {
+            @Override
+            public List load(int first, int pageSize, String sortField, SortOrder sortOrder, Map filters) {
+                List<Beacon> beacons = beaconService.traerLazzy(first, pageSize);
+                this.setRowCount(beaconService.totalRegistros());
+                return beacons;
+            }
+
+            @Override
+            public void setRowIndex(int rowIndex) {
+                if (rowIndex == -1 || getPageSize() == 0) {
+                    super.setRowIndex(-1);
+                } else {
+                    super.setRowIndex(rowIndex % getPageSize());
+                }
+            }
+
+            @Override
+            public Beacon getRowData(String rowKey) {
+                List<Beacon> beacons = (List<Beacon>) getWrappedData();
+
+                for (Beacon area : beacons) {
+                    if (area.getBeaconId().toString().equals(rowKey)) {
+                        return area;
+                    }
+                }
+                return null;
+            }
+        };
+    }
+
+    public void getAreasPorBeacon() {
+        areasLazzy = new LazyDataModel() {
+            @Override
+            public List load(int first, int pageSize, String sortField, SortOrder sortOrder, Map filters) {
+                List<Area> areas = areaService.traerLazzy(first, pageSize);
+                this.setRowCount(areaService.totalRegistros());
+                return areas;
+            }
+
+            @Override
+            public void setRowIndex(int rowIndex) {
+                if (rowIndex == -1 || getPageSize() == 0) {
+                    super.setRowIndex(-1);
+                } else {
+                    super.setRowIndex(rowIndex % getPageSize());
+                }
+            }
+
+            @Override
+            public Area getRowData(String rowKey) {
+                List<Area> areas = (List<Area>) getWrappedData();
+
+                for (Area area : areas) {
+                    if (area.getAreaId().toString().equals(rowKey)) {
+                        return area;
+                    }
+                }
+                return null;
+            }
+        };
+
     }
 
     private void persist(PersistAction persistAction, String successMessage) {
-        if (selected != null) {
+        if (beaconSelected != null) {
             setEmbeddableKeys();
             try {
                 if (persistAction != PersistAction.DELETE) {
                     if (persistAction == PersistAction.CREATE) {
-                        getFacade().crear(selected);
-                    } else {                        
-                        getFacade().actualizar(selected);
+                        getFacade().crear(beaconSelected);
+                    } else {
+                        getFacade().actualizar(beaconSelected);
                     }
                 } else {
-                    getFacade().eliminar(selected);
+                    getFacade().eliminar(beaconSelected);
                 }
                 JsfUtil.addSuccessMessage(successMessage);
             } catch (EJBException ex) {
