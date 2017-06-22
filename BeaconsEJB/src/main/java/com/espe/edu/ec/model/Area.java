@@ -100,6 +100,12 @@ public class Area implements Serializable {
         this.updated = updated;
     }
 
+    public Area(Integer areaId, String titulo, String descripcion) {
+        this.areaId = areaId;
+        this.titulo = titulo;
+        this.descripcion = descripcion;
+    }
+
     public Integer getAreaId() {
         return areaId;
     }
@@ -208,5 +214,5 @@ public class Area implements Serializable {
     public String toString() {
         return "com.espe.edu.ec.model.Area[ areaId=" + areaId + " ]";
     }
-    
+
 }
