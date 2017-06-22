@@ -150,8 +150,8 @@ public class BeaconController implements Serializable {
         areasLazzy = new LazyDataModel() {
             @Override
             public List load(int first, int pageSize, String sortField, SortOrder sortOrder, Map filters) {
-                List<Area> areas = areaService.traerLazzy(first, pageSize);
-                this.setRowCount(areaService.totalRegistros());
+                List<Area> areas = areaService.traerAreasPorIdBeaconNoBytesImageLazzy(beaconSelected.getBeaconId(), first, pageSize);
+                this.setRowCount(areaService.traerAreasPorIdBeaconNoBytesImageTotal(beaconSelected.getBeaconId()));
                 return areas;
             }
 
@@ -265,7 +265,7 @@ public class BeaconController implements Serializable {
     }
 
     public void validarIngresoAreas() {
-        
+
     }
 
 }

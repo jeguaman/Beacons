@@ -8,20 +8,25 @@
 
     <ui:composition>
 
-        <p:dialog id="BeaconCreateDlg" widgetVar="BeaconCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateBeaconTitle}">
+        <p:dialog id="BeaconCreateDlg" 
+                  widgetVar="BeaconCreateDialog" 
+                  modal="true" 
+                  resizable="false" 
+                  appendTo="@(body)" 
+                  header="#{bundle.CreateBeaconTitle}">
             <h:form id="BeaconCreateForm">
                 <h:panelGroup id="display">
-                    <p:panelGrid columns="2" rendered="#{beaconController.selected != null}">
+                    <p:panelGrid columns="2" rendered="#{beaconController.beaconSelected != null}">
                         <p:outputLabel value="#{bundle.CreateBeaconLabel_uuid}" for="uuid" />
-                        <p:inputText id="uuid" value="#{beaconController.selected.uuid}" title="#{bundle.CreateBeaconTitle_uuid}" required="true" requiredMessage="#{bundle.CreateBeaconRequiredMessage_uuid}"/>
+                        <p:inputText id="uuid" value="#{beaconController.beaconSelected.uuid}" title="#{bundle.CreateBeaconTitle_uuid}" required="true" requiredMessage="#{bundle.CreateBeaconRequiredMessage_uuid}"/>
                         <p:outputLabel value="#{bundle.CreateBeaconLabel_major}" for="major" />
-                        <p:inputText id="major" value="#{beaconController.selected.major}" title="#{bundle.CreateBeaconTitle_major}" required="true" requiredMessage="#{bundle.CreateBeaconRequiredMessage_major}"/>
+                        <p:inputText id="major" value="#{beaconController.beaconSelected.major}" title="#{bundle.CreateBeaconTitle_major}" required="true" requiredMessage="#{bundle.CreateBeaconRequiredMessage_major}"/>
                         <p:outputLabel value="#{bundle.CreateBeaconLabel_minor}" for="minor" />
-                        <p:inputText id="minor" value="#{beaconController.selected.minor}" title="#{bundle.CreateBeaconTitle_minor}" required="true" requiredMessage="#{bundle.CreateBeaconRequiredMessage_minor}"/>
+                        <p:inputText id="minor" value="#{beaconController.beaconSelected.minor}" title="#{bundle.CreateBeaconTitle_minor}" required="true" requiredMessage="#{bundle.CreateBeaconRequiredMessage_minor}"/>
                         <p:outputLabel value="#{bundle.CreateBeaconLabel_descripcion}" for="descripcion" />
-                        <p:inputText id="descripcion" value="#{beaconController.selected.descripcion}" title="#{bundle.CreateBeaconTitle_descripcion}" required="true" requiredMessage="#{bundle.CreateBeaconRequiredMessage_descripcion}"/>
+                        <p:inputText id="descripcion" value="#{beaconController.beaconSelected.descripcion}" title="#{bundle.CreateBeaconTitle_descripcion}" required="true" requiredMessage="#{bundle.CreateBeaconRequiredMessage_descripcion}"/>
                         <p:outputLabel value="#{bundle.CreateBeaconLabel_imagen}" for="imagen" />
-                        <p:inputTextarea rows="4" cols="30" id="imagen" value="#{beaconController.selected.imagen}" title="#{bundle.CreateBeaconTitle_imagen}" required="true" requiredMessage="#{bundle.CreateBeaconRequiredMessage_imagen}"/>
+                        <p:inputTextarea rows="4" cols="30" id="imagen" value="#{beaconController.beaconSelected.imagen}" title="#{bundle.CreateBeaconTitle_imagen}" required="true" requiredMessage="#{bundle.CreateBeaconRequiredMessage_imagen}"/>
                     </p:panelGrid>
                     <p:commandButton actionListener="#{beaconController.create}" value="#{bundle.Save}" update="display,:BeaconListForm:datalist,:growl" oncomplete="handleSubmit(args,'BeaconCreateDialog');"/>
                     <p:commandButton value="#{bundle.Cancel}" onclick="BeaconCreateDialog.hide()"/>
