@@ -14,7 +14,7 @@
                   resizable="false" 
                   appendTo="@(body)" 
                   header="#{bundle.CreateBeaconTitle}">
-            <h:form id="BeaconCreateForm">
+            <h:form id="BeaconCreateForm" enctype="multipart/form-data">
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{beaconController.beaconSelected != null}">
                         <p:outputLabel value="#{bundle.CreateBeaconLabel_uuid}" for="uuid" />
@@ -26,10 +26,10 @@
                         <p:outputLabel value="#{bundle.CreateBeaconLabel_descripcion}" for="descripcion" />
                         <p:inputText id="descripcion" value="#{beaconController.beaconSelected.descripcion}" title="#{bundle.CreateBeaconTitle_descripcion}" required="true" requiredMessage="#{bundle.CreateBeaconRequiredMessage_descripcion}"/>
                         <p:outputLabel value="#{bundle.CreateBeaconLabel_imagen}" for="imagen" />
-                        <p:inputTextarea rows="4" cols="30" id="imagen" value="#{beaconController.beaconSelected.imagen}" title="#{bundle.CreateBeaconTitle_imagen}" required="true" requiredMessage="#{bundle.CreateBeaconRequiredMessage_imagen}"/>
+                        <p:fileUpload id="imagen" value="#{beaconController.file}" mode="simple" sizeLimit="100000" allowTypes="/(\.|\/)(jpe?g|png)$/" required="true" requiredMessage="#{bundle.CreateBeaconRequiredMessage_imagen}"/>
                     </p:panelGrid>
-                    <p:commandButton actionListener="#{beaconController.create}" value="#{bundle.Save}" update="display,:BeaconListForm:datalist,:growl" oncomplete="handleSubmit(args,'BeaconCreateDialog');"/>
-                    <p:commandButton value="#{bundle.Cancel}" onclick="BeaconCreateDialog.hide()"/>
+                    <p:commandButton actionListener="#{beaconController.create}" value="#{bundle.Save}" ajax="false" update="display,:BeaconListForm:datalist,:growl" oncomplete="handleSubmit(args,'BeaconCreateDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('BeaconCreateDialog').hide();" immediate="true"/>
                 </h:panelGroup>
             </h:form>
         </p:dialog>

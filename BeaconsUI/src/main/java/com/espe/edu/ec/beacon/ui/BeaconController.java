@@ -24,6 +24,7 @@ import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortOrder;
+import org.primefaces.model.UploadedFile;
 
 @ManagedBean
 @ViewScoped
@@ -39,6 +40,7 @@ public class BeaconController implements Serializable {
     private LazyDataModel<Area> areasLazzy;
     private Area areaSelected;
     private Beacon beaconSelected;
+    private UploadedFile file;
 
     public BeaconController() {
     }
@@ -68,6 +70,14 @@ public class BeaconController implements Serializable {
         areaSelected = new Area();
         initializeEmbeddableKey();
         return areaSelected;
+    }
+
+    public UploadedFile getFile() {
+        return file;
+    }
+
+    public void setFile(UploadedFile file) {
+        this.file = file;
     }
 
     public LazyDataModel<Beacon> getBeaconsLazzy() {

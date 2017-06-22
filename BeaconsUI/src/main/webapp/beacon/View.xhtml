@@ -4,7 +4,8 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:o="http://omnifaces.org/ui">
 
     <ui:composition>
 
@@ -19,11 +20,11 @@
                         <h:outputText value="#{bundle.ViewBeaconLabel_minor}"/>
                         <h:outputText value="#{beaconController.beaconSelected.minor}" title="#{bundle.ViewBeaconTitle_minor}"/>
                         <h:outputText value="#{bundle.ViewBeaconLabel_descripcion}"/>
-                        <h:outputText value="#{beaconController.beaconSelected.descripcion}" title="#{bundle.ViewBeaconTitle_descripcion}"/>
+                        <p:inputTextarea rows="4" cols="30" id="descripcion" value="#{beaconController.beaconSelected.descripcion}" title="#{bundle.ViewBeaconTitle_descripcion}" readonly="true"/>
                         <h:outputText value="#{bundle.ViewBeaconLabel_imagen}"/>
-                        <h:outputText value="#{beaconController.beaconSelected.imagen}" title="#{bundle.ViewBeaconTitle_imagen}"/>                        
+                        <o:graphicImage value="#{imageStreamer.getAreaImagen(beaconController.beaconSelected.beaconId)}" width="150" height="200" lastModified="#{beaconController.beaconSelected.updated}"/>
                     </p:panelGrid>
-                    <p:commandButton value="#{bundle.Close}" onclick="BeaconViewDialog.hide()"/>
+                    <p:commandButton value="#{bundle.Close}" oncomplete="PF('BeaconViewDialog').hide();" immediate="true"/>
                 </h:panelGroup>
             </h:form>
         </p:dialog>
