@@ -264,4 +264,8 @@ public class BeaconController implements Serializable {
 
     }
 
+    public void validarIngresoAreas() {
+        
+    }
+
 }

@@ -64,4 +64,8 @@ public class AreaService implements InterfaceService<Area>, Serializable {
     public Integer totalRegistros() {
         return areaFacade.count();
     }
+    
+    public List<Area> traerAreasPorIdBeaconNoBytesImageLazzy(Integer beaconId, int first, int size) {
+        return areaFacade.traerAreasPorIdBeaconNoBytesImageLazzy(beaconId, first, size);
+    }
 }
