@@ -26,6 +26,7 @@ import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortOrder;
+import org.primefaces.model.UploadedFile;
 
 @ManagedBean
 @ViewScoped
@@ -40,7 +41,7 @@ public class AreaController implements Serializable {
     private LazyDataModel<Area> areasLazy;
     private LazyDataModel<Lugar> lugarLazyDataModel;
     private Area selected;
-    private Lugar lugarSelected;
+    private UploadedFile file;
 
     public AreaController() {
     }
@@ -74,12 +75,12 @@ public class AreaController implements Serializable {
         this.selected = selected;
     }
 
-    public Lugar getLugarSelected() {
-        return lugarSelected;
+    public UploadedFile getFile() {
+        return file;
     }
 
-    public void setLugarSelected(Lugar lugarSelected) {
-        this.lugarSelected = lugarSelected;
+    public void setFile(UploadedFile file) {
+        this.file = file;
     }
 
     protected void setEmbeddableKeys() {
@@ -96,11 +97,6 @@ public class AreaController implements Serializable {
         selected = new Area();
         initializeEmbeddableKey();
         return selected;
-    }
-    public Lugar prepareCreateLugar() {
-        lugarSelected = new Lugar();
-        initializeEmbeddableKey();
-        return lugarSelected;
     }
 
     public void create() {
@@ -189,6 +185,7 @@ public class AreaController implements Serializable {
             setEmbeddableKeys();
             try {
                 if (persistAction != PersistAction.DELETE) {
+                    verificarCambioImagen();
                     if (persistAction == PersistAction.CREATE) {
                         getFacade().crear(selected);
                     } else {
@@ -269,4 +266,9 @@ public class AreaController implements Serializable {
 
     }
 
+    public void verificarCambioImagen() {
+        if (!file.getFileName().isEmpty()) {
+            selected.setImagen(file.getContents());
+        }
+    }
 }

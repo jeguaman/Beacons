@@ -6,6 +6,11 @@
 package com.espe.edu.ec.beacon.ui.util;
 
 import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.xml.bind.DatatypeConverter;
 import org.apache.commons.codec.binary.Base64;
 
 /**
@@ -24,5 +29,22 @@ public class ConvertidorUtil {
 
     public static String getString(byte[] bytes) {
         return new String(bytes, StandardCharsets.UTF_8);
+    }
+
+    public static String convertirMD5(String password) {
+        MessageDigest md = null;
+        String myHash = "";
+        try {
+            md = MessageDigest.getInstance("MD5");
+        } catch (NoSuchAlgorithmException ex) {
+            Logger.getLogger(ConvertidorUtil.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        if (md != null) {
+            md.update(password.getBytes());
+            byte[] digest = md.digest();
+            myHash = DatatypeConverter
+                    .printHexBinary(digest).toUpperCase();
+        }
+        return myHash;
     }
 }

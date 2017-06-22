@@ -110,12 +110,14 @@ public class LugarController implements Serializable {
             setEmbeddableKeys();
             try {
                 if (persistAction != PersistAction.DELETE) {
+                    verificarCambioImagen();
                     if (persistAction == PersistAction.CREATE) {
                         if (area != null) {
                             selected.setAreaId(area);
+                            getFacade().crear(selected);
+                        } else {
+                            JsfUtil.addErrorMessage("El lugar creado no esta asociado a un área.");
                         }
-                        selected.setImagen(ConvertidorUtil.encodeImage(file.getContents()).getBytes());
-                        getFacade().crear(selected);
                     } else {
                         getFacade().actualizar(selected);
                     }
@@ -139,6 +141,14 @@ public class LugarController implements Serializable {
                 JsfUtil.addErrorMessage(ex, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
             }
         }
+    }
+
+    public void cargarLugarSeleccionado(java.lang.Integer id) {
+        selected = lugarService.buscar(id);
+    }
+
+    public void vaciarLugarSeleccionado() {
+        selected = null;
     }
 
     public Lugar getLugar(java.lang.Integer id) {
@@ -192,6 +202,12 @@ public class LugarController implements Serializable {
             }
         }
 
+    }
+
+    public void verificarCambioImagen() {
+        if (!file.getFileName().isEmpty()) {
+            selected.setImagen(file.getContents());
+        }
     }
 
 }

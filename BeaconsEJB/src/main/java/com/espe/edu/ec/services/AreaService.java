@@ -28,6 +28,7 @@ public class AreaService implements InterfaceService<Area>, Serializable {
     @Override
     public void crear(Area object) {
         object.setInserted(new Date());
+        object.setUpdated(new Date());
         areaFacade.create(object);
     }
 

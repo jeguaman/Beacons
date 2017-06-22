@@ -7,30 +7,21 @@
       xmlns:p="http://primefaces.org/ui">
 
     <ui:composition>
-
         <p:dialog id="LugarEditDlg" widgetVar="LugarEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.EditLugarTitle}">
-            <h:form id="LugarEditForm">
+            <h:form id="LugarEditForm" enctype="multipart/form-data">
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{lugarController.selected != null}">
-                        <p:outputLabel value="#{bundle.EditLugarLabel_descripcion}" for="descripcion" />
-                        <p:inputText id="descripcion" value="#{lugarController.selected.descripcion}" title="#{bundle.EditLugarTitle_descripcion}" required="true" requiredMessage="#{bundle.EditLugarRequiredMessage_descripcion}"/>
-                        <p:outputLabel value="#{bundle.EditLugarLabel_imagen}" for="imagen" />
-                        <p:inputTextarea rows="4" cols="30" id="imagen" value="#{lugarController.selected.imagen}" title="#{bundle.EditLugarTitle_imagen}" required="true" requiredMessage="#{bundle.EditLugarRequiredMessage_imagen}"/>
                         <p:outputLabel value="#{bundle.EditLugarLabel_titulo}" for="titulo" />
-                        <p:inputText id="titulo" value="#{lugarController.selected.titulo}" title="#{bundle.EditLugarTitle_titulo}" required="true" requiredMessage="#{bundle.EditLugarRequiredMessage_titulo}"/>
-                        <p:outputLabel value="#{bundle.EditLugarLabel_areaId}" for="areaId" />
-                        <p:selectOneMenu id="areaId" value="#{lugarController.selected.areaId}" required="true" requiredMessage="#{bundle.EditLugarRequiredMessage_areaId}">
-                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
-                            <f:selectItems value="#{areaController.itemsAvailableSelectOne}"
-                                           var="areaIdItem"
-                                           itemValue="#{areaIdItem}"/>
-                        </p:selectOneMenu>
+                        <p:inputText id="titulo" value="#{lugarController.selected.titulo}" title="#{bundle.EditLugarTitle_titulo}" required="true" requiredMessage="#{bundle.EditLugarRequiredMessage_titulo}"/>                        
+                        <p:outputLabel value="#{bundle.EditLugarLabel_imagen}" for="imagen" />
+                        <p:fileUpload id="imagen" value="#{lugarController.file}" mode="simple" sizeLimit="100000" allowTypes="/(\.|\/)(jpe?g|png)$/"/>
+                        <p:outputLabel value="#{bundle.EditLugarLabel_descripcion}" for="descripcion" />
+                        <p:inputTextarea rows="4" cols="30" id="descripcion" value="#{lugarController.selected.descripcion}" title="#{bundle.EditLugarTitle_descripcion}" required="true" requiredMessage="#{bundle.EditLugarRequiredMessage_descripcion}"/>
                     </p:panelGrid>
-                    <p:commandButton actionListener="#{lugarController.update}" value="#{bundle.Save}" update="display,:LugarListForm:datalistLugar,:growl" oncomplete="handleSubmit(args, 'LugadatalistrEditDialog');"/>
-                    <p:commandButton value="#{bundle.Cancel}" onclick="LugarEditDialog.hide()"/>
+                    <p:commandButton actionListener="#{lugarController.update}" ajax="false" value="#{bundle.Save}" update="display,:LugarListForm:datalistLugar,:growl" oncomplete="handleSubmit(args, 'LugadatalistrEditDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('LugarEditDialog').hide();" immediate="true"/>
                 </h:panelGroup>
             </h:form>
         </p:dialog>
-
     </ui:composition>
 </html>
