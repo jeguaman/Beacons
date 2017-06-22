@@ -12,15 +12,15 @@
             <h:form id="LugarCreateForm" enctype="multipart/form-data">
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{lugarController.selected != null}">
-                        <p:outputLabel value="#{bundle.CreateLugarLabel_descripcion}" for="descripcion" />
-                        <p:inputText id="descripcion" value="#{lugarController.selected.descripcion}" title="#{bundle.CreateLugarTitle_descripcion}" required="true" requiredMessage="#{bundle.CreateLugarRequiredMessage_descripcion}"/>
-                        <p:outputLabel value="#{bundle.CreateLugarLabel_imagen}" for="imagen" />
-                        <p:fileUpload id="imagen" value="#{lugarController.file}" mode="simple" sizeLimit="1000" allowTypes="/(\.|\/)(jpe?g|png)$/"/>
                         <p:outputLabel value="#{bundle.CreateLugarLabel_titulo}" for="titulo" />
                         <p:inputText id="titulo" value="#{lugarController.selected.titulo}" title="#{bundle.CreateLugarTitle_titulo}" required="true" requiredMessage="#{bundle.CreateLugarRequiredMessage_titulo}"/>
+                        <p:outputLabel value="#{bundle.CreateLugarLabel_imagen}" for="imagen" />
+                        <p:fileUpload id="imagen" value="#{lugarController.file}" mode="simple" sizeLimit="100000" allowTypes="/(\.|\/)(jpe?g|png)$/" required="true" requiredMessage="#{bundle.CreateLugarRequiredMessage_imagen}"/>
+                        <p:outputLabel value="#{bundle.CreateLugarLabel_descripcion}" for="descripcion" />
+                        <p:inputTextarea rows="4" cols="30" id="descripcion" value="#{lugarController.selected.descripcion}" title="#{bundle.CreateLugarTitle_descripcion}" required="true" requiredMessage="#{bundle.CreateLugarRequiredMessage_descripcion}"/>
                     </p:panelGrid>
                     <p:commandButton actionListener="#{lugarController.create(areaController.selected)}" ajax="false"  value="#{bundle.Save}" update="display,:LugarListForm:datalistLugar,:growl" oncomplete="handleSubmit(args,'LugarCreateDialog');"/>
-                    <p:commandButton value="#{bundle.Cancel}" onclick="LugarCreateDialog.hide()"/>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('LugarCreateDialog').hide();" immediate="true"/>
                 </h:panelGroup>
             </h:form>
         </p:dialog>

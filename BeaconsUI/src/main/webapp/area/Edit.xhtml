@@ -7,23 +7,21 @@
       xmlns:p="http://primefaces.org/ui">
 
     <ui:composition>
-
         <p:dialog id="AreaEditDlg" widgetVar="AreaEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.EditAreaTitle}">
-            <h:form id="AreaEditForm">
+            <h:form id="AreaEditForm" enctype="multipart/form-data">
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{areaController.selected != null}">
                         <p:outputLabel value="#{bundle.EditAreaLabel_titulo}" for="titulo" />
                         <p:inputText id="titulo" value="#{areaController.selected.titulo}" title="#{bundle.EditAreaTitle_titulo}" required="true" requiredMessage="#{bundle.EditAreaRequiredMessage_titulo}"/>
-                        <p:outputLabel value="#{bundle.EditAreaLabel_descripcion}" for="descripcion" />
-                        <p:inputText id="descripcion" value="#{areaController.selected.descripcion}" title="#{bundle.EditAreaTitle_descripcion}" required="true" requiredMessage="#{bundle.EditAreaRequiredMessage_descripcion}"/>
                         <p:outputLabel value="#{bundle.EditAreaLabel_imagen}" for="imagen" />
-                        <p:inputTextarea rows="4" cols="30" id="imagen" value="#{areaController.selected.imagen}" title="#{bundle.EditAreaTitle_imagen}" required="true" requiredMessage="#{bundle.EditAreaRequiredMessage_imagen}"/>
+                        <p:fileUpload id="imagen" value="#{areaController.file}" mode="simple" sizeLimit="100000" allowTypes="/(\.|\/)(jpe?g|png)$/"/>
+                        <p:outputLabel value="#{bundle.EditAreaLabel_descripcion}" for="descripcion" />
+                        <p:inputTextarea rows="4" cols="30" id="descripcion" value="#{areaController.selected.descripcion}" title="#{bundle.EditAreaTitle_descripcion}" required="true" requiredMessage="#{bundle.EditAreaRequiredMessage_descripcion}"/>
                     </p:panelGrid>
-                    <p:commandButton actionListener="#{areaController.update}" value="#{bundle.Save}" update="display,:AreaListForm:datalistArea,:growl" oncomplete="handleSubmit(args, 'AreaEditDialog');"/>
-                    <p:commandButton value="#{bundle.Cancel}" onclick="AreaEditDialog.hide()"/>
+                    <p:commandButton actionListener="#{areaController.update}" ajax="false" value="#{bundle.Save}" update="display,:AreaListForm:datalistArea,:growl" oncomplete="handleSubmit(args, 'AreaEditDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('AreaEditDialog').hide();" immediate="true"/>
                 </h:panelGroup>
             </h:form>
         </p:dialog>
-
     </ui:composition>
 </html>
