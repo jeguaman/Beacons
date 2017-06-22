@@ -24,7 +24,9 @@
                                      lazy="true"
                                      paginatorPosition="bottom"
                                      rows="10">
-                            <p:ajax event="rowSelect"   update="createButton viewButton editButton deleteButton AreaListForm:datalistArea"
+                            <p:ajax event="rowSelect"   update="createButton viewButton editButton deleteButton AreaListForm"
+                                    listener="#{areaController.vaciarAreaSeleccionada()}"/>
+                            <p:ajax event="rowSelect"   update="createButton viewButton editButton deleteButton AreaListForm"
                                     listener="#{beaconController.getAreasPorBeacon()}"/>
                             <p:ajax event="rowUnselect" update="createButton viewButton editButton deleteButton"/>
 

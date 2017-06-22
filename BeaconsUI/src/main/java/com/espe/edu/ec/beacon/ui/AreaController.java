@@ -271,4 +271,8 @@ public class AreaController implements Serializable {
             selected.setImagen(file.getContents());
         }
     }
+
+    public void vaciarAreaSeleccionada() {
+        selected = null;
+    }
 }
