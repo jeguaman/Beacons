@@ -67,7 +67,7 @@
                     <p:panel header="Lista área" >
                         <p:dataTable id="datalistArea" value="#{beaconController.areasLazzy}" var="item"
                                      selectionMode="single" 
-                                     selection="#{beaconController.areaSelected}"
+                                     selection="#{areaController.selected}"
                                      paginator="true"
                                      paginatorPosition="bottom"
                                      rowKey="#{item.areaId}"

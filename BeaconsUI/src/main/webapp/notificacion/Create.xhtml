@@ -11,20 +11,17 @@
         <p:dialog id="NotificacionCreateDlg" widgetVar="NotificacionCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateNotificacionTitle}">
             <h:form id="NotificacionCreateForm">
                 <h:panelGroup id="display">
-                    <p:panelGrid columns="2" rendered="#{notificacionController.selected != null}">
+                    <p:panelGrid columns="2" rendered="#{notificacionController.notificacionSelected != null}">
                         <p:outputLabel value="#{bundle.CreateNotificacionLabel_descripcion}" for="descripcion" />
-                        <p:inputText id="descripcion" value="#{notificacionController.selected.descripcion}" title="#{bundle.CreateNotificacionTitle_descripcion}" required="true" requiredMessage="#{bundle.CreateNotificacionRequiredMessage_descripcion}"/>
-                        <p:outputLabel value="#{bundle.CreateNotificacionLabel_tipo}" for="tipo" />
-                        <p:inputText id="tipo" value="#{notificacionController.selected.tipo}" title="#{bundle.CreateNotificacionTitle_tipo}" required="true" requiredMessage="#{bundle.CreateNotificacionRequiredMessage_tipo}"/>
-                        <p:outputLabel value="#{bundle.CreateNotificacionLabel_areaId}" for="areaId" />
-                        <p:selectOneMenu id="areaId" value="#{notificacionController.selected.areaId}" required="true" requiredMessage="#{bundle.EditNotificacionRequiredMessage_areaId}">
-                            <f:selectItems value="#{areaController.itemsAvailableSelectOne}"
-                                           var="areaIdItem"
-                                           itemValue="#{areaIdItem}"/>
+                        <p:inputText id="descripcion" value="#{notificacionController.notificacionSelected.descripcion}" title="#{bundle.CreateNotificacionTitle_descripcion}" required="true" requiredMessage="#{bundle.CreateNotificacionRequiredMessage_descripcion}"/>
+                        <p:outputLabel value="#{bundle.CreateNotificacionLabel_tipo}" for="tipo" />                        
+                        <p:selectOneMenu id="tipo" value="#{notificacionController.notificacionSelected.tipo}" required="true" requiredMessage="#{bundle.EditNotificacionRequiredMessage_areaId}">
+                            <f:selectItem itemLabel="Entrada" itemValue="E"/>
+                            <f:selectItem itemLabel="Salida" itemValue="S"/>
                         </p:selectOneMenu>
                     </p:panelGrid>
-                    <p:commandButton actionListener="#{notificacionController.create}" value="#{bundle.Save}" update="display,:NotificacionListForm:datalist,:growl" oncomplete="handleSubmit(args,'NotificacionCreateDialog');"/>
-                    <p:commandButton value="#{bundle.Cancel}" onclick="NotificacionCreateDialog.hide()"/>
+                    <p:commandButton actionListener="#{notificacionController.create}" ajax="false" value="#{bundle.Save}" update="display,:NotificacionListForm:datalistNotificacion,:growl" oncomplete="handleSubmit(args,'NotificacionCreateDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('NotificacionCreateDialog').hide();" immediate="true"/>
                 </h:panelGroup>
             </h:form>
         </p:dialog>

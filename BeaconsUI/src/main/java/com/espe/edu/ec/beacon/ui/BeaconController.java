@@ -38,7 +38,7 @@ public class BeaconController implements Serializable {
 
     private LazyDataModel<Beacon> beaconsLazzy;
     private LazyDataModel<Area> areasLazzy;
-    private Area areaSelected;
+    //private Area areaSelected;
     private Beacon beaconSelected;
     private UploadedFile file;
 
@@ -66,12 +66,11 @@ public class BeaconController implements Serializable {
         return beaconSelected;
     }
 
-    public Area prepareCreateArea() {
-        areaSelected = new Area();
-        initializeEmbeddableKey();
-        return areaSelected;
-    }
-
+//    public Area prepareCreateArea() {
+//        areaSelected = new Area();
+//        initializeEmbeddableKey();
+//        return areaSelected;
+//    }
     public UploadedFile getFile() {
         return file;
     }
@@ -96,14 +95,13 @@ public class BeaconController implements Serializable {
         this.areasLazzy = areasLazzy;
     }
 
-    public Area getAreaSelected() {
-        return areaSelected;
-    }
-
-    public void setAreaSelected(Area areaSelected) {
-        this.areaSelected = areaSelected;
-    }
-
+//    public Area getAreaSelected() {
+//        return areaSelected;
+//    }
+//
+//    public void setAreaSelected(Area areaSelected) {
+//        this.areaSelected = areaSelected;
+//    }
     public Beacon getBeaconSelected() {
         return beaconSelected;
     }
@@ -194,6 +192,7 @@ public class BeaconController implements Serializable {
             setEmbeddableKeys();
             try {
                 if (persistAction != PersistAction.DELETE) {
+                    verificarCambioImagen();
                     if (persistAction == PersistAction.CREATE) {
                         getFacade().crear(beaconSelected);
                     } else {
@@ -274,8 +273,9 @@ public class BeaconController implements Serializable {
 
     }
 
-    public void validarIngresoAreas() {
-
+    public void verificarCambioImagen() {
+        if (!file.getFileName().isEmpty()) {
+            beaconSelected.setImagen(file.getContents());
+        }
     }
-
 }

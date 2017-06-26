@@ -50,9 +50,7 @@ public class UsuarioService implements InterfaceService<Usuario>, Serializable {
 
     @Override
     public Usuario buscar(Integer id) {
-        Usuario u = new Usuario();
-        u.setUsuarioId(id);
-        return usuarioFacade.find(u);
+        return usuarioFacade.find(id);
     }
 
     @Override

@@ -48,9 +48,7 @@ public class AreaBeaconService implements InterfaceService<AreaBeacon> {
 
     @Override
     public AreaBeacon buscar(Integer id) {
-        AreaBeacon ab = new AreaBeacon();
-        ab.setAreaBeaconId(id);
-        return areaBeaconFacade.find(ab);
+        return areaBeaconFacade.find(id);
     }
 
     @Override

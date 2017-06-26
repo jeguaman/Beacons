@@ -7,6 +7,7 @@ package com.espe.edu.ec.services;
 
 import com.espe.edu.ec.facade.NotificacionFacade;
 import com.espe.edu.ec.model.Notificacion;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -25,6 +26,8 @@ public class NotificacionService implements InterfaceService<Notificacion> {
 
     @Override
     public void crear(Notificacion object) {
+        object.setInserted(new Date());
+        object.setUpdated(new Date());
         notificacionFacade.create(object);
     }
 
@@ -45,9 +48,7 @@ public class NotificacionService implements InterfaceService<Notificacion> {
 
     @Override
     public Notificacion buscar(Integer id) {
-        Notificacion n = new Notificacion();
-        n.setNotificacionId(id);
-        return notificacionFacade.find(n);
+        return notificacionFacade.find(id);
     }
 
     @Override
@@ -59,6 +60,7 @@ public class NotificacionService implements InterfaceService<Notificacion> {
         return notificacionFacade.traerPorAreaYTipo(areaId, tipo);
     }
 
-    // Add business logic below. (Right-click in editor and choose
-    // "Insert Code > Add Business Method")
+    public List<Notificacion> traerNotificacionPorArea(Integer areaId) {
+        return notificacionFacade.traerNotificacionPorArea(areaId);
+    }
 }

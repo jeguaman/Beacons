@@ -19,10 +19,10 @@
                         <h:outputText value="#{beaconController.beaconSelected.major}" title="#{bundle.ViewBeaconTitle_major}"/>
                         <h:outputText value="#{bundle.ViewBeaconLabel_minor}"/>
                         <h:outputText value="#{beaconController.beaconSelected.minor}" title="#{bundle.ViewBeaconTitle_minor}"/>
+                        <h:outputText value="#{bundle.ViewBeaconLabel_imagen}"/>
+                        <o:graphicImage value="#{imageStreamer.getBeaconImagen(beaconController.beaconSelected.beaconId)}" width="150" height="200" lastModified="#{beaconController.beaconSelected.updated}"/>
                         <h:outputText value="#{bundle.ViewBeaconLabel_descripcion}"/>
                         <p:inputTextarea rows="4" cols="30" id="descripcion" value="#{beaconController.beaconSelected.descripcion}" title="#{bundle.ViewBeaconTitle_descripcion}" readonly="true"/>
-                        <h:outputText value="#{bundle.ViewBeaconLabel_imagen}"/>
-                        <o:graphicImage value="#{imageStreamer.getAreaImagen(beaconController.beaconSelected.beaconId)}" width="150" height="200" lastModified="#{beaconController.beaconSelected.updated}"/>
                     </p:panelGrid>
                     <p:commandButton value="#{bundle.Close}" oncomplete="PF('BeaconViewDialog').hide();" immediate="true"/>
                 </h:panelGroup>

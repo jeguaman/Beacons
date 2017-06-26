@@ -28,6 +28,7 @@ public class BeaconService implements InterfaceService<Beacon>, Serializable {
     @Override
     public void crear(Beacon object) {
         object.setInserted(new Date());
+        object.setUpdated(new Date());
         beaconFacade.create(object);
     }
 
@@ -49,9 +50,7 @@ public class BeaconService implements InterfaceService<Beacon>, Serializable {
 
     @Override
     public Beacon buscar(Integer id) {
-        Beacon b = new Beacon();
-        b.setBeaconId(id);
-        return beaconFacade.find(b);
+        return beaconFacade.find(id);
     }
 
     @Override
