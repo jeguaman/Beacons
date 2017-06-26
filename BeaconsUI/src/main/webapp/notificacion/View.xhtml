@@ -13,7 +13,7 @@
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{notificacionController.notificacionSelected != null}">
                         <h:outputText value="#{bundle.ViewNotificacionLabel_descripcion}"/>
-                        <h:outputText value="#{notificacionController.notificacionSelected.descripcion}" title="#{bundle.ViewNotificacionTitle_descripcion}"/>
+                        <p:inputTextarea rows="4" cols="30" value="#{notificacionController.notificacionSelected.descripcion}" title="#{bundle.ViewNotificacionTitle_descripcion}"/>
                         <h:outputText value="#{bundle.ViewNotificacionLabel_tipo}"/>
                         <h:outputText value="#{notificacionController.getTipoMensaje(notificacionController.notificacionSelected.tipo)}" title="#{bundle.ViewNotificacionTitle_tipo}"/>
                     </p:panelGrid>
