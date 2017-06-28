@@ -12,6 +12,16 @@
             <h:form id="BeaconEditForm" enctype="multipart/form-data">
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{beaconController.beaconSelected != null}">
+
+                        <p:outputLabel value="Seleccione una área." />
+                        <p:selectOneMenu value="#{beaconController.idAreaSeleccionada}" required="true" requiredMessage="#{bundle.EditNotificacionRequiredMessage_areaId}">
+                            <f:selectItem itemLabel="Ninguna" itemValue="#{null}"/>
+                            <f:selectItems value="#{beaconController.areasLista}" 
+                                           var="area" 
+                                           itemLabel="#{area.titulo}"
+                                           itemValue="#{area.areaId}"/>
+                            <p:ajax listener="#{beaconController.verificarDisponibilidadArea()}" update="@form growl" event="change" />
+                        </p:selectOneMenu>
                         <p:outputLabel value="#{bundle.EditBeaconLabel_uuid}" for="uuid" />
                         <p:inputText id="uuid" value="#{beaconController.beaconSelected.uuid}" title="#{bundle.EditBeaconTitle_uuid}" required="true" requiredMessage="#{bundle.EditBeaconRequiredMessage_uuid}"/>
                         <p:outputLabel value="#{bundle.EditBeaconLabel_major}" for="major" />

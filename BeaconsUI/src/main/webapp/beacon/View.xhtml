@@ -13,6 +13,8 @@
             <h:form id="BeaconViewForm">
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{beaconController.beaconSelected != null}">
+                        <h:outputText value="Área asignada"/>
+                        <h:outputText value="#{beaconController.nombreAreaAsignada}"/>
                         <h:outputText value="#{bundle.ViewBeaconLabel_uuid}"/>
                         <h:outputText value="#{beaconController.beaconSelected.uuid}" title="#{bundle.ViewBeaconTitle_uuid}"/>
                         <h:outputText value="#{bundle.ViewBeaconLabel_major}"/>

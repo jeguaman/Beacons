@@ -14,112 +14,73 @@
         </ui:define>
 
         <ui:define name="contenido">
-            <p:panelGrid columns="2">
-                <h:form id="BeaconListForm">
-                    <p:panel header="Lista Beacons">
-                        <p:dataTable id="datalist" value="#{beaconController.beaconsLazzy}" var="item"
-                                     selectionMode="single" selection="#{beaconController.beaconSelected}"
-                                     paginator="true"
-                                     rowKey="#{item.beaconId}"
-                                     lazy="true"
-                                     paginatorPosition="bottom"
-                                     rows="10">
-                            <p:ajax event="rowSelect"   update="createButton viewButton editButton deleteButton AreaListForm"
-                                    listener="#{areaController.vaciarAreaSeleccionada()}"/>
-                            <p:ajax event="rowSelect"   update="createButton viewButton editButton deleteButton AreaListForm"
-                                    listener="#{beaconController.getAreasPorBeacon()}"/>
-                            <p:ajax event="rowUnselect" update="createButton viewButton editButton deleteButton"/>
+            <h:form id="BeaconListForm">
+                <p:panel header="Lista Beacons">
+                    <p:dataTable id="datalist" value="#{beaconController.beaconsLazzy}" var="item"
+                                 selectionMode="single" selection="#{beaconController.beaconSelected}"
+                                 paginator="true"
+                                 rowKey="#{item.beaconId}"
+                                 lazy="true"
+                                 paginatorPosition="bottom"
+                                 rows="10">
+                        <p:ajax event="rowSelect" listener="#{beaconController.buscarAsignacionBeacon()}"  update="@form"/>
+                        <p:ajax event="rowUnselect" update="asignarButton createButton viewButton editButton deleteButton"/>
 
-                            <p:column>
-                                <f:facet name="header">
-                                    <h:outputText value="#{bundle.ListBeaconTitle_uuid}"/>
-                                </f:facet>
-                                <h:outputText value="#{item.uuid}"/>
-                            </p:column>
-                            <p:column>
-                                <f:facet name="header">
-                                    <h:outputText value="#{bundle.ListBeaconTitle_major}"/>
-                                </f:facet>
-                                <h:outputText value="#{item.major}"/>
-                            </p:column>
-                            <p:column>
-                                <f:facet name="header">
-                                    <h:outputText value="#{bundle.ListBeaconTitle_minor}"/>
-                                </f:facet>
-                                <h:outputText value="#{item.minor}"/>
-                            </p:column>
-                            <p:column>
-                                <f:facet name="header">
-                                    <h:outputText value="#{bundle.ListBeaconTitle_descripcion}"/>
-                                </f:facet>
-                                <h:outputText value="#{item.descripcion}"/>
-                            </p:column>                     
-                            <f:facet name="footer">
-                                <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{beaconController.prepareCreate}" update=":BeaconCreateForm" oncomplete="PF('BeaconCreateDialog').show()"/>
-                                <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{bundle.View}" update=":BeaconViewForm" oncomplete="PF('BeaconViewDialog').show()" disabled="#{empty beaconController.beaconSelected}"/>
-                                <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update=":BeaconEditForm" oncomplete="PF('BeaconEditDialog').show()" disabled="#{empty beaconController.beaconSelected}"/>
-                                <p:commandButton id="deleteButton" icon="ui-icon-trash" rendered="false" value="#{bundle.Delete}" actionListener="#{beaconController.destroy}" update=":growl,datalist" disabled="#{empty beaconController.beaconSelected}"/>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListBeaconTitle_uuid}"/>
                             </f:facet>
-                        </p:dataTable>
-                    </p:panel>
-                </h:form>
-                <h:form id="AreaListForm">
-                    <p:panel header="Lista área" >
-                        <p:dataTable id="datalistArea" value="#{beaconController.areasLazzy}" var="item"
-                                     selectionMode="single" 
-                                     selection="#{areaController.selected}"
-                                     paginator="true"
-                                     paginatorPosition="bottom"
-                                     rowKey="#{item.areaId}"
-                                     lazy="true"
-                                     emptyMessage="No existen áreas asignadas al beacon."
-                                     rows="5">
-                            <p:ajax event="rowSelect"   update="createButton viewButton editButton deleteButton"/>
-                            <p:ajax event="rowUnselect" update="createButton viewButton editButton deleteButton"/>
-                            <p:column>
-                                <f:facet name="header">
-                                    <h:outputText value="#{bundle.ListAreaTitle_titulo}"/>
-                                </f:facet>
-                                <h:outputText value="#{item.titulo}"/>
-                            </p:column>
-                            <p:column>
-                                <f:facet name="header">
-                                    <h:outputText value="#{bundle.ListAreaTitle_descripcion}"/>
-                                </f:facet>
-                                <h:outputText value="#{item.descripcion}"/>
-                            </p:column>                       
-                            <f:facet name="footer">
-                                <p:commandButton id="createButton" icon="ui-icon-plus" 
-                                                 rendered="false" 
-                                                 value="#{bundle.Create}" actionListener="#{areaController.prepareCreate}" 
-                                                 update=":AreaCreateForm" oncomplete="PF('AreaCreateDialog').show()"/>
-                                <p:commandButton id="viewButton"   icon="ui-icon-search"
-                                                 value="#{bundle.View}" update=":AreaViewForm" 
-                                                 oncomplete="PF('AreaViewDialog').show()" 
-                                                 disabled="#{empty areaController.selected}"/>
-                                <p:commandButton id="editButton"   icon="ui-icon-pencil" 
-                                                 value="#{bundle.Edit}" 
-                                                 update=":AreaEditForm" 
-                                                 oncomplete="PF('AreaEditDialog').show()" 
-                                                 disabled="#{empty areaController.selected}"/>
-                                <p:commandButton id="deleteButton" 
-                                                 icon="ui-icon-trash"
-                                                 rendered="false"
-                                                 value="#{bundle.Delete}" 
-                                                 actionListener="#{areaController.destroy}" 
-                                                 update=":growl,datalistArea" 
-                                                 disabled="#{empty areaController.selected}"/>
+                            <h:outputText value="#{item.uuid}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListBeaconTitle_major}"/>
                             </f:facet>
-                        </p:dataTable>
-                    </p:panel>
-                </h:form>
-            </p:panelGrid>
+                            <h:outputText value="#{item.major}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListBeaconTitle_minor}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.minor}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListBeaconTitle_descripcion}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.descripcion}"/>
+                        </p:column>                     
+                        <f:facet name="footer">
+                            <p:commandButton id="asignarButton" 
+                                             icon="ui-icon-plus"  
+                                             rendered="#{beaconController.flagAsignacionArea}"
+                                             value="Asignar área"
+                                             actionListener="#{beaconController.asignarArea()}" 
+                                             update="AsignarForm" 
+                                             oncomplete="PF('AsignarAreaBeaconDialog').show()"/>
+                            <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" 
+                                             actionListener="#{beaconController.prepareCreate}" update=":BeaconCreateForm" 
+                                             oncomplete="PF('BeaconCreateDialog').show()"/>
+                            <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{bundle.View}" 
+                                             actionListener="#{beaconController.prepareView}"
+                                             update=":BeaconViewForm" 
+                                             oncomplete="PF('BeaconViewDialog').show()"
+                                             disabled="#{empty beaconController.beaconSelected}"/>
+                            <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" 
+                                             actionListener="#{beaconController.prepareEdit}"
+                                             update=":BeaconEditForm" oncomplete="PF('BeaconEditDialog').show()" 
+                                             disabled="#{empty beaconController.beaconSelected}"/>
+                            <p:commandButton id="deleteButton" icon="ui-icon-trash" rendered="false" 
+                                             value="#{bundle.Delete}" actionListener="#{beaconController.destroy}" update=":growl,datalist" 
+                                             disabled="#{empty beaconController.beaconSelected}"/>
+                        </f:facet>
+                    </p:dataTable>
+                </p:panel>
+            </h:form>
             <ui:include src="Create.xhtml"/>
             <ui:include src="Edit.xhtml"/>
             <ui:include src="View.xhtml"/>
-            <ui:include src="../area/Create.xhtml"/>
-            <ui:include src="../area/Edit.xhtml"/>
-            <ui:include src="../area/View.xhtml"/>
+            <ui:include src="Asignar.xhtml"/>
         </ui:define>
     </ui:composition>
 

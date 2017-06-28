@@ -5,6 +5,8 @@ import com.espe.edu.ec.services.BeaconService;
 import com.espe.edu.ec.beacon.ui.util.JsfUtil;
 import com.espe.edu.ec.beacon.ui.util.JsfUtil.PersistAction;
 import com.espe.edu.ec.model.Area;
+import com.espe.edu.ec.model.AreaBeacon;
+import com.espe.edu.ec.services.AreaBeaconService;
 import com.espe.edu.ec.services.AreaService;
 
 import java.io.Serializable;
@@ -36,18 +38,43 @@ public class BeaconController implements Serializable {
     @EJB
     private AreaService areaService;
 
+    @EJB
+    private AreaBeaconService areaBeaconService;
+
     private LazyDataModel<Beacon> beaconsLazzy;
-    private LazyDataModel<Area> areasLazzy;
-    //private Area areaSelected;
+    private List<Area> areasLista;
     private Beacon beaconSelected;
     private UploadedFile file;
+    private boolean flagAsignacionArea;
+    private boolean flagSuccess;
+    private Integer idAreaSeleccionada;
+    private Integer idAreaEdit;
+    private String nombreAreaAsignada;
+    private AreaBeacon areaBeacon;
 
     public BeaconController() {
     }
 
     @PostConstruct
     public void init() {
+        flagSuccess = true;
         getBeacons();
+    }
+
+    public String getNombreAreaAsignada() {
+        return nombreAreaAsignada;
+    }
+
+    public void setNombreAreaAsignada(String nombreAreaAsignada) {
+        this.nombreAreaAsignada = nombreAreaAsignada;
+    }
+
+    public Integer getIdAreaSeleccionada() {
+        return idAreaSeleccionada;
+    }
+
+    public void setIdAreaSeleccionada(Integer idAreaSeleccionada) {
+        this.idAreaSeleccionada = idAreaSeleccionada;
     }
 
     protected void setEmbeddableKeys() {
@@ -66,11 +93,28 @@ public class BeaconController implements Serializable {
         return beaconSelected;
     }
 
-//    public Area prepareCreateArea() {
-//        areaSelected = new Area();
-//        initializeEmbeddableKey();
-//        return areaSelected;
-//    }
+    public void prepareView() {
+        if (areaBeacon != null) {
+            nombreAreaAsignada = areaBeacon.getAreaId().getTitulo();
+        }
+    }
+
+    public void prepareEdit() {
+        if (areaBeacon != null) {
+            idAreaSeleccionada = areaBeacon.getAreaId().getAreaId();
+            idAreaEdit = idAreaSeleccionada;
+            areasLista = areaService.buscarTodos();
+        }
+    }
+
+    public boolean isFlagAsignacionArea() {
+        return flagAsignacionArea;
+    }
+
+    public void setFlagAsignacionArea(boolean flagAsignacionArea) {
+        this.flagAsignacionArea = flagAsignacionArea;
+    }
+
     public UploadedFile getFile() {
         return file;
     }
@@ -87,21 +131,14 @@ public class BeaconController implements Serializable {
         this.beaconsLazzy = beaconsLazzy;
     }
 
-    public LazyDataModel<Area> getAreasLazzy() {
-        return areasLazzy;
+    public List<Area> getAreasLista() {
+        return areasLista;
     }
 
-    public void setAreasLazzy(LazyDataModel<Area> areasLazzy) {
-        this.areasLazzy = areasLazzy;
+    public void setAreasLista(List<Area> areasLista) {
+        this.areasLista = areasLista;
     }
 
-//    public Area getAreaSelected() {
-//        return areaSelected;
-//    }
-//
-//    public void setAreaSelected(Area areaSelected) {
-//        this.areaSelected = areaSelected;
-//    }
     public Beacon getBeaconSelected() {
         return beaconSelected;
     }
@@ -114,8 +151,16 @@ public class BeaconController implements Serializable {
         persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("BeaconCreated"));
     }
 
+    public void asignar() {
+        if (idAreaSeleccionada != null) {
+            persist(PersistAction.ASIGNAR, "Asignación exitosa.");
+        }
+    }
+
     public void update() {
-        persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("BeaconUpdated"));
+        if (flagSuccess) {
+            persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("BeaconUpdated"));
+        }
     }
 
     public void destroy() {
@@ -154,49 +199,26 @@ public class BeaconController implements Serializable {
         };
     }
 
-    public void getAreasPorBeacon() {
-        areasLazzy = new LazyDataModel() {
-            @Override
-            public List load(int first, int pageSize, String sortField, SortOrder sortOrder, Map filters) {
-                List<Area> areas = areaService.traerAreasPorIdBeaconNoBytesImageLazzy(beaconSelected.getBeaconId(), first, pageSize);
-                this.setRowCount(areaService.traerAreasPorIdBeaconNoBytesImageTotal(beaconSelected.getBeaconId()));
-                return areas;
-            }
-
-            @Override
-            public void setRowIndex(int rowIndex) {
-                if (rowIndex == -1 || getPageSize() == 0) {
-                    super.setRowIndex(-1);
-                } else {
-                    super.setRowIndex(rowIndex % getPageSize());
-                }
-            }
-
-            @Override
-            public Area getRowData(String rowKey) {
-                List<Area> areas = (List<Area>) getWrappedData();
-
-                for (Area area : areas) {
-                    if (area.getAreaId().toString().equals(rowKey)) {
-                        return area;
-                    }
-                }
-                return null;
-            }
-        };
-
-    }
-
     private void persist(PersistAction persistAction, String successMessage) {
         if (beaconSelected != null) {
             setEmbeddableKeys();
             try {
                 if (persistAction != PersistAction.DELETE) {
-                    verificarCambioImagen();
                     if (persistAction == PersistAction.CREATE) {
+                        verificarCambioImagen();
                         getFacade().crear(beaconSelected);
+                    } else if (persistAction == PersistAction.ASIGNAR) {
+                        AreaBeacon ab = new AreaBeacon();
+                        ab.setAreaId(areaService.buscar(idAreaSeleccionada));
+                        ab.setBeaconId(beaconSelected);
+                        ab.setEstado(Boolean.TRUE);
+                        areaBeaconService.crear(ab);
+                        buscarAsignacionBeacon();
                     } else {
+                        verificarCambioImagen();
                         getFacade().actualizar(beaconSelected);
+                        areaBeacon.setAreaId(areaService.buscar(idAreaSeleccionada));
+                        areaBeaconService.actualizar(areaBeacon);
                     }
                 } else {
                     getFacade().eliminar(beaconSelected);
@@ -276,6 +298,33 @@ public class BeaconController implements Serializable {
     public void verificarCambioImagen() {
         if (!file.getFileName().isEmpty()) {
             beaconSelected.setImagen(file.getContents());
+        }
+    }
+
+    public void cargarAreasDisponibles() {
+        areasLista = areaService.traerAreasDisponibles();
+    }
+
+    public void asignarArea() {
+        cargarAreasDisponibles();
+    }
+
+    public void buscarAsignacionBeacon() {
+        flagAsignacionArea = true;
+        areaBeacon = areaBeaconService.traerAreaBeaconPorBeacon(beaconSelected.getBeaconId());
+        if (areaBeacon != null) {
+            flagAsignacionArea = false;
+        }
+    }
+
+    public void verificarDisponibilidadArea() {
+        flagSuccess = true;
+        if (idAreaSeleccionada.compareTo(idAreaEdit) != 0) {
+            AreaBeacon ab = areaBeaconService.traerAreaBeaconPorArea(idAreaSeleccionada);
+            if (ab != null) {
+                flagSuccess = false;
+                JsfUtil.addErrorMessage("No se puede asignar el área seleccionada al beacon.");
+            }
         }
     }
 }
