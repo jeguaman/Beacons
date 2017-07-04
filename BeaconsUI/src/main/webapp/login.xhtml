@@ -9,41 +9,55 @@ and open the template in the editor.
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
       xmlns:p="http://primefaces.org/ui">
     <h:head>
         <title>Beacon ESPE</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <h:outputStylesheet library="css"  name="default.css"/>
         <h:outputStylesheet library="css"  name="cssLayout.css"/>
+        <!-- Bootstrap core CSS -->
+        <link href="#{request.contextPath}/resources/css/bootstrap.css" rel="stylesheet"/>
+        <!--external css-->
+        <link href="#{request.contextPath}/resources/font-awesome/css/font-awesome.css" rel="stylesheet" />
+
+        <!-- Custom styles for this template -->
+        <link href="#{request.contextPath}/resources/css/style.css" rel="stylesheet"/>
+        <link href="#{request.contextPath}/resources/css/style-responsive.css" rel="stylesheet"/>
     </h:head>
-    <h:body style="background-color: #ccffcc;">
-        <h:form>            
+    <h:body>
+        <div id="login-page">
+            <div class="container">
+                <h:form class="form-login" >  
+                    <p:growl id="growl" sticky="true" showDetail="true" life="3000" />
+                    <h2 class="form-login-heading">Inicio de Sesión</h2>
+                    <div class="login-wrap">
+                        <h:inputText class="form-control"  id="username" value="#{loginBean.correo}" required="true"  a:placeholder="Correo Institucional"/>
+                        <br/>
+                        <p:password class="form-control" id="password" value="#{loginBean.contrasenia}" required="true" placeholder="Contraseña" />
+                        <br/>
+                        <p:commandButton class="btn btn-theme btn-block" value="Ingresar" update="growl" actionListener="#{loginBean.verificarAcceso()}" />
+                    </div>
+                    <p:dialog 
+                        widgetVar="dialogSeleccionPerfil">
+                        <p:panelGrid columns="2">
 
-
-            <p:growl id="growl" sticky="true" showDetail="true" life="3000" />
-            <div class="profile">
-                <p:commandButton value="dessfsf"/>
-
+                            <p:commandButton value="Aceptar"/>
+                            <p:commandButton value="Cancelar" immediate="true" onclick="PF('dialogSeleccionPerfil').hide()"/>
+                        </p:panelGrid>
+                    </p:dialog>
+                </h:form>
             </div>
-            <h:panelGrid style="background-color: aliceblue; padding:50px; text-align: center;" cellpadding="10" columns="1">
-                <p:outputLabel value="Ingresar"/>
-                <p:outputLabel value="#{bundle.ListUsuarioTitle}"/>
-                <p:inputText id="username" value="#{loginBean.correo}" required="true" placeholder="Correo Institucional"/>
+        </div>
+        <!-- js placed at the end of the document so the pages load faster -->
+        <script src="#{request.contextPath}/resources/js/jquery.js"></script>
+        <script src="#{request.contextPath}/resources/js/bootstrap.min.js"></script>
 
-                <p:password id="password" value="#{loginBean.contrasenia}" required="true" placeholder="Contraseña" />
-
-                <f:facet name="footer">
-                    <p:commandButton value="Login" update="growl" actionListener="#{loginBean.verificarAcceso()}" />
-                </f:facet>  
-            </h:panelGrid>
-            <p:dialog 
-                widgetVar="dialogSeleccionPerfil">
-                <p:panelGrid columns="2">
-
-                    <p:commandButton value="Aceptar"/>
-                    <p:commandButton value="Cancelar" immediate="true" onclick="PF('dialogSeleccionPerfil').hide()"/>
-                </p:panelGrid>
-            </p:dialog>
-        </h:form>
+        <!--BACKSTRETCH-->
+        <!-- You can use an image of whatever size. This script will stretch to fit in any screen size.-->
+        <script type="text/javascript" src="#{request.contextPath}/resources/js/jquery.backstretch.min.js"></script>
+        <script>
+                                $.backstretch("#{request.contextPath}/resources/img/login-bg.jpg", {speed: 500});
+        </script>
     </h:body>
 </html>

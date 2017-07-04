@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:o="http://omnifaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="AreaViewDlg" widgetVar="AreaViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewAreaTitle}">
+            <h:form id="AreaViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{areaController.selected != null}">
+                        <h:outputText value="#{bundle.ViewAreaLabel_titulo}"/>
+                        <h:outputText value="#{areaController.selected.titulo}" title="#{bundle.ViewAreaTitle_titulo}"/>
+                        <h:outputText value="#{bundle.ViewAreaLabel_imagen}"/>
+                        <o:graphicImage value="#{imageStreamer.getAreaImagen(areaController.selected.areaId)}" width="150" height="200" lastModified="#{areaController.selected.updated}"/>
+                        <h:outputText value="#{bundle.ViewAreaLabel_descripcion}"/>
+                        <p:inputTextarea rows="4" cols="30" id="descripcion" value="#{areaController.selected.descripcion}" title="#{bundle.ViewAreaTitle_descripcion}" readonly="true"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" oncomplete="PF('AreaViewDialog').hide();" immediate="true"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+    </ui:composition>
+</html>

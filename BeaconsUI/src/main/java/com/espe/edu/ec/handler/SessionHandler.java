@@ -6,6 +6,7 @@
 package com.espe.edu.ec.handler;
 
 import java.io.Serializable;
+import java.util.Enumeration;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 
@@ -13,7 +14,6 @@ import javax.servlet.http.HttpSession;
  *
  * @author Juan
  */
-
 public class SessionHandler implements Serializable {
 
     /**
@@ -27,6 +27,10 @@ public class SessionHandler implements Serializable {
         } catch (Exception ex) {
 
         }
+    }
+
+    public SessionHandler(HttpSession httpSession) {
+        session = httpSession;
     }
 
     public HttpSession getSession() {
@@ -55,7 +59,7 @@ public class SessionHandler implements Serializable {
 
     public Integer getUsuarioId() {
         String attrName = "usuarioId";
-        int salida = 0;
+        Integer salida = null;
         if (session != null) {
             if (session.getAttribute(attrName) != null) {
                 return Integer.parseInt(session.getAttribute(attrName).toString());
@@ -113,7 +117,37 @@ public class SessionHandler implements Serializable {
         }
     }
 
+    public void setMenuRuta(String ruta) {
+        String attrRuta = "ruta";
+        session.setAttribute(attrRuta, ruta);
+    }
+
+    public String getMenuRuta() {
+        String attrName = "ruta";
+        if (session.getAttribute(attrName) != null) {
+            return session.getAttribute(attrName).toString();
+        } else {
+            return "";
+        }
+    }
+
+    public Boolean sessionStatus() {
+        Integer usuarioId = getUsuarioId();
+        if (usuarioId != null) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public void logoff() {
         session.invalidate();
+    }
+
+    public void logoff2() {
+        Enumeration<String> e = session.getAttributeNames();
+        while (e.hasMoreElements()) {
+            session.removeAttribute(e.nextElement());
+        }
     }
 }

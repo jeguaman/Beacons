@@ -5,6 +5,7 @@
  */
 package com.espe.edu.ec;
 
+import com.espe.edu.ec.beacon.ui.util.ConstanteBeacon;
 import com.espe.edu.ec.beacon.ui.util.JsfUtil;
 import com.espe.edu.ec.handler.SessionHandler;
 import com.espe.edu.ec.model.AsignacionPerfil;
@@ -65,6 +66,7 @@ public class LoginBean {
         if (usuarioService.verificarUsuarioExistente(correo)) {
             Usuario u = usuarioService.traerUsuarioPorCorreoContrasenia(correo, contrasenia);
             if (u != null) {
+                sessionHandler.setUsuarioId(u.getUsuarioId());
                 sessionHandler.setCorreo(u.getCorreoElectronico());
                 sessionHandler.setNombreUsuario(u.getNombreUsuario());
                 sessionHandler.setNombreCompleto(u.getNombres() + " " + u.getApellidos());
@@ -90,13 +92,18 @@ public class LoginBean {
 
     private void accederPaginaPrincipal() {
         String rutaRelativa = "";
+        StringBuilder rutaMenuXhtml = new StringBuilder("");
         try {
             String context = ((HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest()).getContextPath();
-//        if (sessionHandler.getPerfil().compareTo(Constant.PerfilUsuario.ADMINISTRADOR) == 0) {
-//            rutaRelativa = context + "/administrador/ciclo/List.xhtml";
-//        } else if (sessionHandler.getPerfil().compareTo(Constant.PerfilUsuario.SUPERVISOR) == 0) {
-//            rutaRelativa = context + "/supervisorZonal/productor/List.xhtml";
-//        }
+            if (sessionHandler.getPerfil().compareTo(ConstanteBeacon.COD_PERFIL_SUPERADMIN) == 0) {
+                rutaRelativa = context + ConstanteBeacon.RUTA_SUPERADMIN + "usuario/List.xhtml";
+                rutaMenuXhtml.append(ConstanteBeacon.RUTA_SUPERADMIN);
+            } else if (sessionHandler.getPerfil().compareTo(ConstanteBeacon.COD_PERFIL_ADMIN) == 0) {
+                rutaRelativa = context + ConstanteBeacon.RUTA_ADMIN + "area/List.xhtml";
+                rutaMenuXhtml.append(ConstanteBeacon.RUTA_ADMIN);
+            }
+            rutaMenuXhtml.append("menu.xhtml");
+            sessionHandler.setMenuRuta(rutaMenuXhtml.toString());
             FacesContext.getCurrentInstance().getExternalContext().redirect(rutaRelativa);
         } catch (Exception e) {
             JsfUtil.addErrorMessage("Se produjo un problema al dirigir a la página principal.");
