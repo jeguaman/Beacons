@@ -6,6 +6,7 @@
 package com.espe.edu.ec;
 
 import com.espe.edu.ec.beacon.ui.util.ConstanteBeacon;
+import com.espe.edu.ec.beacon.ui.util.ConvertidorUtil;
 import com.espe.edu.ec.beacon.ui.util.JsfUtil;
 import com.espe.edu.ec.handler.SessionHandler;
 import com.espe.edu.ec.model.AsignacionPerfil;
@@ -64,7 +65,8 @@ public class LoginBean {
 
     public void verificarAcceso() {
         if (usuarioService.verificarUsuarioExistente(correo)) {
-            Usuario u = usuarioService.traerUsuarioPorCorreoContrasenia(correo, contrasenia);
+            System.out.println(ConvertidorUtil.convertirMD5(contrasenia));
+            Usuario u = usuarioService.traerUsuarioPorCorreoContrasenia(correo, ConvertidorUtil.convertirMD5(contrasenia));
             if (u != null) {
                 sessionHandler.setUsuarioId(u.getUsuarioId());
                 sessionHandler.setCorreo(u.getCorreoElectronico());

@@ -1,5 +1,6 @@
 package com.espe.edu.ec.beacon.ui;
 
+import com.espe.edu.ec.beacon.ui.util.ConstanteBeacon;
 import com.espe.edu.ec.beacon.ui.util.ConvertidorUtil;
 import com.espe.edu.ec.model.Usuario;
 import com.espe.edu.ec.beacon.ui.util.JsfUtil;
@@ -34,95 +35,93 @@ import org.primefaces.model.SortOrder;
 @ManagedBean
 @ViewScoped
 public class UsuarioController implements Serializable {
-    
+
     @EJB
     private UsuarioService usuarioService;
     @EJB
     private PerfilService perfilService;
     @EJB
     private AsignacionPerfilService asignacionPerfilService;
-    
+
     private LazyDataModel<Usuario> usuariosLazy;
     private Usuario selected;
-    
+
     private Integer idPerfilSeleccionado;
-    
-    private List<Perfil> perfiles = new ArrayList();
-    
+
+//    private List<Perfil> perfiles = new ArrayList();
     @PostConstruct
     public void init() {
-        perfiles = perfilService.buscarTodos();
+//        perfiles = perfilService.buscarTodos();
         getUsuarios();
     }
-    
+
     public UsuarioController() {
-        
+
     }
-    
+
     public Usuario getSelected() {
         return selected;
     }
-    
+
     public void setSelected(Usuario selected) {
         this.selected = selected;
     }
-    
+
     public LazyDataModel<Usuario> getUsuariosLazy() {
         return usuariosLazy;
     }
-    
+
     public void setUsuariosLazy(LazyDataModel<Usuario> usuariosLazy) {
         this.usuariosLazy = usuariosLazy;
     }
-    
+
     public Integer getIdPerfilSeleccionado() {
         return idPerfilSeleccionado;
     }
-    
+
     public void setIdPerfilSeleccionado(Integer idPerfilSeleccionado) {
         this.idPerfilSeleccionado = idPerfilSeleccionado;
     }
-    
-    public List<Perfil> getPerfiles() {
-        return perfiles;
-    }
-    
-    public void setPerfiles(List<Perfil> perfiles) {
-        this.perfiles = perfiles;
-    }
-    
+
+//    public List<Perfil> getPerfiles() {
+//        return perfiles;
+//    }
+//    
+//    public void setPerfiles(List<Perfil> perfiles) {
+//        this.perfiles = perfiles;
+//    }
     protected void setEmbeddableKeys() {
     }
-    
+
     protected void initializeEmbeddableKey() {
     }
-    
+
     private UsuarioService getFacade() {
         return usuarioService;
     }
-    
+
     public Usuario prepareCreate() {
         selected = new Usuario();
         initializeEmbeddableKey();
         return selected;
     }
-    
+
     public void create() {
         selected.setContrasenia(ConvertidorUtil.convertirMD5(selected.getContrasenia()));
         persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("UsuarioCreated"));
     }
-    
+
     public void update() {
         persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("UsuarioUpdated"));
     }
-    
+
     public void destroy() {
         persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("UsuarioDeleted"));
         if (!JsfUtil.isValidationFailed()) {
             selected = null; // Remove selection
         }
     }
-    
+
     public void getUsuarios() {
         usuariosLazy = new LazyDataModel() {
             @Override
@@ -131,7 +130,7 @@ public class UsuarioController implements Serializable {
                 this.setRowCount(usuarioService.totalRegistros());
                 return comprobantes;
             }
-            
+
             @Override
             public void setRowIndex(int rowIndex) {
                 if (rowIndex == -1 || getPageSize() == 0) {
@@ -140,11 +139,11 @@ public class UsuarioController implements Serializable {
                     super.setRowIndex(rowIndex % getPageSize());
                 }
             }
-            
+
             @Override
             public Usuario getRowData(String rowKey) {
                 List<Usuario> usuarios = (List<Usuario>) getWrappedData();
-                
+
                 for (Usuario usuario : usuarios) {
                     if (usuario.getUsuarioId().toString().equals(rowKey)) {
                         return usuario;
@@ -152,17 +151,18 @@ public class UsuarioController implements Serializable {
                 }
                 return null;
             }
-            
+
         };
     }
-    
+
     private void persist(PersistAction persistAction, String successMessage) {
         if (selected != null) {
             setEmbeddableKeys();
             try {
                 if (persistAction != PersistAction.DELETE) {
                     if (persistAction == PersistAction.CREATE) {
-                        getFacade().crear(selected);
+//                        getFacade().crear(selected);
+                        getFacade().crearUsuarioConPerfil(selected, ConstanteBeacon.COD_PERFIL_ADMIN);
                     } else {
                         getFacade().actualizar(selected);
                     }
@@ -187,22 +187,22 @@ public class UsuarioController implements Serializable {
             }
         }
     }
-    
+
     public Usuario getUsuario(java.lang.Integer id) {
         return getFacade().buscar(id);
     }
-    
+
     public List<Usuario> getItemsAvailableSelectMany() {
         return getFacade().buscarTodos();
     }
-    
+
     public List<Usuario> getItemsAvailableSelectOne() {
         return getFacade().buscarTodos();
     }
-    
+
     @FacesConverter(forClass = Usuario.class)
     public static class UsuarioControllerConverter implements Converter {
-        
+
         @Override
         public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
             if (value == null || value.length() == 0) {
@@ -212,19 +212,19 @@ public class UsuarioController implements Serializable {
                     getValue(facesContext.getELContext(), null, "usuarioController");
             return controller.getUsuario(getKey(value));
         }
-        
+
         java.lang.Integer getKey(String value) {
             java.lang.Integer key;
             key = Integer.valueOf(value);
             return key;
         }
-        
+
         String getStringKey(java.lang.Integer value) {
             StringBuilder sb = new StringBuilder();
             sb.append(value);
             return sb.toString();
         }
-        
+
         @Override
         public String getAsString(FacesContext facesContext, UIComponent component, Object object) {
             if (object == null) {
@@ -238,15 +238,15 @@ public class UsuarioController implements Serializable {
                 return null;
             }
         }
-        
+
     }
-    
+
     public void asignar() {
         AsignacionPerfil asignacionPerfil = new AsignacionPerfil();
         asignacionPerfil.setUsuarioId(selected);
         Perfil perfilTmp = perfilService.buscar(idPerfilSeleccionado);
         asignacionPerfil.setPerfilId(perfilTmp);
         asignacionPerfilService.crear(asignacionPerfil);
-        
+
     }
 }

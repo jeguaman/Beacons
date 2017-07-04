@@ -5,7 +5,11 @@
  */
 package com.espe.edu.ec.services;
 
+import com.espe.edu.ec.facade.AsignacionPerfilFacade;
+import com.espe.edu.ec.facade.PerfilFacade;
 import com.espe.edu.ec.facade.UsuarioFacade;
+import com.espe.edu.ec.model.AsignacionPerfil;
+import com.espe.edu.ec.model.Perfil;
 import com.espe.edu.ec.model.Usuario;
 import java.io.Serializable;
 import java.util.Date;
@@ -24,6 +28,10 @@ public class UsuarioService implements InterfaceService<Usuario>, Serializable {
 
     @EJB
     UsuarioFacade usuarioFacade;
+    @EJB
+    AsignacionPerfilFacade asignacionPerfilFacade;
+    @EJB
+    PerfilFacade perfilFacade;
 
     @Override
     public void crear(Usuario object) {
@@ -70,4 +78,16 @@ public class UsuarioService implements InterfaceService<Usuario>, Serializable {
         return usuarioFacade.count();
     }
 
+    public void crearUsuarioConPerfil(Usuario usuario, String codPerfil) {
+        Perfil perfil = perfilFacade.traerPerfilPorCodigo(codPerfil);
+        if (perfil != null) {
+            crear(usuario);
+            AsignacionPerfil ap = new AsignacionPerfil();
+            ap.setInserted(new Date());
+            ap.setUpdated(new Date());
+            ap.setUsuarioId(usuario);
+            ap.setPerfilId(perfil);
+            asignacionPerfilFacade.create(ap);
+        }
+    }
 }

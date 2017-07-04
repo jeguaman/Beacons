@@ -7,7 +7,7 @@
       xmlns:p="http://primefaces.org/ui">
 
     <ui:composition template="../../template/template.xhtml">
-        <ui:define name="contenido">     
+        <ui:define name="contenido" id="contenido">     
             <!--main content start-->
             <section class="wrapper">
                 <h3><i class="fa fa-angle-right"></i> #{bundle.ListUsuarioTitle}</h3>
@@ -20,7 +20,7 @@
                                                  selectionMode="single" selection="#{usuarioController.selected}"
                                                  paginator="true"
                                                  rowKey="#{item.usuarioId}"
-                                                 rows="3"
+                                                 rows="10"
                                                  lazy="true"
                                                  paginatorPosition="bottom"
                                                  styleClass="table table-striped table-advance table-hover"

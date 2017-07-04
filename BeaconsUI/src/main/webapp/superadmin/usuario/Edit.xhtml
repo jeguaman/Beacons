@@ -22,11 +22,6 @@
                         <p:inputText id="correoElectronico" value="#{usuarioController.selected.correoElectronico}" title="#{bundle.EditUsuarioTitle_correoElectronico}" required="true" requiredMessage="#{bundle.EditUsuarioRequiredMessage_correoElectronico}"/>
                         <p:outputLabel value="#{bundle.EditUsuarioLabel_contrasenia}" for="contrasenia" />
                         <p:inputText id="contrasenia" value="#{usuarioController.selected.contrasenia}" title="#{bundle.EditUsuarioTitle_contrasenia}" required="true" requiredMessage="#{bundle.EditUsuarioRequiredMessage_contrasenia}"/>
-                        <p:outputLabel value="#{bundle.EditPerfilLabel_descripcion}" for="descripcion" />
-                        <p:selectOneMenu id="descripcion" value="#{usuarioController.idPerfilSeleccionado}" >
-                            <f:selectItem itemLabel="Select One" noSelectionOption="true" />
-                            <f:selectItems value="#{usuarioController.perfiles}" var="pj" itemValue="#{pj.perfilId}" itemLabel="#{pj.nombre}"/>
-                        </p:selectOneMenu>
                     </p:panelGrid>
                     <p:commandButton actionListener="#{usuarioController.update}" value="#{bundle.Save}" update="display,:UsuarioListForm:datalist,:growl" onclick="UsuarioEditDialog.hide()" oncomplete="handleSubmit(args,'UsuarioEditDialog');"/>
                     <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('UsuarioEditDialog').hide();" immediate="true"/>                                        

@@ -32,9 +32,9 @@ and open the template in the editor.
                     <p:growl id="growl" sticky="true" showDetail="true" life="3000" />
                     <h2 class="form-login-heading">Inicio de Sesión</h2>
                     <div class="login-wrap">
-                        <h:inputText class="form-control"  id="username" value="#{loginBean.correo}" required="true"  a:placeholder="Correo Institucional"/>
+                        <h:inputText class="form-control"  id="username" value="#{loginBean.correo}" required="true"  a:placeholder="Correo Institucional" requiredMessage="#{bundle.correoInstitucional_login}"/>
                         <br/>
-                        <p:password class="form-control" id="password" value="#{loginBean.contrasenia}" required="true" placeholder="Contraseña" />
+                        <p:password class="form-control" id="password" value="#{loginBean.contrasenia}" required="true" placeholder="Contraseña" requiredMessage="#{bundle.contrasenia_login}" />
                         <br/>
                         <p:commandButton class="btn btn-theme btn-block" value="Ingresar" update="growl" actionListener="#{loginBean.verificarAcceso()}" />
                     </div>

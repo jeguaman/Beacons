@@ -38,4 +38,15 @@ public class PerfilFacade extends AbstractFacade<Perfil> {
         List<Perfil> perfiles = q.getResultList();
         return perfiles;
     }
+
+    public Perfil traerPerfilPorCodigo(String codigo) {
+        Query q = em.createNamedQuery("Perfil.findByCodigo");
+        q.setParameter("codigo", codigo);
+        Perfil p = (Perfil) q.getSingleResult();
+        if (p != null) {
+            return p;
+        } else {
+            return null;
+        }
+    }
 }
