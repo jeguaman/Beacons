@@ -45,9 +45,7 @@ public class RegistroService implements InterfaceService<Registro> {
 
     @Override
     public Registro buscar(Integer id) {
-        Registro re = new Registro();
-        re.setRegistroId(id);
-        return registroFacade.find(re);
+        return registroFacade.find(id);
     }
 
     @Override

@@ -48,7 +48,7 @@ public class AreaBeacon implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "estado")
-    private short estado;
+    private boolean estado;
     @Basic(optional = false)
     @NotNull
     @Column(name = "inserted")
@@ -60,10 +60,10 @@ public class AreaBeacon implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date updated;
     @JoinColumn(name = "area_id", referencedColumnName = "area_id")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Area areaId;
     @JoinColumn(name = "beacon_id", referencedColumnName = "beacon_id")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Beacon beaconId;
 
     public AreaBeacon() {
@@ -73,7 +73,7 @@ public class AreaBeacon implements Serializable {
         this.areaBeaconId = areaBeaconId;
     }
 
-    public AreaBeacon(Integer areaBeaconId, short estado, Date inserted, Date updated) {
+    public AreaBeacon(Integer areaBeaconId, boolean estado, Date inserted, Date updated) {
         this.areaBeaconId = areaBeaconId;
         this.estado = estado;
         this.inserted = inserted;
@@ -88,11 +88,11 @@ public class AreaBeacon implements Serializable {
         this.areaBeaconId = areaBeaconId;
     }
 
-    public short getEstado() {
+    public boolean getEstado() {
         return estado;
     }
 
-    public void setEstado(short estado) {
+    public void setEstado(boolean estado) {
         this.estado = estado;
     }
 

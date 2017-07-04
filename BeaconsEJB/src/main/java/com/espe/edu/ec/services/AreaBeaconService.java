@@ -27,6 +27,7 @@ public class AreaBeaconService implements InterfaceService<AreaBeacon> {
     @Override
     public void crear(AreaBeacon object) {
         object.setInserted(new Date());
+        object.setUpdated(new Date());
         areaBeaconFacade.create(object);
     }
 
@@ -48,14 +49,20 @@ public class AreaBeaconService implements InterfaceService<AreaBeacon> {
 
     @Override
     public AreaBeacon buscar(Integer id) {
-        AreaBeacon ab = new AreaBeacon();
-        ab.setAreaBeaconId(id);
-        return areaBeaconFacade.find(ab);
+        return areaBeaconFacade.find(id);
     }
 
     @Override
     public List<AreaBeacon> traerLazzy(Integer first, Integer size) {
         return areaBeaconFacade.traerLazzy(first, size);
+    }
+
+    public AreaBeacon traerAreaBeaconPorBeacon(Integer beaconId) {
+        return areaBeaconFacade.traerAreaBeaconPorBeacon(beaconId);
+    }
+
+    public AreaBeacon traerAreaBeaconPorArea(Integer areaId) {
+        return areaBeaconFacade.traerAreaBeaconPorArea(areaId);
     }
 
 }

@@ -109,9 +109,6 @@ public class AreaController implements Serializable {
 
     public void destroy() {
         persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("AreaDeleted"));
-        if (!JsfUtil.isValidationFailed()) {
-            selected = null; // Remove selection
-        }
     }
 
     public void getAreas() {
@@ -193,6 +190,7 @@ public class AreaController implements Serializable {
                     }
                 } else {
                     getFacade().eliminar(selected);
+                    selected=null;
                 }
                 JsfUtil.addSuccessMessage(successMessage);
             } catch (EJBException ex) {

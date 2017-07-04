@@ -11,15 +11,13 @@
         <p:dialog id="NotificacionViewDlg" widgetVar="NotificacionViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewNotificacionTitle}">
             <h:form id="NotificacionViewForm">
                 <h:panelGroup id="display">
-                    <p:panelGrid columns="2" rendered="#{notificacionController.selected != null}">
-                       <h:outputText value="#{bundle.ViewNotificacionLabel_descripcion}"/>
-                        <h:outputText value="#{notificacionController.selected.descripcion}" title="#{bundle.ViewNotificacionTitle_descripcion}"/>
+                    <p:panelGrid columns="2" rendered="#{notificacionController.notificacionSelected != null}">
+                        <h:outputText value="#{bundle.ViewNotificacionLabel_descripcion}"/>
+                        <p:inputTextarea rows="4" cols="30" value="#{notificacionController.notificacionSelected.descripcion}" title="#{bundle.ViewNotificacionTitle_descripcion}"/>
                         <h:outputText value="#{bundle.ViewNotificacionLabel_tipo}"/>
-                        <h:outputText value="#{notificacionController.selected.tipo}" title="#{bundle.ViewNotificacionTitle_tipo}"/>
-                        <h:outputText value="#{bundle.ViewNotificacionLabel_areaId}"/>
-                        <h:outputText value="#{notificacionController.selected.areaId}" title="#{bundle.ViewNotificacionTitle_areaId}"/>
+                        <h:outputText value="#{notificacionController.getTipoMensaje(notificacionController.notificacionSelected.tipo)}" title="#{bundle.ViewNotificacionTitle_tipo}"/>
                     </p:panelGrid>
-                    <p:commandButton value="#{bundle.Close}" onclick="NotificacionViewDialog.hide()"/>
+                    <p:commandButton value="#{bundle.Close}" oncomplete="PF('NotificacionViewDialog').hide();" immediate="true"/>
                 </h:panelGroup>
             </h:form>
         </p:dialog>

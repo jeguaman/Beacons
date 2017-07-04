@@ -21,7 +21,10 @@ public class AreaBeaconFacade extends AbstractFacade<AreaBeacon> {
 
     @PersistenceContext(unitName = "com.espe.edu.ec_BeaconsEJB_ejb_1.0-SNAPSHOTPU")
     private EntityManager em;
-    
+
+    private static final String TRAER_AREA_BEACON_POR_BEACON_ID = "SELECT ab FROM AreaBeacon ab WHERE ab.beaconId.beaconId = :id";
+    private static final String TRAER_AREA_BEACON_POR_AREA_ID = "SELECT ab FROM AreaBeacon ab WHERE ab.areaId.areaId = :idArea";
+
     @Override
     protected EntityManager getEntityManager() {
         return em;
@@ -43,6 +46,25 @@ public class AreaBeaconFacade extends AbstractFacade<AreaBeacon> {
         q.setFirstResult(first);
         q.setMaxResults(size);
         return q.getResultList();
+    }
+
+    public AreaBeacon traerAreaBeaconPorBeacon(Integer beaconId) {
+        try {
+            Query q = em.createQuery(TRAER_AREA_BEACON_POR_BEACON_ID);
+            q.setParameter("id", beaconId);
+            return (AreaBeacon) q.getSingleResult();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+    public AreaBeacon traerAreaBeaconPorArea(Integer areaId) {
+        try {
+            Query q = em.createQuery(TRAER_AREA_BEACON_POR_AREA_ID);
+            q.setParameter("idArea", areaId);
+            return (AreaBeacon) q.getSingleResult();
+        } catch (Exception e) {
+            return null;
+        }
     }
 
 }

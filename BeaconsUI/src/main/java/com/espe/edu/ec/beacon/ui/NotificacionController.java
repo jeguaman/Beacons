@@ -4,12 +4,16 @@ import com.espe.edu.ec.model.Notificacion;
 import com.espe.edu.ec.services.NotificacionService;
 import com.espe.edu.ec.beacon.ui.util.JsfUtil;
 import com.espe.edu.ec.beacon.ui.util.JsfUtil.PersistAction;
+import com.espe.edu.ec.model.Area;
+import com.espe.edu.ec.services.AreaService;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.faces.bean.ManagedBean;
@@ -18,6 +22,9 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
+import org.primefaces.context.RequestContext;
+import org.primefaces.model.LazyDataModel;
+import org.primefaces.model.SortOrder;
 
 @ManagedBean
 @ViewScoped
@@ -25,18 +32,46 @@ public class NotificacionController implements Serializable {
 
     @EJB
     private NotificacionService notificacionService;
-    private List<Notificacion> items = null;
-    private Notificacion selected;
+
+    @EJB
+    private AreaService areaService;
+
+    private Area areaSelected;
+
+    private List<Notificacion> listaNotificacion;
+    private Notificacion notificacionSelected;
+    private LazyDataModel<Area> areasLazy;
 
     public NotificacionController() {
     }
 
-    public Notificacion getSelected() {
-        return selected;
+    @PostConstruct
+    public void init() {
+        getAreas();
     }
 
-    public void setSelected(Notificacion selected) {
-        this.selected = selected;
+    public Area getAreaSelected() {
+        return areaSelected;
+    }
+
+    public void setAreaSelected(Area areaSelected) {
+        this.areaSelected = areaSelected;
+    }
+
+    public LazyDataModel<Area> getAreasLazy() {
+        return areasLazy;
+    }
+
+    public void setAreasLazy(LazyDataModel<Area> areasLazy) {
+        this.areasLazy = areasLazy;
+    }
+
+    public Notificacion getNotificacionSelected() {
+        return notificacionSelected;
+    }
+
+    public void setNotificacionSelected(Notificacion notificacionSelected) {
+        this.notificacionSelected = notificacionSelected;
     }
 
     protected void setEmbeddableKeys() {
@@ -50,16 +85,19 @@ public class NotificacionController implements Serializable {
     }
 
     public Notificacion prepareCreate() {
-        selected = new Notificacion();
-        initializeEmbeddableKey();
-        return selected;
+        notificacionSelected = new Notificacion();
+        if (areaSelected != null) {
+            initializeEmbeddableKey();
+            RequestContext.getCurrentInstance().execute("PF('NotificacionCreateDialog').show();");
+        } else {
+
+        }
+        return notificacionSelected;
     }
 
     public void create() {
         persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("NotificacionCreated"));
-        if (!JsfUtil.isValidationFailed()) {
-            items = null;    // Invalidate list of items to trigger re-query.
-        }
+
     }
 
     public void update() {
@@ -68,31 +106,71 @@ public class NotificacionController implements Serializable {
 
     public void destroy() {
         persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("NotificacionDeleted"));
-        if (!JsfUtil.isValidationFailed()) {
-            selected = null; // Remove selection
-            items = null;    // Invalidate list of items to trigger re-query.
+
+    }
+
+    public void notificacionesPorArea() {
+        if (areaSelected != null) {
+            notificacionSelected = null;
+            listaNotificacion = getFacade().traerNotificacionPorArea(areaSelected.getAreaId());
         }
     }
 
-    public List<Notificacion> getItems() {
-        if (items == null) {
-            items = getFacade().buscarTodos();
-        }
-        return items;
+    public List<Notificacion> getListaNotificacion() {
+        return listaNotificacion;
+    }
+
+    public void setListaNotificacion(List<Notificacion> listaNotificacion) {
+        this.listaNotificacion = listaNotificacion;
+    }
+
+    public void getAreas() {
+        areasLazy = new LazyDataModel() {
+            @Override
+            public List load(int first, int pageSize, String sortField, SortOrder sortOrder, Map filters) {
+                List<Area> areas = areaService.traerLazzy(first, pageSize);
+                this.setRowCount(areaService.totalRegistros());
+                return areas;
+            }
+
+            @Override
+            public void setRowIndex(int rowIndex) {
+                if (rowIndex == -1 || getPageSize() == 0) {
+                    super.setRowIndex(-1);
+                } else {
+                    super.setRowIndex(rowIndex % getPageSize());
+                }
+            }
+
+            @Override
+            public Area getRowData(String rowKey) {
+                List<Area> areas = (List<Area>) getWrappedData();
+
+                for (Area area : areas) {
+                    if (area.getAreaId().toString().equals(rowKey)) {
+                        return area;
+                    }
+                }
+                return null;
+            }
+
+        };
     }
 
     private void persist(PersistAction persistAction, String successMessage) {
-        if (selected != null) {
+        if (notificacionSelected != null) {
             setEmbeddableKeys();
             try {
                 if (persistAction != PersistAction.DELETE) {
                     if (persistAction == PersistAction.CREATE) {
-                        getFacade().crear(selected);
-                    } else {                        
-                        getFacade().actualizar(selected);
+                        notificacionSelected.setAreaId(areaSelected);
+                        getFacade().crear(notificacionSelected);
+                        notificacionesPorArea();
+                    } else {
+                        getFacade().actualizar(notificacionSelected);
                     }
                 } else {
-                    getFacade().eliminar(selected);
+                    getFacade().eliminar(notificacionSelected);
                 }
                 JsfUtil.addSuccessMessage(successMessage);
             } catch (EJBException ex) {
@@ -166,4 +244,13 @@ public class NotificacionController implements Serializable {
 
     }
 
+    public String getTipoMensaje(String tipo) {
+        String valor = "Por definir";
+        if (tipo.compareTo("E") == 0) {
+            valor = "Entrada";
+        } else if (tipo.compareTo("S") == 0) {
+            valor = "Salida";
+        }
+        return valor;
+    }
 }

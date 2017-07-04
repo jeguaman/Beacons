@@ -4,7 +4,8 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:o="http://omnifaces.org/ui">
 
     <ui:composition>
 
@@ -12,18 +13,20 @@
             <h:form id="BeaconViewForm">
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{beaconController.beaconSelected != null}">
+                        <h:outputText value="Área asignada"/>
+                        <h:outputText value="#{beaconController.nombreAreaAsignada}"/>
                         <h:outputText value="#{bundle.ViewBeaconLabel_uuid}"/>
                         <h:outputText value="#{beaconController.beaconSelected.uuid}" title="#{bundle.ViewBeaconTitle_uuid}"/>
                         <h:outputText value="#{bundle.ViewBeaconLabel_major}"/>
                         <h:outputText value="#{beaconController.beaconSelected.major}" title="#{bundle.ViewBeaconTitle_major}"/>
                         <h:outputText value="#{bundle.ViewBeaconLabel_minor}"/>
                         <h:outputText value="#{beaconController.beaconSelected.minor}" title="#{bundle.ViewBeaconTitle_minor}"/>
-                        <h:outputText value="#{bundle.ViewBeaconLabel_descripcion}"/>
-                        <h:outputText value="#{beaconController.beaconSelected.descripcion}" title="#{bundle.ViewBeaconTitle_descripcion}"/>
                         <h:outputText value="#{bundle.ViewBeaconLabel_imagen}"/>
-                        <h:outputText value="#{beaconController.beaconSelected.imagen}" title="#{bundle.ViewBeaconTitle_imagen}"/>                        
+                        <o:graphicImage value="#{imageStreamer.getBeaconImagen(beaconController.beaconSelected.beaconId)}" width="150" height="200" lastModified="#{beaconController.beaconSelected.updated}"/>
+                        <h:outputText value="#{bundle.ViewBeaconLabel_descripcion}"/>
+                        <p:inputTextarea rows="4" cols="30" id="descripcion" value="#{beaconController.beaconSelected.descripcion}" title="#{bundle.ViewBeaconTitle_descripcion}" readonly="true"/>
                     </p:panelGrid>
-                    <p:commandButton value="#{bundle.Close}" onclick="BeaconViewDialog.hide()"/>
+                    <p:commandButton value="#{bundle.Close}" oncomplete="PF('BeaconViewDialog').hide();" immediate="true"/>
                 </h:panelGroup>
             </h:form>
         </p:dialog>

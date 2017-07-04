@@ -25,6 +25,7 @@ public class AreaFacade extends AbstractFacade<Area> {
     private static final String TRAER_TODAS_AREAS_POR_BEACON_NO_BYTES_IMAGE = "SELECT new Area(a.areaId, a.titulo, a.descripcion) FROM Area as a JOIN a.areaBeaconList as ab WHERE ab.beaconId.beaconId = :beaconId";
     private static final String TRAER_TOTAL_AREAS_POR_BEACON_NO_BYTES = "SELECT count(a) FROM Area as a JOIN a.areaBeaconList as ab WHERE ab.beaconId.beaconId = :beaconId";
     private static final String TRAER_AREAS_POR_UUID = "SELECT a FROM Area as a JOIN a.areaBeaconList as b WHERE b.beaconId.uuid = :uuid";
+    private static final String TRAER_AREAS_DISPONIBLES = "SELECT a FROM Area as a LEFT JOIN a.areaBeaconList as b WHERE b.areaId.areaId IS NULL";
 
     @Override
     protected EntityManager getEntityManager() {
@@ -61,5 +62,10 @@ public class AreaFacade extends AbstractFacade<Area> {
         q.setParameter("beaconId", areaId);
         Long total = (Long) q.getSingleResult();
         return total.intValue();
+    }
+
+    public List<Area> traerAreasDisponibles() {
+        Query q = em.createQuery(TRAER_AREAS_DISPONIBLES);
+        return q.getResultList();
     }
 }

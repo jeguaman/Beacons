@@ -74,4 +74,7 @@ public class AreaService implements InterfaceService<Area>, Serializable {
         return areaFacade.traerAreasPorIdBeaconNoBytesImageTotal(areaId);
     }
     
+    public List<Area> traerAreasDisponibles(){
+        return areaFacade.traerAreasDisponibles();
+    }
 }

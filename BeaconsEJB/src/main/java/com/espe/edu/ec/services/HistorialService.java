@@ -45,9 +45,7 @@ public class HistorialService implements InterfaceService<Historial> {
 
     @Override
     public Historial buscar(Integer id) {
-        Historial h = new Historial();
-        h.setHistorialId(id);
-        return historialFacade.find(h);
+        return historialFacade.find(id);
     }
 
     @Override

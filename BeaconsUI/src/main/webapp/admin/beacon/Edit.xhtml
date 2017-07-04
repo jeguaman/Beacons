@@ -9,9 +9,19 @@
     <ui:composition>
 
         <p:dialog id="BeaconEditDlg" widgetVar="BeaconEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.EditBeaconTitle}">
-            <h:form id="BeaconEditForm">
+            <h:form id="BeaconEditForm" enctype="multipart/form-data">
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{beaconController.beaconSelected != null}">
+
+                        <p:outputLabel value="Seleccione una área." />
+                        <p:selectOneMenu value="#{beaconController.idAreaSeleccionada}" required="true" requiredMessage="#{bundle.EditNotificacionRequiredMessage_areaId}">
+                            <f:selectItem itemLabel="Ninguna" itemValue="#{null}"/>
+                            <f:selectItems value="#{beaconController.areasLista}" 
+                                           var="area" 
+                                           itemLabel="#{area.titulo}"
+                                           itemValue="#{area.areaId}"/>
+                            <p:ajax listener="#{beaconController.verificarDisponibilidadArea()}" update="@form growl" event="change" />
+                        </p:selectOneMenu>
                         <p:outputLabel value="#{bundle.EditBeaconLabel_uuid}" for="uuid" />
                         <p:inputText id="uuid" value="#{beaconController.beaconSelected.uuid}" title="#{bundle.EditBeaconTitle_uuid}" required="true" requiredMessage="#{bundle.EditBeaconRequiredMessage_uuid}"/>
                         <p:outputLabel value="#{bundle.EditBeaconLabel_major}" for="major" />
@@ -21,10 +31,10 @@
                         <p:outputLabel value="#{bundle.EditBeaconLabel_descripcion}" for="descripcion" />
                         <p:inputText id="descripcion" value="#{beaconController.beaconSelected.descripcion}" title="#{bundle.EditBeaconTitle_descripcion}" required="true" requiredMessage="#{bundle.EditBeaconRequiredMessage_descripcion}"/>
                         <p:outputLabel value="#{bundle.EditBeaconLabel_imagen}" for="imagen" />
-                        <p:inputTextarea rows="4" cols="30" id="imagen" value="#{beaconController.beaconSelected.imagen}" title="#{bundle.EditBeaconTitle_imagen}" required="true" requiredMessage="#{bundle.EditBeaconRequiredMessage_imagen}"/>
+                        <p:fileUpload id="imagen" value="#{beaconController.file}" mode="simple" sizeLimit="100000" allowTypes="/(\.|\/)(jpe?g|png)$/"/>
                     </p:panelGrid>
-                    <p:commandButton actionListener="#{beaconController.update}" value="#{bundle.Save}" update="display,:BeaconListForm:datalist,:growl" oncomplete="handleSubmit(args, 'BeaconEditDialog');"/>
-                    <p:commandButton value="#{bundle.Cancel}" onclick="BeaconEditDialog.hide()"/>
+                    <p:commandButton actionListener="#{beaconController.update}" value="#{bundle.Save}" ajax="false" update="display,:BeaconListForm:datalist,:growl" oncomplete="handleSubmit(args, 'BeaconEditDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('BeaconEditDialog').hide();" immediate="true"/>
                 </h:panelGroup>
             </h:form>
         </p:dialog>
