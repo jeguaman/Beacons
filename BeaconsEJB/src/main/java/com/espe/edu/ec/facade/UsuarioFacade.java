@@ -23,6 +23,8 @@ public class UsuarioFacade extends AbstractFacade<Usuario> {
     private EntityManager em;
 
     private final String TRAER_POR_CORREO_PASS = "select u from Usuario u where u.correoElectronico = :correoElectronico and u.contrasenia = :contrasenia ";
+    private final String TRAER_POR_CORREO_LIKE = "select u from Usuario u where u.correoElectronico like :correoElectronico";
+    private final String TOTAL_POR_CORREO_LIKE = "select count(u) from Usuario u where u.correoElectronico like :correoElectronico";
 
     @Override
     protected EntityManager getEntityManager() {
@@ -39,6 +41,22 @@ public class UsuarioFacade extends AbstractFacade<Usuario> {
         q.setMaxResults(size);
         List<Usuario> usuarios = q.getResultList();
         return usuarios;
+    }
+
+    public List<Usuario> traerPorCorreoElectronicoLike(String correo, Integer first, Integer size) {
+        Query q = em.createQuery(TRAER_POR_CORREO_LIKE);
+        q.setParameter("correoElectronico", "%" + correo + "%");
+        q.setFirstResult(first);
+        q.setMaxResults(size);
+        List<Usuario> usuarios = q.getResultList();
+        return usuarios;
+    }
+
+    public Integer totalPorCorreoElectronicoLike(String correo) {
+        Query q = em.createQuery(TOTAL_POR_CORREO_LIKE);
+        q.setParameter("correoElectronico", "%" + correo + "%");
+        Long total = (Long) q.getSingleResult();
+        return total.intValue();
     }
 
     public Usuario traerUsuario(String correo, String contrasenia) {

@@ -6,10 +6,13 @@
 package com.espe.edu.ec.beacon.ui;
 
 import com.espe.edu.ec.handler.SessionHandler;
+import java.io.IOException;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
+import javax.faces.context.FacesContext;
+import org.jboss.logging.Logger;
 
 /**
  *
@@ -19,7 +22,10 @@ import javax.faces.bean.ManagedBean;
 @SessionScoped
 public class MenuBean implements Serializable {
 
+    private static final Logger LOGGER = Logger.getLogger(MenuBean.class);
+
     private String menuRuta;
+    private String nombreUsuario;
     private SessionHandler sessionHandler;
 
     /**
@@ -32,6 +38,7 @@ public class MenuBean implements Serializable {
     @PostConstruct
     public void init() {
         menuRuta = sessionHandler.getMenuRuta();
+        nombreUsuario = sessionHandler.getNombreUsuario();
     }
 
     public String getMenuRuta() {
@@ -42,4 +49,20 @@ public class MenuBean implements Serializable {
         this.menuRuta = menuRuta;
     }
 
+    public String getNombreUsuario() {
+        return nombreUsuario;
+    }
+
+    public void setNombreUsuario(String nombreUsuario) {
+        this.nombreUsuario = nombreUsuario;
+    }
+
+    public void cerrarSesion() {
+        try {
+            sessionHandler.logoff();
+            FacesContext.getCurrentInstance().getExternalContext().redirect("../../login.xhtml");
+        } catch (IOException ex) {
+            LOGGER.error("Error al redirigir a el'noSession.xhtml' desde 'MenuBaseBean'.", ex);
+        }
+    }
 }

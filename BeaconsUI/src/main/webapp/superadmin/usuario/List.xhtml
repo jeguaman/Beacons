@@ -12,8 +12,16 @@
             <section class="wrapper">
                 <h3><i class="fa fa-angle-right"></i> #{bundle.ListUsuarioTitle}</h3>
                 <h:form id="UsuarioListForm">
-                    <div class="row">
+                    <div class="row mt">
                         <div class="col-md-12">
+                            <div class="content-panel" style="padding-left: 1%;">
+                                <div class="form-group">
+                                    <p:inputText class="col-sm-3 col-sm-3 control-label" placeholder="Ingrese correo electrónico" value="#{usuarioController.correoBusqueda}"/>
+                                    <div class="col-sm-9">
+                                        <p:commandButton value="Buscar" actionListener="#{usuarioController.getUsuarios}" update="datalist"/>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="content-panel">
                                 <p:panel>
                                     <p:dataTable id="datalist" value="#{usuarioController.usuariosLazy}" var="item"
@@ -23,7 +31,7 @@
                                                  rows="10"
                                                  lazy="true"
                                                  paginatorPosition="bottom"
-                                                 styleClass="table table-striped table-advance table-hover"
+                                                 emptyMessage="No se encontraron usuarios"
                                                  >
 
                                         <p:ajax event="rowSelect"   update="createButton viewButton editButton deleteButton"/>
@@ -53,10 +61,13 @@
                                             <h:outputText value="#{item.correoElectronico}"/>
                                         </p:column>
                                         <f:facet name="footer">
-                                            <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{usuarioController.prepareCreate}" update=":UsuarioCreateForm" oncomplete="PF('UsuarioCreateDialog').show()"/>
-                                            <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{bundle.View}" update=":UsuarioViewForm" oncomplete="PF('UsuarioViewDialog').show()" disabled="#{empty usuarioController.selected}"/>
-                                            <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update=":UsuarioEditForm" oncomplete="PF('UsuarioEditDialog').show()" disabled="#{empty usuarioController.selected}"/>
-                                            <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{usuarioController.destroy}" update=":growl,datalist" disabled="#{empty usuarioController.selected}" rendered="false"/>
+                                            <p:commandButton class="btn btn-crear" id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{usuarioController.prepareCreate}" update=":UsuarioCreateForm" oncomplete="PF('UsuarioCreateDialog').show()"/>
+                                            <p:spacer height="30"></p:spacer>
+                                            <p:commandButton class="btn btn-crear" id="viewButton"   icon="ui-icon-search" value="#{bundle.View}" update=":UsuarioViewForm" oncomplete="PF('UsuarioViewDialog').show()" disabled="#{empty usuarioController.selected}"/>
+                                            <p:spacer height="30"></p:spacer>
+                                            <p:commandButton class="btn btn-crear" id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update=":UsuarioEditForm" oncomplete="PF('UsuarioEditDialog').show()" disabled="#{empty usuarioController.selected}"/>
+                                            <p:spacer height="30"></p:spacer>
+                                            <p:commandButton class="btn btn-crear" id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{usuarioController.destroy}" update=":growl,datalist" disabled="#{empty usuarioController.selected}" rendered="false"/>
                                         </f:facet>
                                     </p:dataTable>
                                 </p:panel>

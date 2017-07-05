@@ -8,22 +8,44 @@
 
     <ui:composition>
 
-        <p:dialog id="NotificacionEditDlg" widgetVar="NotificacionEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.EditNotificacionTitle}">
-            <h:form id="NotificacionEditForm">
-                <h:panelGroup id="display">
-                    <p:panelGrid columns="2" rendered="#{notificacionController.notificacionSelected != null}">
-                        <p:outputLabel value="#{bundle.EditNotificacionLabel_tipo}" for="tipo" />
-                        <p:selectOneMenu id="tipo" value="#{notificacionController.notificacionSelected.tipo}" required="true" requiredMessage="#{bundle.EditNotificacionRequiredMessage_areaId}">
-                            <f:selectItem itemLabel="Entrada" itemValue="E"/>
-                            <f:selectItem itemLabel="Salida" itemValue="S"/>
-                        </p:selectOneMenu>
-                        <p:outputLabel value="#{bundle.EditNotificacionLabel_descripcion}" for="descripcion" />
-                        <p:inputTextarea rows="4" cols="30" id="descripcion" value="#{notificacionController.notificacionSelected.descripcion}" title="#{bundle.EditNotificacionTitle_descripcion}" required="true" requiredMessage="#{bundle.EditNotificacionRequiredMessage_descripcion}"/>
-                    </p:panelGrid>
-                    <p:commandButton actionListener="#{notificacionController.update}" ajax="false" value="#{bundle.Save}" update="display,:growl" oncomplete="handleSubmit(args, 'NotificacionEditDialog');"/>
-                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('NotificacionEditDialog').hide();" immediate="true"/>
-                </h:panelGroup>
-            </h:form>
+        <p:dialog id="NotificacionEditDlg" 
+                  widgetVar="NotificacionEditDialog" 
+                  modal="true" 
+                  resizable="false" 
+                  appendTo="@(body)" 
+                  header="#{bundle.EditNotificacionTitle}">
+            <section class="wrapper" style="margin-top: 0;">
+                <div class="row">
+                    <div class="col-lg-12" >
+                        <div class="form-panel">                                                                                    
+                            <h:form id="NotificacionEditForm" class="form-horizontal style-form">
+                                <h:panelGroup id="display">
+                                    <div class="form-group">
+                                        <p:outputLabel class="col-sm-4 col-sm-4 control-label" value="#{bundle.EditNotificacionLabel_tipo}" for="tipo" />
+                                        <div class="col-sm-8">
+                                            <p:selectOneMenu class="form-control" id="tipo" value="#{notificacionController.notificacionSelected.tipo}" required="true" requiredMessage="#{bundle.EditNotificacionRequiredMessage_tipo}">
+                                                <f:selectItem itemLabel="Entrada" itemValue="E"/>
+                                                <f:selectItem itemLabel="Salida" itemValue="S"/>
+                                            </p:selectOneMenu>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <p:outputLabel class="col-sm-4 col-sm-4 control-label" value="#{bundle.EditNotificacionLabel_descripcion}" for="descripcion" />
+                                        <div class="col-sm-8">
+                                            <h:inputText class="form-control" id="descripcion" value="#{notificacionController.notificacionSelected.descripcion}" title="#{bundle.EditNotificacionTitle_descripcion}" required="true" requiredMessage="#{bundle.EditNotificacionRequiredMessage_descripcion}"/>
+                                        </div>
+                                    </div>
+                                    <div style="text-align: center;">
+                                        <p:commandButton actionListener="#{notificacionController.update}" ajax="false" value="#{bundle.Save}" update="display,:growl" oncomplete="handleSubmit(args, 'NotificacionEditDialog');"/>
+                                        <p:spacer height="30"></p:spacer>
+                                        <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('NotificacionEditDialog').hide();" immediate="true"/>
+                                    </div>
+                                </h:panelGroup>
+                            </h:form>
+                        </div>
+                    </div>
+                </div>
+            </section>
         </p:dialog>
 
     </ui:composition>

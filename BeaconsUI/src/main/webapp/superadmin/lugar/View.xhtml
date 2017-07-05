@@ -8,20 +8,45 @@
       xmlns:o="http://omnifaces.org/ui">
 
     <ui:composition>
-        <p:dialog id="LugarViewDlg" widgetVar="LugarViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewLugarTitle}">
-            <h:form id="LugarViewForm">
-                <h:panelGroup id="display">
-                    <p:panelGrid columns="2" rendered="#{lugarController.selected != null}">
-                        <h:outputText value="#{bundle.ViewLugarLabel_titulo}"/>
-                        <h:outputText value="#{lugarController.selected.titulo}" title="#{bundle.ViewLugarTitle_titulo}"/>
-                        <h:outputText value="#{bundle.ViewLugarLabel_imagen}"/>
-                        <o:graphicImage value="#{imageStreamer.getLugarImagen(lugarController.selected.lugarId)}" width="150" height="200" lastModified="#{lugarController.selected.updated}"/>
-                        <h:outputText value="#{bundle.ViewLugarLabel_descripcion}"/>
-                        <p:inputTextarea rows="4" cols="30" id="descripcion" value="#{lugarController.selected.descripcion}" title="#{bundle.CreateLugarTitle_descripcion}" readonly="true"/>
-                    </p:panelGrid>
-                    <p:commandButton value="#{bundle.Close}" oncomplete="PF('LugarViewDialog').hide();" immediate="true"/>
-                </h:panelGroup>
-            </h:form>
+        <p:dialog id="LugarViewDlg" 
+                  widgetVar="LugarViewDialog" 
+                  modal="true" 
+                  resizable="false" 
+                  appendTo="@(body)" 
+                  header="#{bundle.ViewLugarTitle}">
+            <section class="wrapper" style="margin-top: 0;">
+                <div class="row">
+                    <div class="col-lg-12" >
+                        <div class="form-panel">                            
+                            <h:form id="LugarViewForm" class="form-horizontal style-form">
+                                <h:panelGroup id="display">
+                                    <div class="form-group">
+                                        <h:outputText class="col-sm-4 col-sm-4 control-label" value="#{bundle.ViewLugarLabel_titulo}"/>
+                                        <div class="col-sm-8">
+                                            <h:outputText value="#{lugarController.selected.titulo}" title="#{bundle.ViewLugarTitle_titulo}"/>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <h:outputText class="col-sm-4 col-sm-4 control-label" value="#{bundle.ViewLugarLabel_imagen}"/>
+                                        <div class="col-sm-8">
+                                            <o:graphicImage class="form-group" value="#{imageStreamer.getLugarImagen(lugarController.selected.lugarId)}" width="150" height="200" lastModified="#{lugarController.selected.updated}"/>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <h:outputText class="col-sm-4 col-sm-4 control-label" value="#{bundle.ViewLugarLabel_descripcion}"/>
+                                        <div class="col-sm-8">
+                                            <p:inputTextarea class="form-control" rows="4" cols="30" id="descripcion" value="#{lugarController.selected.descripcion}" title="#{bundle.CreateLugarTitle_descripcion}" readonly="true"/>
+                                        </div>
+                                    </div>
+                                    <div style="text-align: center;">
+                                        <p:commandButton value="#{bundle.Close}" oncomplete="PF('LugarViewDialog').hide();" immediate="true"/>
+                                    </div>
+                                </h:panelGroup>
+                            </h:form>
+                        </div>
+                    </div>
+                </div>
+            </section>
         </p:dialog>
     </ui:composition>
 </html>

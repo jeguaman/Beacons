@@ -10,20 +10,13 @@
         <div id="sidebar"  class="nav-collapse ">
             <ul class="sidebar-menu" id="nav-accordion">
 
-                <p class="centered"><a href="profile.html"><img src="#{request.contextPath}/resources/img/ui-sam.jpg" class="img-circle" width="60"/></a></p>
-                <h5 class="centered">Marcel Newman</h5>
+                <p class="centered"><a href="#"><img src="#{request.contextPath}/resources/img/ui-sam.jpg" class="img-circle" width="60"/></a></p>
+                <h5 class="centered">Bienvenido #{menuBean.nombreUsuario}</h5>
 
                 <li class="mt">
                     <a href="../usuario/List.xhtml">
                         <i class="fa fa-dashboard"></i>
                         <span>Usuarios</span>
-                    </a>
-                </li>
-
-                <li class="sub-menu">
-                    <a href="../lugar/List.xhtml">
-                        <i class="fa fa-desktop"></i>
-                        <span>Lugares de Interés</span>
                     </a>
                 </li>
 
@@ -39,6 +32,19 @@
                         <span>Áreas</span>
                     </a>
                 </li>
+                <li class="sub-menu">
+                    <a href="../lugar/List.xhtml">
+                        <i class="fa fa-desktop"></i>
+                        <span>Lugares de Interés</span>
+                    </a>
+                </li>
+                <li class="sub-menu">
+                    <a href="../notificacion/List.xhtml">
+                        <i class="fa fa-desktop"></i>
+                        <span>Notificiaciones</span>
+                    </a>
+                </li>
+
                 <li class="sub-menu">
                     <a href="../reporte/List.xhtml">
                         <i class="fa fa-tasks"></i>

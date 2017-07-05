@@ -90,4 +90,13 @@ public class UsuarioService implements InterfaceService<Usuario>, Serializable {
             asignacionPerfilFacade.create(ap);
         }
     }
+
+    public List<Usuario> traerPorCorreoElectronicoLike(String correo, Integer first, Integer size) {
+        return usuarioFacade.traerPorCorreoElectronicoLike(correo, first, size);
+    }
+
+    public Integer totalPorCorreoElectronicoLike(String correo) {
+        return usuarioFacade.totalPorCorreoElectronicoLike(correo);
+    }
+
 }

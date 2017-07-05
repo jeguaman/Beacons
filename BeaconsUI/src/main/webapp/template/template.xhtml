@@ -12,10 +12,10 @@ and open the template in the editor.
     <h:head>
         <title>Beacon ESPE- Biblioteca Alejandro Segóvia</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-        <h:outputStylesheet library="css"  name="default.css"/>
-        <h:outputStylesheet library="css"  name="cssLayout.css"/>
         <!-- Bootstrap core CSS -->
         <h:outputStylesheet library="css" name="bootstrap.css"/>
+        <h:outputStylesheet library="css"  name="default.css"/>
+        <h:outputStylesheet library="css"  name="cssLayout.css"/>
         <!--external css-->
         <link href="#{request.contextPath}/resources/font-awesome/css/font-awesome.css" rel="stylesheet" />
         <h:outputStylesheet library="css" name="zabuto_calendar.css"/>
@@ -29,8 +29,8 @@ and open the template in the editor.
         <script src="#{request.contextPath}/resources/js/chart-master/Chart.js"></script>
     </h:head>
     <h:body>
-        <p:growl id="growl" life="3000" />
         <ui:include src="header.xhtml"/>
+        <p:growl id="growl" life="3000"/>
         <ui:include src="#{menuBean.menuRuta}"/>
         <section id="main-content">
             <ui:insert name="contenido">Content</ui:insert>

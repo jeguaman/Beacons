@@ -48,6 +48,8 @@ public class UsuarioController implements Serializable {
 
     private Integer idPerfilSeleccionado;
 
+    private String correoBusqueda;
+
 //    private List<Perfil> perfiles = new ArrayList();
     @PostConstruct
     public void init() {
@@ -90,6 +92,14 @@ public class UsuarioController implements Serializable {
 //    public void setPerfiles(List<Perfil> perfiles) {
 //        this.perfiles = perfiles;
 //    }
+    public String getCorreoBusqueda() {
+        return correoBusqueda;
+    }
+
+    public void setCorreoBusqueda(String correoBusqueda) {
+        this.correoBusqueda = correoBusqueda;
+    }
+
     protected void setEmbeddableKeys() {
     }
 
@@ -126,9 +136,15 @@ public class UsuarioController implements Serializable {
         usuariosLazy = new LazyDataModel() {
             @Override
             public List load(int first, int pageSize, String sortField, SortOrder sortOrder, Map filters) {
-                List<Usuario> comprobantes = usuarioService.traerLazzy(first, pageSize);
-                this.setRowCount(usuarioService.totalRegistros());
-                return comprobantes;
+                List<Usuario> usuarios = new ArrayList();
+                if ((correoBusqueda != null && correoBusqueda.compareTo("") != 0)) {
+                    usuarios = usuarioService.traerPorCorreoElectronicoLike(correoBusqueda, first, pageSize);
+                    this.setRowCount(usuarioService.totalPorCorreoElectronicoLike(correoBusqueda));
+                } else {
+                    usuarios = usuarioService.traerLazzy(first, pageSize);
+                    this.setRowCount(usuarioService.totalRegistros());
+                }
+                return usuarios;
             }
 
             @Override
