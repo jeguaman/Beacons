@@ -7,31 +7,59 @@
       xmlns:p="http://primefaces.org/ui">
 
     <ui:composition>
-
         <p:dialog id="BeaconCreateDlg" 
                   widgetVar="BeaconCreateDialog" 
                   modal="true" 
                   resizable="false" 
                   appendTo="@(body)" 
                   header="#{bundle.CreateBeaconTitle}">
-            <h:form id="BeaconCreateForm">
-                <h:panelGroup id="display">
-                    <p:panelGrid columns="2" rendered="#{beaconController.beaconSelected != null}">
-                        <p:outputLabel value="#{bundle.CreateBeaconLabel_uuid}" for="uuid" />
-                        <p:inputText id="uuid" value="#{beaconController.beaconSelected.uuid}" title="#{bundle.CreateBeaconTitle_uuid}" required="true" requiredMessage="#{bundle.CreateBeaconRequiredMessage_uuid}"/>
-                        <p:outputLabel value="#{bundle.CreateBeaconLabel_major}" for="major" />
-                        <p:inputText id="major" value="#{beaconController.beaconSelected.major}" title="#{bundle.CreateBeaconTitle_major}" required="true" requiredMessage="#{bundle.CreateBeaconRequiredMessage_major}"/>
-                        <p:outputLabel value="#{bundle.CreateBeaconLabel_minor}" for="minor" />
-                        <p:inputText id="minor" value="#{beaconController.beaconSelected.minor}" title="#{bundle.CreateBeaconTitle_minor}" required="true" requiredMessage="#{bundle.CreateBeaconRequiredMessage_minor}"/>
-                        <p:outputLabel value="#{bundle.CreateBeaconLabel_descripcion}" for="descripcion" />
-                        <p:inputText id="descripcion" value="#{beaconController.beaconSelected.descripcion}" title="#{bundle.CreateBeaconTitle_descripcion}" required="true" requiredMessage="#{bundle.CreateBeaconRequiredMessage_descripcion}"/>
-                        <p:outputLabel value="#{bundle.CreateBeaconLabel_imagen}" for="imagen" />
-                        <p:inputTextarea rows="4" cols="30" id="imagen" value="#{beaconController.beaconSelected.imagen}" title="#{bundle.CreateBeaconTitle_imagen}" required="true" requiredMessage="#{bundle.CreateBeaconRequiredMessage_imagen}"/>
-                    </p:panelGrid>
-                    <p:commandButton actionListener="#{beaconController.create}" value="#{bundle.Save}" update="display,:BeaconListForm:datalist,:growl" oncomplete="handleSubmit(args,'BeaconCreateDialog');"/>
-                    <p:commandButton value="#{bundle.Cancel}" onclick="BeaconCreateDialog.hide()"/>
-                </h:panelGroup>
-            </h:form>
+            <section class="wrapper" style="margin-top: 0;">
+                <div class="row">
+                    <div class="col-lg-12" >
+                        <div class="form-panel">                            
+                            <h:form id="BeaconCreateForm" enctype="multipart/form-data" class="form-horizontal style-form">
+                                <h:panelGroup id="display">
+                                    <div class="form-group">
+                                        <p:outputLabel class="col-sm-3 col-sm-3 control-label" value="#{bundle.CreateBeaconLabel_uuid}" for="uuid" />
+                                        <div class="col-sm-9">
+                                            <h:inputText class="form-control" id="uuid" value="#{beaconController.beaconSelected.uuid}" title="#{bundle.CreateBeaconTitle_uuid}" required="true" requiredMessage="#{bundle.CreateBeaconRequiredMessage_uuid}"/>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <p:outputLabel class="col-sm-3 col-sm-3 control-label" value="#{bundle.CreateBeaconLabel_major}" for="major" />
+                                        <div class="col-sm-9">
+                                            <h:inputText class="form-control" id="major" value="#{beaconController.beaconSelected.major}" title="#{bundle.CreateBeaconTitle_major}" required="true" requiredMessage="#{bundle.CreateBeaconRequiredMessage_major}"/>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <p:outputLabel class="col-sm-3 col-sm-3 control-label" value="#{bundle.CreateBeaconLabel_minor}" for="minor" />
+                                        <div class="col-sm-9">
+                                            <h:inputText class="form-control" id="minor" value="#{beaconController.beaconSelected.minor}" title="#{bundle.CreateBeaconTitle_minor}" required="true" requiredMessage="#{bundle.CreateBeaconRequiredMessage_minor}"/>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <p:outputLabel class="col-sm-3 col-sm-3 control-label" value="#{bundle.CreateBeaconLabel_descripcion}" for="descripcion" />
+                                        <div class="col-sm-9">
+                                            <h:inputText class="form-control" id="descripcion" value="#{beaconController.beaconSelected.descripcion}" title="#{bundle.CreateBeaconTitle_descripcion}" required="true" requiredMessage="#{bundle.CreateBeaconRequiredMessage_descripcion}"/>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <p:outputLabel class="col-sm-3 col-sm-3 control-label" value="#{bundle.CreateBeaconLabel_imagen}" for="imagen" />
+                                        <div class="col-sm-9">                                            
+                                            <p:fileUpload class="form-control" id="imagen" value="#{beaconController.file}" mode="simple" sizeLimit="100000" allowTypes="/(\.|\/)(jpe?g|png)$/"/>
+                                        </div>
+                                    </div>
+                                    <div style="text-align: center;">
+                                        <p:commandButton actionListener="#{beaconController.create}" value="#{bundle.Save}" update="display,:BeaconListForm:datalist,:growl" oncomplete="handleSubmit(args,'BeaconCreateDialog');"/>
+                                        <p:spacer height="30"></p:spacer>
+                                        <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('BeaconCreateDialog').hide();" immediate="true"/>
+                                    </div>
+                                </h:panelGroup>
+                            </h:form>
+                        </div>
+                    </div>
+                </div>
+            </section>
         </p:dialog>
 
     </ui:composition>

@@ -16,8 +16,10 @@
                   header="Asignar área al beacon">
             <h:form id="AsignarForm">
                 <h:panelGroup id="display">
-                    <p:panelGrid columns="1" rendered="#{beaconController.beaconSelected != null}">
+                    <div class="form-group">
                         <p:outputLabel value="Seleccione una área para asociar al beacon" />
+                    </div>
+                    <div class="form-group">
                         <p:selectOneMenu value="#{beaconController.idAreaSeleccionada}" required="true" requiredMessage="#{bundle.EditNotificacionRequiredMessage_areaId}">
                             <f:selectItem itemLabel="Ninguna" itemValue="#{null}"/>
                             <f:selectItems value="#{beaconController.areasLista}" 
@@ -25,9 +27,12 @@
                                            itemLabel="#{area.titulo}"
                                            itemValue="#{area.areaId}"/>
                         </p:selectOneMenu>
-                    </p:panelGrid>
-                    <p:commandButton actionListener="#{beaconController.asignar}" ajax="false" value="Asignar" update="display,:BeaconListForm,:growl" oncomplete="handleSubmit(args,'AsignarAreaBeaconDialog');"/>
-                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('AsignarAreaBeaconDialog').hide();" immediate="true"/>
+                    </div>
+                    <div style="text-align: center;">
+                        <p:commandButton actionListener="#{beaconController.asignar}" ajax="false" value="Asignar" update="display,:BeaconListForm,:growl" oncomplete="handleSubmit(args,'AsignarAreaBeaconDialog');"/>
+                        <p:spacer height="30"></p:spacer>
+                        <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('AsignarAreaBeaconDialog').hide();" immediate="true"/>
+                    </div>
                 </h:panelGroup>
             </h:form>
         </p:dialog>

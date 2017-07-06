@@ -8,21 +8,47 @@
 
     <ui:composition>
 
-        <p:dialog id="AreaCreateDlg" widgetVar="AreaCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateAreaTitle}">
-            <h:form id="AreaCreateForm" enctype="multipart/form-data">
-                <h:panelGroup id="display">
-                    <p:panelGrid columns="2" rendered="#{areaController.selected != null}">
-                        <p:outputLabel value="#{bundle.CreateAreaLabel_titulo}" for="titulo" />
-                        <p:inputText id="titulo" value="#{areaController.selected.titulo}" title="#{bundle.CreateAreaTitle_titulo}" required="true" requiredMessage="#{bundle.CreateAreaRequiredMessage_titulo}"/>
-                        <p:outputLabel value="#{bundle.CreateAreaLabel_imagen}" for="imagen" />
-                        <p:fileUpload id="imagen" value="#{areaController.file}" mode="simple" sizeLimit="100000" allowTypes="/(\.|\/)(jpe?g|png)$/" required="true" requiredMessage="#{bundle.CreateLugarRequiredMessage_imagen}"/>
-                        <p:outputLabel value="#{bundle.CreateAreaLabel_descripcion}" for="descripcion" />
-                        <p:inputTextarea rows="4" cols="30" id="descripcion" value="#{areaController.selected.descripcion}" title="#{bundle.CreateAreaTitle_descripcion}" required="true" requiredMessage="#{bundle.CreateAreaRequiredMessage_descripcion}"/>
-                    </p:panelGrid>
-                    <p:commandButton actionListener="#{areaController.create}" ajax="false" value="#{bundle.Save}" update="display,:AreaListForm:datalistArea,:growl" oncomplete="handleSubmit(args,'AreaCreateDialog');"/>
-                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('AreaCreateDialog').hide();" immediate="true"/>
-                </h:panelGroup>
-            </h:form>
+        <p:dialog id="AreaCreateDlg" 
+                  widgetVar="AreaCreateDialog" 
+                  modal="true" 
+                  resizable="false" 
+                  appendTo="@(body)" 
+                  header="#{bundle.CreateAreaTitle}">
+            <section class="wrapper" style="margin-top: 0;">
+                <div class="row">
+                    <div class="col-lg-12" >
+                        <div class="form-panel"> 
+                            <h:form id="AreaCreateForm" enctype="multipart/form-data" class="form-horizontal style-form">
+                                <h:panelGroup id="display">
+                                    <div class="form-group">
+                                        <p:outputLabel class="col-sm-3 col-sm-3 control-label" value="#{bundle.CreateAreaLabel_titulo}" for="titulo" />
+                                        <div class="col-sm-9">
+                                            <h:inputText class="form-control" id="titulo" value="#{areaController.selected.titulo}" title="#{bundle.CreateAreaTitle_titulo}" required="true" requiredMessage="#{bundle.CreateAreaRequiredMessage_titulo}"/>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <p:outputLabel class="col-sm-3 col-sm-3 control-label" value="#{bundle.CreateAreaLabel_imagen}" for="imagen" />
+                                        <div class="col-sm-9">
+                                            <p:fileUpload class="form-control" id="imagen" value="#{areaController.file}" mode="simple" sizeLimit="100000" allowTypes="/(\.|\/)(jpe?g|png)$/" required="true" requiredMessage="#{bundle.CreateLugarRequiredMessage_imagen}"/>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <p:outputLabel class="col-sm-3 col-sm-3 control-label" value="#{bundle.CreateAreaLabel_descripcion}" for="descripcion" />
+                                        <div class="col-sm-9">
+                                            <p:inputTextarea class="form-control" rows="4" cols="30" id="descripcion" value="#{areaController.selected.descripcion}" title="#{bundle.CreateAreaTitle_descripcion}" required="true" requiredMessage="#{bundle.CreateAreaRequiredMessage_descripcion}"/>
+                                        </div>
+                                    </div>
+                                    <div style="text-align: center;">
+                                        <p:commandButton actionListener="#{areaController.create}" ajax="false" value="#{bundle.Save}" update="display,:AreaListForm:datalistArea,:growl" oncomplete="handleSubmit(args,'AreaCreateDialog');"/>
+                                        <p:spacer height="30"></p:spacer>
+                                        <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('AreaCreateDialog').hide();" immediate="true"/>
+                                    </div>
+                                </h:panelGroup>
+                            </h:form>
+                        </div>
+                    </div>
+                </div>
+            </section>
         </p:dialog>
 
     </ui:composition>
