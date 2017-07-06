@@ -1,12 +1,13 @@
 package com.espe.edu.ec.beacon.ui;
 
+import com.espe.edu.ec.beacon.ui.util.ConstanteBeacon;
 import com.espe.edu.ec.model.Area;
 import com.espe.edu.ec.services.AreaService;
 import com.espe.edu.ec.beacon.ui.util.JsfUtil;
 import com.espe.edu.ec.beacon.ui.util.JsfUtil.PersistAction;
-import com.espe.edu.ec.model.AreaBeacon;
+import com.espe.edu.ec.model.Historial;
 import com.espe.edu.ec.model.Lugar;
-import com.espe.edu.ec.services.AreaBeaconService;
+import com.espe.edu.ec.services.HistorialService;
 import com.espe.edu.ec.services.LugarService;
 
 import java.io.Serializable;
@@ -37,7 +38,8 @@ public class AreaController implements Serializable {
 
     @EJB
     private LugarService lugarService;
-
+    @EJB
+    private HistorialService historialService;
     private LazyDataModel<Area> areasLazy;
     private LazyDataModel<Lugar> lugarLazyDataModel;
     private Area selected;
@@ -180,17 +182,24 @@ public class AreaController implements Serializable {
     private void persist(PersistAction persistAction, String successMessage) {
         if (selected != null) {
             setEmbeddableKeys();
+            Historial h = new Historial();
             try {
                 if (persistAction != PersistAction.DELETE) {
                     verificarCambioImagen();
                     if (persistAction == PersistAction.CREATE) {
                         getFacade().crear(selected);
+                        h.setCodigoHistorial(ConstanteBeacon.CREACION);
+                        h.setDescripcion(successMessage + " "+selected.getAreaId());
+                        historialService.crear(h);
                     } else {
                         getFacade().actualizar(selected);
+                        h.setCodigoHistorial(ConstanteBeacon.ACTUALIZACION);
+                        h.setDescripcion(successMessage +" "+ selected.getAreaId());
+                        historialService.crear(h);
                     }
                 } else {
                     getFacade().eliminar(selected);
-                    selected=null;
+                    selected = null;
                 }
                 JsfUtil.addSuccessMessage(successMessage);
             } catch (EJBException ex) {

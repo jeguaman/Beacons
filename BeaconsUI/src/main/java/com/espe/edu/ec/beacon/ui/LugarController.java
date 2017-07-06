@@ -1,11 +1,13 @@
 package com.espe.edu.ec.beacon.ui;
 
-import com.espe.edu.ec.beacon.ui.util.ConvertidorUtil;
+import com.espe.edu.ec.beacon.ui.util.ConstanteBeacon;
 import com.espe.edu.ec.model.Lugar;
 import com.espe.edu.ec.services.LugarService;
 import com.espe.edu.ec.beacon.ui.util.JsfUtil;
 import com.espe.edu.ec.beacon.ui.util.JsfUtil.PersistAction;
 import com.espe.edu.ec.model.Area;
+import com.espe.edu.ec.model.Historial;
+import com.espe.edu.ec.services.HistorialService;
 
 import java.io.Serializable;
 import java.util.List;
@@ -28,6 +30,8 @@ public class LugarController implements Serializable {
 
     @EJB
     private LugarService lugarService;
+    @EJB
+    private HistorialService historialService;
     private List<Lugar> items = null;
     private Lugar selected;
     private UploadedFile file;
@@ -107,6 +111,7 @@ public class LugarController implements Serializable {
 
     private void persist(PersistAction persistAction, String successMessage) {
         if (selected != null) {
+            Historial h = new Historial();
             setEmbeddableKeys();
             try {
                 if (persistAction != PersistAction.DELETE) {
@@ -115,11 +120,17 @@ public class LugarController implements Serializable {
                         if (area != null) {
                             selected.setAreaId(area);
                             getFacade().crear(selected);
+                            h.setCodigoHistorial(ConstanteBeacon.CREACION);
+                            h.setDescripcion(successMessage + " " + selected.getLugarId());
+                            historialService.crear(h);
                         } else {
                             JsfUtil.addErrorMessage("El lugar creado no esta asociado a un área.");
                         }
                     } else {
                         getFacade().actualizar(selected);
+                        h.setCodigoHistorial(ConstanteBeacon.ACTUALIZACION);
+                        h.setDescripcion(successMessage + " " + selected.getLugarId());
+                        historialService.crear(h);
                     }
                 } else {
                     getFacade().eliminar(selected);

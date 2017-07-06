@@ -1,13 +1,16 @@
 package com.espe.edu.ec.beacon.ui;
 
+import com.espe.edu.ec.beacon.ui.util.ConstanteBeacon;
 import com.espe.edu.ec.model.Beacon;
 import com.espe.edu.ec.services.BeaconService;
 import com.espe.edu.ec.beacon.ui.util.JsfUtil;
 import com.espe.edu.ec.beacon.ui.util.JsfUtil.PersistAction;
 import com.espe.edu.ec.model.Area;
 import com.espe.edu.ec.model.AreaBeacon;
+import com.espe.edu.ec.model.Historial;
 import com.espe.edu.ec.services.AreaBeaconService;
 import com.espe.edu.ec.services.AreaService;
+import com.espe.edu.ec.services.HistorialService;
 
 import java.io.Serializable;
 import java.util.List;
@@ -40,6 +43,9 @@ public class BeaconController implements Serializable {
 
     @EJB
     private AreaBeaconService areaBeaconService;
+
+    @EJB
+    private HistorialService historialService;
 
     private LazyDataModel<Beacon> beaconsLazzy;
     private List<Area> areasLista;
@@ -201,24 +207,34 @@ public class BeaconController implements Serializable {
 
     private void persist(PersistAction persistAction, String successMessage) {
         if (beaconSelected != null) {
+            Historial h = new Historial();
             setEmbeddableKeys();
             try {
                 if (persistAction != PersistAction.DELETE) {
                     if (persistAction == PersistAction.CREATE) {
                         verificarCambioImagen();
                         getFacade().crear(beaconSelected);
+                        h.setCodigoHistorial(ConstanteBeacon.CREACION);
+                        h.setDescripcion(successMessage + " " + beaconSelected.getBeaconId());
+                        historialService.crear(h);
                     } else if (persistAction == PersistAction.ASIGNAR) {
                         AreaBeacon ab = new AreaBeacon();
                         ab.setAreaId(areaService.buscar(idAreaSeleccionada));
                         ab.setBeaconId(beaconSelected);
                         ab.setEstado(Boolean.TRUE);
                         areaBeaconService.crear(ab);
+                        h.setCodigoHistorial(ConstanteBeacon.ASIGNAR);
+                        h.setDescripcion(successMessage + " " + beaconSelected.getBeaconId() + " al area " + idAreaSeleccionada);
+                        historialService.crear(h);
                         buscarAsignacionBeacon();
                     } else {
                         verificarCambioImagen();
                         getFacade().actualizar(beaconSelected);
                         areaBeacon.setAreaId(areaService.buscar(idAreaSeleccionada));
                         areaBeaconService.actualizar(areaBeacon);
+                        h.setCodigoHistorial(ConstanteBeacon.ACTUALIZACION);
+                        h.setDescripcion(successMessage + " " + beaconSelected.getBeaconId());
+                        historialService.crear(h);
                     }
                 } else {
                     getFacade().eliminar(beaconSelected);

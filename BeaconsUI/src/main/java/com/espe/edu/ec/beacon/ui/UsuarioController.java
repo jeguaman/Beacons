@@ -7,9 +7,11 @@ import com.espe.edu.ec.beacon.ui.util.JsfUtil;
 import com.espe.edu.ec.beacon.ui.util.JsfUtil.PersistAction;
 import com.espe.edu.ec.model.Area;
 import com.espe.edu.ec.model.AsignacionPerfil;
+import com.espe.edu.ec.model.Historial;
 import com.espe.edu.ec.model.Perfil;
 import com.espe.edu.ec.services.AreaService;
 import com.espe.edu.ec.services.AsignacionPerfilService;
+import com.espe.edu.ec.services.HistorialService;
 import com.espe.edu.ec.services.PerfilService;
 import com.espe.edu.ec.services.UsuarioService;
 
@@ -42,6 +44,8 @@ public class UsuarioController implements Serializable {
     private PerfilService perfilService;
     @EJB
     private AsignacionPerfilService asignacionPerfilService;
+    @EJB
+    private HistorialService historialService;
 
     private LazyDataModel<Usuario> usuariosLazy;
     private Usuario selected;
@@ -173,14 +177,21 @@ public class UsuarioController implements Serializable {
 
     private void persist(PersistAction persistAction, String successMessage) {
         if (selected != null) {
+            Historial h = new Historial();
             setEmbeddableKeys();
             try {
                 if (persistAction != PersistAction.DELETE) {
                     if (persistAction == PersistAction.CREATE) {
 //                        getFacade().crear(selected);
                         getFacade().crearUsuarioConPerfil(selected, ConstanteBeacon.COD_PERFIL_ADMIN);
+                        h.setCodigoHistorial(ConstanteBeacon.CREACION);
+                        h.setDescripcion(successMessage + selected.getUsuarioId());
+                        historialService.crear(h);
                     } else {
                         getFacade().actualizar(selected);
+                        h.setCodigoHistorial(ConstanteBeacon.ACTUALIZACION + selected.getUsuarioId());
+                        h.setDescripcion(successMessage);
+                        historialService.crear(h);
                     }
                 } else {
                     getFacade().eliminar(selected);
@@ -257,12 +268,4 @@ public class UsuarioController implements Serializable {
 
     }
 
-    public void asignar() {
-        AsignacionPerfil asignacionPerfil = new AsignacionPerfil();
-        asignacionPerfil.setUsuarioId(selected);
-        Perfil perfilTmp = perfilService.buscar(idPerfilSeleccionado);
-        asignacionPerfil.setPerfilId(perfilTmp);
-        asignacionPerfilService.crear(asignacionPerfil);
-
-    }
 }

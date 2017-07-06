@@ -7,10 +7,12 @@ package com.espe.edu.ec.services.ws;
 
 import com.espe.edu.ec.model.Area;
 import com.espe.edu.ec.model.Dispositivo;
+import com.espe.edu.ec.model.Historial;
 import com.espe.edu.ec.model.Notificacion;
 import com.espe.edu.ec.model.Registro;
 import com.espe.edu.ec.services.AreaService;
 import com.espe.edu.ec.services.DispositivoService;
+import com.espe.edu.ec.services.HistorialService;
 import com.espe.edu.ec.services.LugarService;
 import com.espe.edu.ec.services.NotificacionService;
 import com.espe.edu.ec.services.RegistroService;
@@ -47,6 +49,9 @@ public class RestService implements Serializable {
 
     @EJB
     NotificacionService notificacionService;
+
+    @EJB
+    HistorialService historialService;
 
     public WSResponse traerAreasWS() {
         WSResponse response = new WSResponse();
@@ -133,13 +138,18 @@ public class RestService implements Serializable {
 
     public WSResponse registrarAreaDispositivo(Integer idArea, String imeiDispositivo, String tipo) {
         WSResponse response = new WSResponse();
+        Historial h = null;
         try {
             Dispositivo d = new Dispositivo();
             d.setImei(imeiDispositivo);
             d.setInserted(new Date());
             d.setUpdated(new Date());
             dispositivoService.crear(d);
-
+            //h.setCodigoHistorial(ConstanteBeacon.CREACION);
+            h = new Historial();
+            h.setCodigoHistorial("C1");
+            h.setDescripcion("Dispositivo creado con éxito " + d.getDispositivoId());
+            historialService.crear(h);
             Area a = areaService.buscar(idArea);
 
             Registro r = new Registro();
@@ -148,6 +158,11 @@ public class RestService implements Serializable {
             r.setInserted(new Date());
             r.setTipo(tipo);
             registroService.crear(r);
+            h = new Historial();
+            h.setCodigoHistorial("C1");
+            h.setDescripcion("Registro creado con éxito " + r.getRegistroId());
+            historialService.crear(h);
+
             response.setState(true);
             response.setEntity(r);
         } catch (Exception e) {
@@ -175,9 +190,9 @@ public class RestService implements Serializable {
     }
 
     /**
-     * 
+     *
      * @param uuidBeacon
-     * @return 
+     * @return
      */
     public WSResponse traerAreasPorUUIDBeacon(String uuidBeacon) {
         WSResponse response = new WSResponse();
@@ -190,5 +205,5 @@ public class RestService implements Serializable {
         }
         return response;
     }
-    
+
 }

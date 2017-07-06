@@ -1,11 +1,14 @@
 package com.espe.edu.ec.beacon.ui;
 
+import com.espe.edu.ec.beacon.ui.util.ConstanteBeacon;
 import com.espe.edu.ec.model.Notificacion;
 import com.espe.edu.ec.services.NotificacionService;
 import com.espe.edu.ec.beacon.ui.util.JsfUtil;
 import com.espe.edu.ec.beacon.ui.util.JsfUtil.PersistAction;
 import com.espe.edu.ec.model.Area;
+import com.espe.edu.ec.model.Historial;
 import com.espe.edu.ec.services.AreaService;
+import com.espe.edu.ec.services.HistorialService;
 
 import java.io.Serializable;
 import java.util.List;
@@ -35,6 +38,9 @@ public class NotificacionController implements Serializable {
 
     @EJB
     private AreaService areaService;
+
+    @EJB
+    private HistorialService historialService;
 
     private Area areaSelected;
 
@@ -159,15 +165,22 @@ public class NotificacionController implements Serializable {
 
     private void persist(PersistAction persistAction, String successMessage) {
         if (notificacionSelected != null) {
+            Historial h = new Historial();
             setEmbeddableKeys();
             try {
                 if (persistAction != PersistAction.DELETE) {
                     if (persistAction == PersistAction.CREATE) {
                         notificacionSelected.setAreaId(areaSelected);
                         getFacade().crear(notificacionSelected);
+                        h.setCodigoHistorial(ConstanteBeacon.CREACION);
+                        h.setDescripcion(successMessage + " " + notificacionSelected.getNotificacionId());
+                        historialService.crear(h);
                         notificacionesPorArea();
                     } else {
                         getFacade().actualizar(notificacionSelected);
+                        h.setCodigoHistorial(ConstanteBeacon.ACTUALIZACION);
+                        h.setDescripcion(successMessage + " " + notificacionSelected.getNotificacionId());
+                        historialService.crear(h);
                     }
                 } else {
                     getFacade().eliminar(notificacionSelected);
