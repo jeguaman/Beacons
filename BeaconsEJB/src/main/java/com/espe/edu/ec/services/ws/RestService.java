@@ -206,4 +206,16 @@ public class RestService implements Serializable {
         return response;
     }
 
+    
+    public WSResponse traerTodasAreasNoImagen() {
+        WSResponse response = new WSResponse();
+        try {
+            response.setEntity( areaService.traerTodasAreasNoImagen());
+            response.setState(true);
+        } catch (Exception ex) {
+            LOGGER.error(ex);
+            response.setState(false);
+        }
+        return response;
+    }
 }

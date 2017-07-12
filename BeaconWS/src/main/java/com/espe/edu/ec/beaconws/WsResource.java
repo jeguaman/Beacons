@@ -68,6 +68,13 @@ public class WsResource {
     public WSResponse traerAreas() {
         return restService.traerAreasWS();
     }
+    
+    @POST
+    @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
+    @Path("/traerAreasNoImagen")
+    public WSResponse traerTodasAreasNoImagen() {
+        return restService.traerTodasAreasNoImagen();
+    }
 
     @POST
     @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
