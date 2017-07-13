@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.espe.edu.ec.beaconws;
+package com.espe.edu.ec.beacon.ws;
 
 import com.espe.edu.ec.services.ws.RestService;
 import com.espe.edu.ec.services.ws.WSResponse;
