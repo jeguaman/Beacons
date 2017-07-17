@@ -11,6 +11,7 @@ import com.espe.edu.ec.services.AreaService;
 import com.espe.edu.ec.services.HistorialService;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -47,6 +48,8 @@ public class NotificacionController implements Serializable {
     private List<Notificacion> listaNotificacion;
     private Notificacion notificacionSelected;
     private LazyDataModel<Area> areasLazy;
+
+    private String titulo;
 
     public NotificacionController() {
     }
@@ -88,6 +91,14 @@ public class NotificacionController implements Serializable {
 
     private NotificacionService getFacade() {
         return notificacionService;
+    }
+
+    public String getTitulo() {
+        return titulo;
+    }
+
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
     }
 
     public Notificacion prepareCreate() {
@@ -134,8 +145,14 @@ public class NotificacionController implements Serializable {
         areasLazy = new LazyDataModel() {
             @Override
             public List load(int first, int pageSize, String sortField, SortOrder sortOrder, Map filters) {
-                List<Area> areas = areaService.traerLazzy(first, pageSize);
-                this.setRowCount(areaService.totalRegistros());
+                List<Area> areas = new ArrayList();
+                if (titulo != null && titulo.compareTo("") != 0) {
+                    areas = areaService.traerPorTituloLike(first, pageSize, titulo);
+                    this.setRowCount(areaService.totalPorTituloLike(titulo));
+                } else {
+                    areas = areaService.traerLazzy(first, pageSize);
+                    this.setRowCount(areaService.totalRegistros());
+                }
                 return areas;
             }
 

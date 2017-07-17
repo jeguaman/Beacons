@@ -13,6 +13,7 @@ import com.espe.edu.ec.services.AreaService;
 import com.espe.edu.ec.services.HistorialService;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -57,6 +58,7 @@ public class BeaconController implements Serializable {
     private Integer idAreaEdit;
     private String nombreAreaAsignada;
     private AreaBeacon areaBeacon;
+    private String uuidBusqueda;
 
     public BeaconController() {
     }
@@ -91,6 +93,14 @@ public class BeaconController implements Serializable {
 
     private BeaconService getFacade() {
         return beaconService;
+    }
+
+    public String getUuidBusqueda() {
+        return uuidBusqueda;
+    }
+
+    public void setUuidBusqueda(String uuidBusqueda) {
+        this.uuidBusqueda = uuidBusqueda;
     }
 
     public Beacon prepareCreate() {
@@ -177,8 +187,14 @@ public class BeaconController implements Serializable {
         beaconsLazzy = new LazyDataModel<Beacon>() {
             @Override
             public List load(int first, int pageSize, String sortField, SortOrder sortOrder, Map filters) {
-                List<Beacon> beacons = beaconService.traerLazzy(first, pageSize);
-                this.setRowCount(beaconService.totalRegistros());
+                List<Beacon> beacons = new ArrayList();
+                if (uuidBusqueda != null && uuidBusqueda.compareTo("") != 0) {
+                    beacons = beaconService.traerPorUuid(first, pageSize, uuidBusqueda);
+                    this.setRowCount(beaconService.totalPorUuid(uuidBusqueda));
+                } else {
+                    beacons = beaconService.traerLazzy(first, pageSize);
+                    this.setRowCount(beaconService.totalRegistros());
+                }
                 return beacons;
             }
 

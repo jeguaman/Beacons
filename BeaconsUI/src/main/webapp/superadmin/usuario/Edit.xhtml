@@ -40,13 +40,15 @@
                                     <div class="form-group">
                                         <p:outputLabel class="col-sm-3 col-sm-3 control-label" value="#{bundle.EditUsuarioLabel_correoElectronico}" for="correoElectronico" />
                                         <div class="col-sm-9">
-                                            <h:inputText class="form-control" id="correoElectronico" value="#{usuarioController.selected.correoElectronico}" title="#{bundle.EditUsuarioTitle_correoElectronico}" required="true" requiredMessage="#{bundle.EditUsuarioRequiredMessage_correoElectronico}"/>
+                                            <h:inputText class="form-control" id="correoElectronico" value="#{usuarioController.selected.correoElectronico}" title="#{bundle.EditUsuarioTitle_correoElectronico}" required="true" requiredMessage="#{bundle.EditUsuarioRequiredMessage_correoElectronico}">
+                                                <!--<p:ajax event="blur" listener="#{usuarioController.verificarCorreo()}" process="@this" update="growl"/>-->
+                                            </h:inputText>
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <p:outputLabel class="col-sm-3 col-sm-3 control-label" value="#{bundle.EditUsuarioLabel_contrasenia}"  />
+                                        <p:outputLabel class="col-sm-3 col-sm-3 control-label" value="#{bundle.EditUsuarioLabel_contrasenia}"/>
                                         <div class="col-sm-9">
-                                            <p:commandButton class="form-control" value="Resetear Clave"/>
+                                            <p:commandButton class="form-control" value="Resetear Clave" actionListener="#{usuarioController.resetearPass()}"/>
                                         </div>
                                     </div>
                                     <div style="text-align: center;">

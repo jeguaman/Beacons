@@ -31,9 +31,16 @@ and open the template in the editor.
             <div class="container">
                 <h:form class="form-login" >  
                     <p:growl id="growl" sticky="true" showDetail="true" life="3000" />
-                    <h2 class="form-login-heading">Inicio de Sesión</h2>
+                    <h2 class="form-login-heading">
+                        <img src="#{request.contextPath}/resources/img/b_blue.png" width="90"/>
+                        Inicio de Sesión</h2>
                     <div class="login-wrap">
-                        <h:inputText class="form-control"  id="username" value="#{loginBean.correo}" required="true"  a:placeholder="Correo Institucional" requiredMessage="#{bundle.correoInstitucional_login}"/>
+                        <h:inputText class="form-control"  id="username" value="#{loginBean.correo}" required="true"  
+                                     a:placeholder="Correo Institducional" requiredMessage="#{bundle.correoInstitucional_login}"
+                                     validatorMessage="Ingrese un correo institucional valido.">
+                            <!--<f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />-->
+                            <f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@(espe.edu.ec)$" />
+                        </h:inputText>
                         <br/>
                         <p:password class="form-control" id="password" value="#{loginBean.contrasenia}" required="true" placeholder="Contraseña" requiredMessage="#{bundle.contrasenia_login}" />
                         <br/>

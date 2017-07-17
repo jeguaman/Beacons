@@ -11,6 +11,7 @@ import com.espe.edu.ec.services.HistorialService;
 import com.espe.edu.ec.services.LugarService;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -44,6 +45,8 @@ public class AreaController implements Serializable {
     private LazyDataModel<Lugar> lugarLazyDataModel;
     private Area selected;
     private UploadedFile file;
+
+    private String titulo;
 
     public AreaController() {
     }
@@ -95,6 +98,14 @@ public class AreaController implements Serializable {
         return areaService;
     }
 
+    public String getTitulo() {
+        return titulo;
+    }
+
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
+    }
+
     public Area prepareCreate() {
         selected = new Area();
         initializeEmbeddableKey();
@@ -117,8 +128,14 @@ public class AreaController implements Serializable {
         areasLazy = new LazyDataModel() {
             @Override
             public List load(int first, int pageSize, String sortField, SortOrder sortOrder, Map filters) {
-                List<Area> areas = areaService.traerLazzy(first, pageSize);
-                this.setRowCount(areaService.totalRegistros());
+                List<Area> areas = new ArrayList();
+                if (titulo != null && titulo.compareTo("") != 0) {
+                    areas = areaService.traerPorTituloLike(first, pageSize, titulo);
+                    this.setRowCount(areaService.totalPorTituloLike(titulo));
+                } else {
+                    areas = areaService.traerLazzy(first, pageSize);
+                    this.setRowCount(areaService.totalRegistros());
+                }
                 return areas;
             }
 
@@ -189,12 +206,12 @@ public class AreaController implements Serializable {
                     if (persistAction == PersistAction.CREATE) {
                         getFacade().crear(selected);
                         h.setCodigoHistorial(ConstanteBeacon.CREACION);
-                        h.setDescripcion(successMessage + " "+selected.getAreaId());
+                        h.setDescripcion(successMessage + " " + selected.getAreaId());
                         historialService.crear(h);
                     } else {
                         getFacade().actualizar(selected);
                         h.setCodigoHistorial(ConstanteBeacon.ACTUALIZACION);
-                        h.setDescripcion(successMessage +" "+ selected.getAreaId());
+                        h.setDescripcion(successMessage + " " + selected.getAreaId());
                         historialService.crear(h);
                     }
                 } else {

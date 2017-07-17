@@ -27,6 +27,8 @@ public class AreaFacade extends AbstractFacade<Area> {
     private static final String TRAER_AREAS_POR_UUID = "SELECT a FROM Area as a JOIN a.areaBeaconList as b WHERE b.beaconId.uuid = :uuid";
     private static final String TRAER_AREAS_DISPONIBLES = "SELECT a FROM Area as a LEFT JOIN a.areaBeaconList as b WHERE b.areaId.areaId IS NULL";
     private static final String TRAER_TODAS_AREAS_NOT_BYTES_IMAGE = "SELECT new Area(a.areaId, a.titulo, a.descripcion) FROM Area as a";
+    private static final String TRAER_POR_TITULO_LIKE = "select a from Area a where a.titulo like :titulo";
+    private static final String TOTAL_POR_TITULO_LIKE = "select count(a) from Area a where a.titulo like :titulo";
 
     @Override
     protected EntityManager getEntityManager() {
@@ -73,5 +75,21 @@ public class AreaFacade extends AbstractFacade<Area> {
     public List<Area> traerTodasAreasNoImagen() {
         Query q = em.createQuery(TRAER_TODAS_AREAS_NOT_BYTES_IMAGE);
         return q.getResultList();
+    }
+
+    public List<Area> traerPorTituloLike(Integer first, Integer size, String titulo) {
+        Query q = em.createQuery(TRAER_POR_TITULO_LIKE);
+        q.setParameter("titulo", "%" + titulo + "%");
+        q.setFirstResult(first);
+        q.setMaxResults(size);
+        List<Area> areas = q.getResultList();
+        return areas;
+    }
+
+    public Integer totalPorTituloLike(String titulo) {
+        Query q = em.createQuery(TOTAL_POR_TITULO_LIKE);
+        q.setParameter("titulo", "%" + titulo + "%");
+        Long total = (Long) q.getSingleResult();
+        return total.intValue();
     }
 }
