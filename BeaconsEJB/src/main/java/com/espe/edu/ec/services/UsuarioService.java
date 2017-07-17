@@ -99,4 +99,8 @@ public class UsuarioService implements InterfaceService<Usuario>, Serializable {
         return usuarioFacade.totalPorCorreoElectronicoLike(correo);
     }
 
+    public Usuario traerPorCorreoElectronico(String correoElectronico) {
+        return usuarioFacade.traerPorCorreoElectronico(correoElectronico);
+    }
+
 }

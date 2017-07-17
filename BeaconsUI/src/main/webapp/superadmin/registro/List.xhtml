@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="../../template/template.xhtml">
+        <ui:define name="contenido" id="contenido">     
+            <!--main content start-->
+            <section class="wrapper">
+                <h3><i class="fa fa-user"></i> Visualización de Registros</h3>
+                <h:form id="UsuarioListForm">
+                    <div class="row mt">
+                        <div class="col-md-12">
+                            <div class="content-panel" style="padding-left: 1%;">
+                                <h:panelGroup class="form-group" layout="block" rendered="false">
+                                    <p:inputText class="col-sm-3 col-sm-3 control-label" placeholder="Ingrese correo electrónico" value="#{registroController.correoBusqueda}"/>
+                                    <div class="col-sm-9">
+                                        <p:commandButton value="Buscar" actionListener="#{registroController.getRegistros}" update="datalist"/>
+                                    </div>
+                                </h:panelGroup>
+                            </div>
+                            <div class="content-panel">
+                                <p:panel>
+                                    <p:dataTable id="datalist" value="#{registroController.registrosLazy}" var="item"
+                                                 selectionMode="single" selection="#{registroController.selected}"
+                                                 paginator="true"
+                                                 rowKey="#{item.registroId}"
+                                                 rows="10"
+                                                 lazy="true"
+                                                 paginatorPosition="bottom"
+                                                 emptyMessage="No se encontraron usuarios"
+                                                 >
+
+                                        <p:ajax event="rowSelect"   update=" viewButton  deleteButton"/>
+                                        <p:ajax event="rowUnselect" update=" viewButton  deleteButton"/>
+                                        <p:column>
+                                            <f:facet name="header">
+                                                <h:outputText value="Imei Dispositivo"/>
+                                            </f:facet>
+                                            <h:outputText value="#{item.dispositivoId.imei}"/>
+                                        </p:column>
+                                        <p:column>
+                                            <f:facet name="header">
+                                                <h:outputText value="Área Localizada"/>
+                                            </f:facet>
+                                            <h:outputText value="#{item.areaId.titulo}"/>
+                                        </p:column>
+                                        <p:column>
+                                            <f:facet name="header">
+                                                <h:outputText value="Tipo"/>
+                                            </f:facet>
+                                            <h:outputText value="#{item.tipo eq 'E' ? 'Entrada' : 'Salida' }"/>
+                                        </p:column>
+                                        <f:facet name="footer">
+                                            <p:commandButton class="btn btn-crear" id="viewButton"   icon="ui-icon-search" value="#{bundle.View}" update=":UsuarioViewForm" oncomplete="PF('UsuarioViewDialog').show()" disabled="#{empty registroController.selected}"/>
+                                            <p:spacer height="30"></p:spacer>
+                                            <p:commandButton class="btn btn-crear" id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{registroController.destroy}" update=":growl,datalist" disabled="#{empty registroController.selected}" rendered="false"/>
+                                            <h:commandLink id="excel">
+                                                <p:graphicImage name="/demo/images/excel.png" />
+                                                <p:dataExporter type="xls" target="datalist" fileName="Registros" />
+                                            </h:commandLink>
+                                        </f:facet>
+                                    </p:dataTable>
+                                </p:panel>
+
+                            </div>
+                        </div>
+                    </div>                
+
+                </h:form>
+
+            </section><!--/wrapper -->
+
+            <!--main content end-->
+            <ui:include src="View.xhtml"/>
+        </ui:define>
+    </ui:composition>
+
+</html>

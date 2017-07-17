@@ -49,10 +49,17 @@ public class RegistroService implements InterfaceService<Registro> {
     }
 
     @Override
-    public List<Registro> traerLazzy(Integer first, Integer size) {       
+    public List<Registro> traerLazzy(Integer first, Integer size) {
         return registroFacade.traerLazzy(first, size);
     }
 
+    public Integer total() {
+        return registroFacade.count();
+    }
+
+    public List<Registro> traerFetchAreaDispositivo(Integer first, Integer size) {
+        return registroFacade.traerFetchAreaDispositivo(first, size);
+    }
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
 }

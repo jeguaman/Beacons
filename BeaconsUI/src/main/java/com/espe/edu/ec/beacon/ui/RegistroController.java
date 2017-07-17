@@ -1,19 +1,14 @@
 package com.espe.edu.ec.beacon.ui;
 
-import com.espe.edu.ec.beacon.ui.util.ConstanteBeacon;
-import com.espe.edu.ec.beacon.ui.util.ConvertidorUtil;
 import com.espe.edu.ec.model.Usuario;
 import com.espe.edu.ec.beacon.ui.util.JsfUtil;
 import com.espe.edu.ec.beacon.ui.util.JsfUtil.PersistAction;
-import com.espe.edu.ec.beacon.ui.util.ValidationUtil;
-import com.espe.edu.ec.model.Area;
-import com.espe.edu.ec.model.AsignacionPerfil;
 import com.espe.edu.ec.model.Historial;
-import com.espe.edu.ec.model.Perfil;
-import com.espe.edu.ec.services.AreaService;
+import com.espe.edu.ec.model.Registro;
 import com.espe.edu.ec.services.AsignacionPerfilService;
 import com.espe.edu.ec.services.HistorialService;
 import com.espe.edu.ec.services.PerfilService;
+import com.espe.edu.ec.services.RegistroService;
 import com.espe.edu.ec.services.UsuarioService;
 
 import java.io.Serializable;
@@ -37,10 +32,10 @@ import org.primefaces.model.SortOrder;
 
 @ManagedBean
 @ViewScoped
-public class UsuarioController implements Serializable {
+public class RegistroController implements Serializable {
 
     @EJB
-    private UsuarioService usuarioService;
+    private RegistroService registroService;
     @EJB
     private PerfilService perfilService;
     @EJB
@@ -48,41 +43,36 @@ public class UsuarioController implements Serializable {
     @EJB
     private HistorialService historialService;
 
-    private LazyDataModel<Usuario> usuariosLazy;
-    private Usuario selected;
+    private LazyDataModel<Registro> registrosLazy;
+    private Registro selected;
 
     private Integer idPerfilSeleccionado;
 
     private String correoBusqueda;
 
-    private String messageError;
-
-//    private List<Perfil> perfiles = new ArrayList();
     @PostConstruct
     public void init() {
-        messageError = "";
-//        perfiles = perfilService.buscarTodos();
-        getUsuarios();
+        getRegistros();
     }
 
-    public UsuarioController() {
+    public RegistroController() {
 
     }
 
-    public Usuario getSelected() {
+    public Registro getSelected() {
         return selected;
     }
 
-    public void setSelected(Usuario selected) {
+    public void setSelected(Registro selected) {
         this.selected = selected;
     }
 
-    public LazyDataModel<Usuario> getUsuariosLazy() {
-        return usuariosLazy;
+    public LazyDataModel<Registro> getRegistrosLazy() {
+        return registrosLazy;
     }
 
-    public void setUsuariosLazy(LazyDataModel<Usuario> usuariosLazy) {
-        this.usuariosLazy = usuariosLazy;
+    public void setUsuariosLazy(LazyDataModel<Registro> usuariosLazy) {
+        this.registrosLazy = usuariosLazy;
     }
 
     public Integer getIdPerfilSeleccionado() {
@@ -108,45 +98,27 @@ public class UsuarioController implements Serializable {
         this.correoBusqueda = correoBusqueda;
     }
 
-    public String getMessageError() {
-        return messageError;
-    }
-
-    public void setMessageError(String messageError) {
-        this.messageError = messageError;
-    }
-
     protected void setEmbeddableKeys() {
     }
 
     protected void initializeEmbeddableKey() {
     }
 
-    private UsuarioService getFacade() {
-        return usuarioService;
+    private RegistroService getFacade() {
+        return registroService;
     }
 
-    public Usuario prepareCreate() {
-        selected = new Usuario();
-        initializeEmbeddableKey();
-        return selected;
-    }
-
-    public void create() {
-        if (messageError != null && messageError.compareTo("") == 0) {
-            selected.setContrasenia(ConvertidorUtil.convertirMD5(selected.getContrasenia()));
-            persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("UsuarioCreated"));
-        } else {
-            JsfUtil.addSuccessMessage(messageError);
-        }
-    }
-
+//    public Registro prepareCreate() {
+//        selected = new Registro();
+//        initializeEmbeddableKey();
+//        return selected;
+//    }
+//    public void create() {
+//        selected.setContrasenia(ConvertidorUtil.convertirMD5(selected.getContrasenia()));
+//        persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("UsuarioCreated"));
+//    }
     public void update() {
-        if (messageError != null && messageError.compareTo("") == 0) {
-            persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("UsuarioUpdated"));
-        } else {
-            JsfUtil.addSuccessMessage(messageError);
-        }
+        persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("UsuarioUpdated"));
     }
 
     public void destroy() {
@@ -156,19 +128,19 @@ public class UsuarioController implements Serializable {
         }
     }
 
-    public void getUsuarios() {
-        usuariosLazy = new LazyDataModel() {
+    public void getRegistros() {
+        registrosLazy = new LazyDataModel() {
             @Override
             public List load(int first, int pageSize, String sortField, SortOrder sortOrder, Map filters) {
-                List<Usuario> usuarios = new ArrayList();
-                if (correoBusqueda != null && correoBusqueda.compareTo("") != 0) {
-                    usuarios = usuarioService.traerPorCorreoElectronicoLike(correoBusqueda, first, pageSize);
-                    this.setRowCount(usuarioService.totalPorCorreoElectronicoLike(correoBusqueda));
+                List<Registro> registros = new ArrayList();
+                if ((correoBusqueda != null && correoBusqueda.compareTo("") != 0)) {
+//                    registros = registroService.traerPorCorreoElectronicoLike(correoBusqueda, first, pageSize);
+//                    this.setRowCount(registroService.totalPorCorreoElectronicoLike(correoBusqueda));
                 } else {
-                    usuarios = usuarioService.traerLazzy(first, pageSize);
-                    this.setRowCount(usuarioService.totalRegistros());
+                    registros = registroService.traerFetchAreaDispositivo(first, pageSize);
+                    this.setRowCount(registroService.total());
                 }
-                return usuarios;
+                return registros;
             }
 
             @Override
@@ -181,11 +153,11 @@ public class UsuarioController implements Serializable {
             }
 
             @Override
-            public Usuario getRowData(String rowKey) {
-                List<Usuario> usuarios = (List<Usuario>) getWrappedData();
+            public Registro getRowData(String rowKey) {
+                List<Registro> registros = (List<Registro>) getWrappedData();
 
-                for (Usuario usuario : usuarios) {
-                    if (usuario.getUsuarioId().toString().equals(rowKey)) {
+                for (Registro usuario : registros) {
+                    if (usuario.getRegistroId().toString().equals(rowKey)) {
                         return usuario;
                     }
                 }
@@ -202,19 +174,18 @@ public class UsuarioController implements Serializable {
             try {
                 if (persistAction != PersistAction.DELETE) {
                     if (persistAction == PersistAction.CREATE) {
-//                        getFacade().crear(selected);
-                        getFacade().crearUsuarioConPerfil(selected, ConstanteBeacon.COD_PERFIL_ADMIN);
-                        h.setCodigoHistorial(ConstanteBeacon.CREACION);
-                        h.setDescripcion(successMessage + selected.getUsuarioId());
-                        historialService.crear(h);
+////                        getFacade().crear(selected);
+//                        h.setCodigoHistorial(ConstanteBeacon.CREACION);
+//                        h.setDescripcion(successMessage + selected.getUsuarioId());
+//                        historialService.crear(h);
                     } else {
-                        getFacade().actualizar(selected);
-                        h.setCodigoHistorial(ConstanteBeacon.ACTUALIZACION + selected.getUsuarioId());
-                        h.setDescripcion(successMessage);
-                        historialService.crear(h);
+//                        getFacade().actualizar(selected);
+//                        h.setCodigoHistorial(ConstanteBeacon.ACTUALIZACION + selected.getUsuarioId());
+//                        h.setDescripcion(successMessage);
+//                        historialService.crear(h);
                     }
                 } else {
-                    getFacade().eliminar(selected);
+//                    getFacade().eliminar(selected);
                 }
                 JsfUtil.addSuccessMessage(successMessage);
             } catch (EJBException ex) {
@@ -235,18 +206,6 @@ public class UsuarioController implements Serializable {
         }
     }
 
-    public Usuario getUsuario(java.lang.Integer id) {
-        return getFacade().buscar(id);
-    }
-
-    public List<Usuario> getItemsAvailableSelectMany() {
-        return getFacade().buscarTodos();
-    }
-
-    public List<Usuario> getItemsAvailableSelectOne() {
-        return getFacade().buscarTodos();
-    }
-
     @FacesConverter(forClass = Usuario.class)
     public static class UsuarioControllerConverter implements Converter {
 
@@ -255,9 +214,9 @@ public class UsuarioController implements Serializable {
             if (value == null || value.length() == 0) {
                 return null;
             }
-            UsuarioController controller = (UsuarioController) facesContext.getApplication().getELResolver().
-                    getValue(facesContext.getELContext(), null, "usuarioController");
-            return controller.getUsuario(getKey(value));
+            RegistroController controller = (RegistroController) facesContext.getApplication().getELResolver().
+                    getValue(facesContext.getELContext(), null, "registroController");
+            return controller.getRegistro(getKey(value));
         }
 
         java.lang.Integer getKey(String value) {
@@ -277,9 +236,9 @@ public class UsuarioController implements Serializable {
             if (object == null) {
                 return null;
             }
-            if (object instanceof Usuario) {
-                Usuario o = (Usuario) object;
-                return getStringKey(o.getUsuarioId());
+            if (object instanceof Registro) {
+                Registro o = (Registro) object;
+                return getStringKey(o.getRegistroId());
             } else {
                 Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), Usuario.class.getName()});
                 return null;
@@ -288,27 +247,7 @@ public class UsuarioController implements Serializable {
 
     }
 
-    public void verificarCorreo() {
-        if (selected.getCorreoElectronico() != null) {
-            if (!ValidationUtil.soloCorreoElectronicoInstitucional(selected.getCorreoElectronico())) {
-                messageError = "No es un email institucional.";
-            } else {
-                Usuario tmp = usuarioService.traerPorCorreoElectronico(selected.getCorreoElectronico());
-                if (tmp != null) {
-                    messageError = "El correo ingresado ya se encuentra registrado.";
-                } else {
-                    messageError = "";
-                }
-            }
-        }
-    }
-
-    public void resetearPass() {
-        if (selected != null) {
-            if (selected.getContrasenia() != null) {
-                selected.setContrasenia(ConvertidorUtil.convertirMD5(ConstanteBeacon.CONTRASENIA_DEFECTO));
-            }
-        }
-
+    public Registro getRegistro(java.lang.Integer id) {
+        return getFacade().buscar(id);
     }
 }
