@@ -8,6 +8,7 @@ package com.espe.edu.ec.services.ws;
 import com.espe.edu.ec.model.Area;
 import com.espe.edu.ec.model.Dispositivo;
 import com.espe.edu.ec.model.Historial;
+import com.espe.edu.ec.model.Lugar;
 import com.espe.edu.ec.model.Notificacion;
 import com.espe.edu.ec.model.Registro;
 import com.espe.edu.ec.services.AreaService;
@@ -16,8 +17,10 @@ import com.espe.edu.ec.services.HistorialService;
 import com.espe.edu.ec.services.LugarService;
 import com.espe.edu.ec.services.NotificacionService;
 import com.espe.edu.ec.services.RegistroService;
+import com.espe.edu.ec.services.ws.util.Util;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ejb.LocalBean;
@@ -55,8 +58,10 @@ public class RestService implements Serializable {
 
     public WSResponse traerAreasWS() {
         WSResponse response = new WSResponse();
+        Util util = new Util();
         try {
-            response.setEntity(areaService.buscarTodos());
+            List<Area> listaArea = areaService.buscarTodos();
+            response.setJsonEntity(util.convertirListaObjetoEnJsonString(listaArea));
             response.setState(true);
         } catch (Exception ex) {
             LOGGER.error(ex);
@@ -73,8 +78,10 @@ public class RestService implements Serializable {
      */
     public WSResponse traerAreaPorId(int idArea) {
         WSResponse response = new WSResponse();
+        Util util = new Util();
         try {
-            response.setEntity(areaService.buscar(idArea));
+            Area area = areaService.buscar(idArea);
+            response.setJsonEntity(util.convertirObjetoEnJsonString(area));
             response.setState(true);
         } catch (Exception e) {
             LOGGER.error(e);
@@ -91,8 +98,10 @@ public class RestService implements Serializable {
      */
     public WSResponse traerLugaresPorIdAreaNoBytes(Integer idArea) {
         WSResponse response = new WSResponse();
+        Util util = new Util();
         try {
-            response.setEntity(lugarService.traerLugaresPorIdAreaNoBytes(idArea));
+            List<Lugar> listaLugar = lugarService.traerLugaresPorIdAreaNoBytes(idArea);
+            response.setJsonEntity(util.convertirListaObjetoEnJsonString(listaLugar));
             response.setState(true);
         } catch (Exception e) {
             LOGGER.error(e);
@@ -109,8 +118,10 @@ public class RestService implements Serializable {
      */
     public WSResponse traerLugarPorId(Integer idLugar) {
         WSResponse response = new WSResponse();
+        Util util = new Util();
         try {
-            response.setEntity(lugarService.buscar(idLugar));
+            Lugar lugar = lugarService.buscar(idLugar);
+            response.setJsonEntity(util.convertirObjetoEnJsonString(lugar));
             response.setState(true);
         } catch (Exception e) {
             LOGGER.error(e);
@@ -126,8 +137,10 @@ public class RestService implements Serializable {
      */
     public WSResponse traerLugaresPorUUIDBeacon(String uuidBeacon) {
         WSResponse response = new WSResponse();
+        Util util = new Util();
         try {
-            response.setEntity(lugarService.traerLugaresPorUUIDBeacon(uuidBeacon));
+            List<Lugar> lista = lugarService.traerLugaresPorUUIDBeacon(uuidBeacon);
+            response.setJsonEntity(util.convertirListaObjetoEnJsonString(lista));
             response.setState(true);
         } catch (Exception e) {
             LOGGER.error(e);
@@ -138,6 +151,7 @@ public class RestService implements Serializable {
 
     public WSResponse registrarAreaDispositivo(Integer idArea, String imeiDispositivo, String tipo) {
         WSResponse response = new WSResponse();
+        Util util = new Util();
         Historial h = null;
         try {
             Dispositivo d = new Dispositivo();
@@ -164,7 +178,7 @@ public class RestService implements Serializable {
             historialService.crear(h);
 
             response.setState(true);
-            response.setEntity(r);
+            response.setJsonEntity(util.convertirObjetoEnJsonString(r));
         } catch (Exception e) {
             LOGGER.error(e);
             response.setState(false);
@@ -174,6 +188,7 @@ public class RestService implements Serializable {
 
     public WSResponse traerNotificacionPorAreaTipo(Integer idArea, String tipo) {
         WSResponse response = new WSResponse();
+        Util util = new Util();
         try {
             Notificacion notificacion = notificacionService.traerPorAreaYTipo(idArea, tipo);
             if (notificacion != null) {
@@ -181,7 +196,7 @@ public class RestService implements Serializable {
             } else {
                 response.setState(false);
             }
-            response.setEntity(notificacion);
+            response.setJsonEntity(util.convertirObjetoEnJsonString(notificacion));
         } catch (Exception e) {
             LOGGER.error(e);
             response.setState(false);
@@ -196,8 +211,10 @@ public class RestService implements Serializable {
      */
     public WSResponse traerAreasPorUUIDBeacon(String uuidBeacon) {
         WSResponse response = new WSResponse();
+        Util util = new Util();
         try {
-            response.setEntity(areaService.traerAreasPorUUIDBeacon(uuidBeacon));
+            List<Area> lista = areaService.traerAreasPorUUIDBeacon(uuidBeacon);
+            response.setJsonEntity(util.convertirListaObjetoEnJsonString(lista));
             response.setState(true);
         } catch (Exception e) {
             LOGGER.error(e);
@@ -206,4 +223,17 @@ public class RestService implements Serializable {
         return response;
     }
 
+    public WSResponse traerTodasAreasNoImagen() {
+        WSResponse response = new WSResponse();
+        Util util = new Util();
+        try {
+            List<Area> lista = areaService.traerTodasAreasNoImagen();
+            response.setJsonEntity(util.convertirListaObjetoEnJsonString(lista));
+            response.setState(true);
+        } catch (Exception ex) {
+            LOGGER.error(ex);
+            response.setState(false);
+        }
+        return response;
+    }
 }

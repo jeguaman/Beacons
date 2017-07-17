@@ -78,6 +78,10 @@ public class AreaService implements InterfaceService<Area>, Serializable {
         return areaFacade.traerAreasDisponibles();
     }
 
+    public List<Area> traerTodasAreasNoImagen() {
+        return areaFacade.traerTodasAreasNoImagen();
+    }
+
     public List<Area> traerPorTituloLike(Integer first, Integer size, String titulo) {
         return areaFacade.traerPorTituloLike(first, size, titulo);
     }

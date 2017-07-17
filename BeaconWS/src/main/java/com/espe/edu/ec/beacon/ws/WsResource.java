@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.espe.edu.ec.beaconws;
+package com.espe.edu.ec.beacon.ws;
 
 import com.espe.edu.ec.services.ws.RestService;
 import com.espe.edu.ec.services.ws.WSResponse;
@@ -67,6 +67,13 @@ public class WsResource {
     @Path("/traerAreas")
     public WSResponse traerAreas() {
         return restService.traerAreasWS();
+    }
+    
+    @POST
+    @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
+    @Path("/traerAreasNoImagen")
+    public WSResponse traerTodasAreasNoImagen() {
+        return restService.traerTodasAreasNoImagen();
     }
 
     @POST
