@@ -29,6 +29,7 @@ public class AreaFacade extends AbstractFacade<Area> {
     private static final String TRAER_TODAS_AREAS_NOT_BYTES_IMAGE = "SELECT new Area(a.areaId, a.titulo, a.descripcion) FROM Area as a";
     private static final String TRAER_POR_TITULO_LIKE = "select a from Area a where a.titulo like :titulo";
     private static final String TOTAL_POR_TITULO_LIKE = "select count(a) from Area a where a.titulo like :titulo";
+    private static final String TRAER_IMAGEN_POR_ID_AREA = "SELECT new Area(a.areaId, a.imagen) FROM Area as a WHERE a.areaId = :areaId";
 
     @Override
     protected EntityManager getEntityManager() {
@@ -92,4 +93,15 @@ public class AreaFacade extends AbstractFacade<Area> {
         Long total = (Long) q.getSingleResult();
         return total.intValue();
     }
+
+    public Area traerImagenPorIdArea(Integer areaId) {
+        try {
+            Query q = em.createQuery(TRAER_IMAGEN_POR_ID_AREA);
+            q.setParameter("areaId", areaId);
+            return (Area) q.getSingleResult();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
 }

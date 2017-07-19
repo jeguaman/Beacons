@@ -73,4 +73,8 @@ public class LugarService implements InterfaceService<Lugar>, Serializable {
     public int traerLugaresPorIdAreaNoBytesTotal(Integer areaId) {
         return lugarFacade.traerLugaresPorIdAreaNoBytesTotal(areaId);
     }
+
+    public Lugar traerImagenPorIdLugar(Integer lugarId) {
+        return lugarFacade.traerImagenPorIdLugar(lugarId);
+    }
 }

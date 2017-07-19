@@ -236,4 +236,33 @@ public class RestService implements Serializable {
         }
         return response;
     }
+
+    public WSResponse traerImagenPorIdLugar(Integer idLugar) {
+        WSResponse response = new WSResponse();
+        Util util = new Util();
+        try {
+            Lugar lugar = lugarService.traerImagenPorIdLugar(idLugar);
+            response.setJsonEntity(util.convertirObjetoEnJsonString(lugar));
+            response.setState(true);
+        } catch (Exception ex) {
+            LOGGER.error(ex);
+            response.setState(false);
+        }
+        return response;
+    }
+    
+    public WSResponse traerImagenPorIdArea(Integer idArea) {
+        WSResponse response = new WSResponse();
+        Util util = new Util();
+        try {
+            Area area = areaService.traerImagenPorIdArea(idArea);
+            response.setJsonEntity(util.convertirObjetoEnJsonString(area));
+            response.setState(true);
+        } catch (Exception ex) {
+            LOGGER.error(ex);
+            response.setState(false);
+        }
+        return response;
+    }
+    
 }

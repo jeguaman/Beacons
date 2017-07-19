@@ -106,6 +106,11 @@ public class Area implements Serializable {
         this.descripcion = descripcion;
     }
 
+    public Area(Integer areaId, byte[] imagen) {
+        this.areaId = areaId;
+        this.imagen = imagen;
+    }
+
     public Integer getAreaId() {
         return areaId;
     }
@@ -212,7 +217,7 @@ public class Area implements Serializable {
 
     @Override
     public String toString() {
-        return "com.espe.edu.ec.model.Area[ areaId=" + areaId + " ]";
+        return "Area{" + "areaId=" + areaId + ", titulo=" + titulo + ", descripcion=" + descripcion + ", imagen=" + imagen + ", inserted=" + inserted + ", updated=" + updated + ", areaBeaconList=" + areaBeaconList + ", lugarList=" + lugarList + ", notificacionList=" + notificacionList + ", registroList=" + registroList + '}';
     }
 
 }

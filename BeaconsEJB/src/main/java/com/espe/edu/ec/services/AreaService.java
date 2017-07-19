@@ -89,4 +89,8 @@ public class AreaService implements InterfaceService<Area>, Serializable {
     public int totalPorTituloLike(String titulo) {
         return areaFacade.totalPorTituloLike(titulo);
     }
+
+    public Area traerImagenPorIdArea(Integer areaId) {
+        return areaFacade.traerImagenPorIdArea(areaId);
+    }
 }

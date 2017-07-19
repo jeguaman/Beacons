@@ -68,7 +68,7 @@ public class WsResource {
     public WSResponse traerAreas() {
         return restService.traerAreasWS();
     }
-    
+
     @POST
     @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
     @Path("/traerAreasNoImagen")
@@ -156,6 +156,30 @@ public class WsResource {
     @Path("/traerAreasPorUUIDBeacon")
     public WSResponse traerAreasPorUUIDBeacon(@FormParam("uuid") String uuidBeacon) {
         return restService.traerAreasPorUUIDBeacon(uuidBeacon);
+    }
+
+    /**
+     *
+     * @param idLugar
+     * @return
+     */
+    @POST
+    @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
+    @Path("/traerImagenPorIdLugar")
+    public WSResponse traerImagenPorIdLugar(@FormParam("id_lugar") Integer idLugar) {
+        return restService.traerImagenPorIdLugar(idLugar);
+    }
+    
+    /**
+     *
+     * @param idArea
+     * @return
+     */
+    @POST
+    @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
+    @Path("/traerImagenPorIdArea")
+    public WSResponse traerImagenPorIdArea(@FormParam("id_area") Integer idArea) {
+        return restService.traerImagenPorIdArea(idArea);
     }
 
 }
