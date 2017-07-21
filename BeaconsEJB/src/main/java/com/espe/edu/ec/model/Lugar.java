@@ -100,6 +100,11 @@ public class Lugar implements Serializable {
         this.descripcion = descripcion;
     }
 
+    public Lugar(Integer lugarId, byte[] imagen) {
+        this.lugarId = lugarId;
+        this.imagen = imagen;
+    }
+
     public Lugar(Integer lugarId) {
         this.lugarId = lugarId;
     }
