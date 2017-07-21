@@ -7,12 +7,15 @@ package com.espe.edu.ec.beacon.ui;
 
 import com.espe.edu.ec.handler.SessionHandler;
 import java.io.IOException;
+import java.io.InputStream;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 import org.jboss.logging.Logger;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
 
 /**
  *
@@ -27,12 +30,21 @@ public class MenuBean implements Serializable {
     private String menuRuta;
     private String nombreUsuario;
     private SessionHandler sessionHandler;
+    private StreamedContent file;
 
     /**
      * Creates a new instance of MenuBean
      */
     public MenuBean() {
         sessionHandler = new SessionHandler();
+    }
+
+    public StreamedContent getFile() {
+        return file;
+    }
+
+    public void setFile(StreamedContent file) {
+        this.file = file;
     }
 
     @PostConstruct
@@ -64,5 +76,10 @@ public class MenuBean implements Serializable {
         } catch (IOException ex) {
             LOGGER.error("Error al redirigir a el'noSession.xhtml' desde 'MenuBaseBean'.", ex);
         }
+    }
+
+    public void descargarAyuda() {
+        InputStream stream = FacesContext.getCurrentInstance().getExternalContext().getResourceAsStream("/resources/files/prueba.docx");
+        file = new DefaultStreamedContent(stream, "application/vnd.openxmlformats-officedocument.wordprocessingml.document","Manual_Ayuda.docx");
     }
 }

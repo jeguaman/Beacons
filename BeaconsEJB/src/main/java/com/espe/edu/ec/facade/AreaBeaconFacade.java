@@ -22,8 +22,8 @@ public class AreaBeaconFacade extends AbstractFacade<AreaBeacon> {
     @PersistenceContext(unitName = "com.espe.edu.ec_BeaconsEJB_ejb_1.0-SNAPSHOTPU")
     private EntityManager em;
 
-    private static final String TRAER_AREA_BEACON_POR_BEACON_ID = "SELECT ab FROM AreaBeacon ab WHERE ab.beaconId.beaconId = :id";
-    private static final String TRAER_AREA_BEACON_POR_AREA_ID = "SELECT ab FROM AreaBeacon ab WHERE ab.areaId.areaId = :idArea";
+    private static final String TRAER_AREA_BEACON_POR_BEACON_ID = "SELECT ab FROM AreaBeacon ab WHERE ab.beaconId.beaconId = :id and ab.deleted = 0 ";
+    private static final String TRAER_AREA_BEACON_POR_AREA_ID = "SELECT ab FROM AreaBeacon ab WHERE ab.areaId.areaId = :idArea and ab.deleted = 0 ";
 
     @Override
     protected EntityManager getEntityManager() {

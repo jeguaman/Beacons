@@ -227,7 +227,7 @@ public class AreaController implements Serializable {
                     h.setCodigoHistorial(ConstanteBeacon.ELIMINACION);
                     h.setDescripcion(successMessage + " AreaId " + selected.getAreaId() + " User:" + handler.getCorreo());
                     historialService.crear(h);
-                    selected = null;
+//                    selected = null;
                 }
                 JsfUtil.addSuccessMessage(successMessage);
             } catch (EJBException ex) {

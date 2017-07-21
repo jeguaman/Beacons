@@ -55,7 +55,8 @@
                                             <p:spacer height="30"></p:spacer>
                                             <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update=":AreaEditForm" oncomplete="PF('AreaEditDialog').show()" disabled="#{empty areaController.selected}"/>
                                             <p:spacer height="30"></p:spacer>
-                                            <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{areaController.destroy}" update=":growl,datalistArea" disabled="#{empty areaController.selected}" rendered="false"/>
+                                            <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" update=":AreaDeletedForm"
+                                                             oncomplete="PF('AreaDeleteDialog').show()" disabled="#{empty areaController.selected}"/>
                                         </f:facet>
                                     </p:dataTable>
                                 </p:panel>
@@ -89,7 +90,7 @@
                                             <p:spacer height="30"></p:spacer>
                                             <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" actionListener="#{lugarController.cargarLugarSeleccionado(lugarController.selected.lugarId)}" update=":LugarEditForm" oncomplete="PF('LugarEditDialog').show()" disabled="#{empty lugarController.selected}"/>
                                             <p:spacer height="30"></p:spacer>
-                                            <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{lugarController.destroy}" update=":growl,datalistLugar" disabled="#{empty lugarController.selected}" rendered="false"/>
+                                            <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" update=":LugarDeletedForm" oncomplete="PF('LugarDeleteDialog').show()" disabled="#{empty lugarController.selected}"/>
                                         </f:facet>
                                     </p:dataTable>
                                 </p:panel>
@@ -101,9 +102,11 @@
             <ui:include src="Create.xhtml"/>
             <ui:include src="Edit.xhtml"/>
             <ui:include src="View.xhtml"/>
+            <ui:include src="Delete.xhtml"/>
             <ui:include src="../lugar/Create.xhtml"/>
             <ui:include src="../lugar/Edit.xhtml"/>
             <ui:include src="../lugar/View.xhtml"/>
+            <ui:include src="../lugar/Delete.xhtml"/>
         </ui:define>
     </ui:composition>
 

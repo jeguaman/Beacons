@@ -33,10 +33,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "registro")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Registro.findAll", query = "SELECT r FROM Registro r")
-    , @NamedQuery(name = "Registro.findByRegistroId", query = "SELECT r FROM Registro r WHERE r.registroId = :registroId")
-    , @NamedQuery(name = "Registro.findByTipo", query = "SELECT r FROM Registro r WHERE r.tipo = :tipo")
-    , @NamedQuery(name = "Registro.findByInserted", query = "SELECT r FROM Registro r WHERE r.inserted = :inserted")})
+    @NamedQuery(name = "Registro.findAll", query = "SELECT r FROM Registro r where r.deleted = 0 ")
+    , @NamedQuery(name = "Registro.findByRegistroId", query = "SELECT r FROM Registro r WHERE r.registroId = :registroId and r.deleted = 0 ")
+    , @NamedQuery(name = "Registro.findByTipo", query = "SELECT r FROM Registro r WHERE r.tipo = :tipo and r.deleted = 0 ")
+    , @NamedQuery(name = "Registro.findByInserted", query = "SELECT r FROM Registro r WHERE r.inserted = :inserted and r.deleted = 0 ")})
 public class Registro implements Serializable {
 
     private static final long serialVersionUID = 1L;

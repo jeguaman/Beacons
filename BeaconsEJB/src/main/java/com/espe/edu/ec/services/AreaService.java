@@ -41,7 +41,9 @@ public class AreaService implements InterfaceService<Area>, Serializable {
 
     @Override
     public void eliminar(Area object) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+       object.setUpdated(new Date());
+       object.setDeleted(Boolean.TRUE);
+        areaFacade.edit(object);
     }
 
     @Override

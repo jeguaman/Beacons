@@ -34,12 +34,12 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "lugar")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Lugar.findAll", query = "SELECT l FROM Lugar l")
-    , @NamedQuery(name = "Lugar.findByLugarId", query = "SELECT l FROM Lugar l WHERE l.lugarId = :lugarId")
-    , @NamedQuery(name = "Lugar.findByDescripcion", query = "SELECT l FROM Lugar l WHERE l.descripcion = :descripcion")
-    , @NamedQuery(name = "Lugar.findByTitulo", query = "SELECT l FROM Lugar l WHERE l.titulo = :titulo")
-    , @NamedQuery(name = "Lugar.findByInserted", query = "SELECT l FROM Lugar l WHERE l.inserted = :inserted")
-    , @NamedQuery(name = "Lugar.findByUpdated", query = "SELECT l FROM Lugar l WHERE l.updated = :updated")})
+    @NamedQuery(name = "Lugar.findAll", query = "SELECT l FROM Lugar l where l.deleted = 0 ")
+    , @NamedQuery(name = "Lugar.findByLugarId", query = "SELECT l FROM Lugar l WHERE l.lugarId = :lugarId and l.deleted = 0 ")
+    , @NamedQuery(name = "Lugar.findByDescripcion", query = "SELECT l FROM Lugar l WHERE l.descripcion = :descripcion and l.deleted = 0 ")
+    , @NamedQuery(name = "Lugar.findByTitulo", query = "SELECT l FROM Lugar l WHERE l.titulo = :titulo and l.deleted = 0 ")
+    , @NamedQuery(name = "Lugar.findByInserted", query = "SELECT l FROM Lugar l WHERE l.inserted = :inserted and l.deleted = 0 ")
+    , @NamedQuery(name = "Lugar.findByUpdated", query = "SELECT l FROM Lugar l WHERE l.updated = :updated and l.deleted = 0 ")})
 public class Lugar implements Serializable {
 
     private static final long serialVersionUID = 1L;

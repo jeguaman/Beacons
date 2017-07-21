@@ -35,12 +35,12 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "dispositivo")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Dispositivo.findAll", query = "SELECT d FROM Dispositivo d")
-    , @NamedQuery(name = "Dispositivo.findByDispositivoId", query = "SELECT d FROM Dispositivo d WHERE d.dispositivoId = :dispositivoId")
-    , @NamedQuery(name = "Dispositivo.findByImei", query = "SELECT d FROM Dispositivo d WHERE d.imei = :imei")
-    , @NamedQuery(name = "Dispositivo.findByDescripcion", query = "SELECT d FROM Dispositivo d WHERE d.descripcion = :descripcion")
-    , @NamedQuery(name = "Dispositivo.findByInserted", query = "SELECT d FROM Dispositivo d WHERE d.inserted = :inserted")
-    , @NamedQuery(name = "Dispositivo.findByUpdated", query = "SELECT d FROM Dispositivo d WHERE d.updated = :updated")})
+    @NamedQuery(name = "Dispositivo.findAll", query = "SELECT d FROM Dispositivo d where d.deleted = 0 ")
+    , @NamedQuery(name = "Dispositivo.findByDispositivoId", query = "SELECT d FROM Dispositivo d WHERE d.dispositivoId = :dispositivoId and d.deleted = 0 ")
+    , @NamedQuery(name = "Dispositivo.findByImei", query = "SELECT d FROM Dispositivo d WHERE d.imei = :imei and d.deleted = 0 ")
+    , @NamedQuery(name = "Dispositivo.findByDescripcion", query = "SELECT d FROM Dispositivo d WHERE d.descripcion = :descripcion and d.deleted = 0 ")
+    , @NamedQuery(name = "Dispositivo.findByInserted", query = "SELECT d FROM Dispositivo d WHERE d.inserted = :inserted and d.deleted = 0 ")
+    , @NamedQuery(name = "Dispositivo.findByUpdated", query = "SELECT d FROM Dispositivo d WHERE d.updated = :updated and d.deleted = 0 ")})
 public class Dispositivo implements Serializable {
 
     private static final long serialVersionUID = 1L;

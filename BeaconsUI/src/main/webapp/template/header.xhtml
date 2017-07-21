@@ -15,7 +15,11 @@ and open the template in the editor.
             <div class="fa fa-bars tooltips" data-placement="right" data-original-title="Menú de Navegación"></div>
         </div>
         <!--logo start-->
-        <a href="#" class="logo"><b>Beacon ESPE</b></a>
+        <a href="#" class="logo">
+            <p>Willana ESPE
+                <img src="#{request.contextPath}/resources/img/ui-sam.jpg" width="30"/>
+
+            </p></a>
         <!--logo end-->
         <h:form>
             <div class="top-menu">
@@ -23,8 +27,13 @@ and open the template in the editor.
                     <li>
                         <h:commandLink class="logout" actionListener="#{menuBean.cerrarSesion()}" value="Cerrar Sesión"/>
                     </li>
+                    <li>
+                        <p:commandLink class="logout" ajax="false" actionListener="#{menuBean.descargarAyuda()}" value="Ayuda">
+                            <p:fileDownload value="#{menuBean.file}" />
+                        </p:commandLink>
+                    </li>
                 </ul>
-            </div>
+            </div>           
         </h:form>
     </header>
     <!--header end-->

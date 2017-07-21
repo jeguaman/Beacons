@@ -19,7 +19,7 @@ import javax.persistence.Query;
 @Stateless
 public class RegistroFacade extends AbstractFacade<Registro> {
 
-    public static final String TRAER_AREA_DISPO_FETCH = "Select r from Registro r join fetch r.areaId a join fetch r.dispositivoId d";
+    public static final String TRAER_AREA_DISPO_FETCH = "Select r from Registro r join fetch r.areaId a join fetch r.dispositivoId d where r.deleted = 0 ";
 
     @PersistenceContext(unitName = "com.espe.edu.ec_BeaconsEJB_ejb_1.0-SNAPSHOTPU")
     private EntityManager em;

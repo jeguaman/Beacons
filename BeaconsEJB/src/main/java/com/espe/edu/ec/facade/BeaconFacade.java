@@ -22,7 +22,7 @@ public class BeaconFacade extends AbstractFacade<Beacon> {
     @PersistenceContext(unitName = "com.espe.edu.ec_BeaconsEJB_ejb_1.0-SNAPSHOTPU")
     private EntityManager em;
 
-    private final String TOTAL_POR_UUID = "select count(b) from Beacon b where b.uuid =:uuid";
+    private final String TOTAL_POR_UUID = "select count(b) from Beacon b where b.uuid =:uuid and b.deleted = 0";
 
     @Override
     protected EntityManager getEntityManager() {

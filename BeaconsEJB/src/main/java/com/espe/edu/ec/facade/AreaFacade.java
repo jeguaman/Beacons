@@ -22,14 +22,14 @@ public class AreaFacade extends AbstractFacade<Area> {
     @PersistenceContext(unitName = "com.espe.edu.ec_BeaconsEJB_ejb_1.0-SNAPSHOTPU")
     private EntityManager em;
 
-    private static final String TRAER_TODAS_AREAS_POR_BEACON_NO_BYTES_IMAGE = "SELECT new Area(a.areaId, a.titulo, a.descripcion) FROM Area as a JOIN a.areaBeaconList as ab WHERE ab.beaconId.beaconId = :beaconId";
-    private static final String TRAER_TOTAL_AREAS_POR_BEACON_NO_BYTES = "SELECT count(a) FROM Area as a JOIN a.areaBeaconList as ab WHERE ab.beaconId.beaconId = :beaconId";
-    private static final String TRAER_AREAS_POR_UUID = "SELECT a FROM Area as a JOIN a.areaBeaconList as b WHERE b.beaconId.uuid = :uuid";
-    private static final String TRAER_AREAS_DISPONIBLES = "SELECT a FROM Area as a LEFT JOIN a.areaBeaconList as b WHERE b.areaId.areaId IS NULL";
-    private static final String TRAER_TODAS_AREAS_NOT_BYTES_IMAGE = "SELECT new Area(a.areaId, a.titulo, a.descripcion) FROM Area as a";
-    private static final String TRAER_POR_TITULO_LIKE = "select a from Area a where a.titulo like :titulo";
-    private static final String TOTAL_POR_TITULO_LIKE = "select count(a) from Area a where a.titulo like :titulo";
-    private static final String TRAER_IMAGEN_POR_ID_AREA = "SELECT new Area(a.areaId, a.imagen) FROM Area as a WHERE a.areaId = :areaId";
+    private static final String TRAER_TODAS_AREAS_POR_BEACON_NO_BYTES_IMAGE = "SELECT new Area(a.areaId, a.titulo, a.descripcion) FROM Area as a JOIN a.areaBeaconList as ab WHERE ab.beaconId.beaconId = :beaconId and a.deleted = 0";
+    private static final String TRAER_TOTAL_AREAS_POR_BEACON_NO_BYTES = "SELECT count(a) FROM Area as a JOIN a.areaBeaconList as ab WHERE ab.beaconId.beaconId = :beaconId and a.deleted = 0";
+    private static final String TRAER_AREAS_POR_UUID = "SELECT a FROM Area as a JOIN a.areaBeaconList as b WHERE b.beaconId.uuid = :uuid and a.deleted = 0";
+    private static final String TRAER_AREAS_DISPONIBLES = "SELECT a FROM Area as a LEFT JOIN a.areaBeaconList as b WHERE b.areaId.areaId IS NULL and a.deleted = 0";
+    private static final String TRAER_TODAS_AREAS_NOT_BYTES_IMAGE = "SELECT new Area(a.areaId, a.titulo, a.descripcion) FROM Area as a where a.deleted = 0 ";
+    private static final String TRAER_POR_TITULO_LIKE = "select a from Area a where a.titulo like :titulo and a.deleted = 0";
+    private static final String TOTAL_POR_TITULO_LIKE = "select count(a) from Area a where a.titulo like :titulo and a.deleted = 0";
+    private static final String TRAER_IMAGEN_POR_ID_AREA = "SELECT new Area(a.areaId, a.imagen) FROM Area as a WHERE a.areaId = :areaId and a.deleted = 0";
 
     @Override
     protected EntityManager getEntityManager() {

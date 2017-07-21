@@ -32,11 +32,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "area_beacon")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "AreaBeacon.findAll", query = "SELECT a FROM AreaBeacon a")
-    , @NamedQuery(name = "AreaBeacon.findByAreaBeaconId", query = "SELECT a FROM AreaBeacon a WHERE a.areaBeaconId = :areaBeaconId")
-    , @NamedQuery(name = "AreaBeacon.findByEstado", query = "SELECT a FROM AreaBeacon a WHERE a.estado = :estado")
-    , @NamedQuery(name = "AreaBeacon.findByInserted", query = "SELECT a FROM AreaBeacon a WHERE a.inserted = :inserted")
-    , @NamedQuery(name = "AreaBeacon.findByUpdated", query = "SELECT a FROM AreaBeacon a WHERE a.updated = :updated")})
+    @NamedQuery(name = "AreaBeacon.findAll", query = "SELECT a FROM AreaBeacon a where a.deleted = 0 ")
+    , @NamedQuery(name = "AreaBeacon.findByAreaBeaconId", query = "SELECT a FROM AreaBeacon a WHERE a.areaBeaconId = :areaBeaconId and  a.deleted = 0 ")
+    , @NamedQuery(name = "AreaBeacon.findByEstado", query = "SELECT a FROM AreaBeacon a WHERE a.estado = :estado and a.deleted = 0 ")
+    , @NamedQuery(name = "AreaBeacon.findByInserted", query = "SELECT a FROM AreaBeacon a WHERE a.inserted = :inserted and a.deleted = 0 ")
+    , @NamedQuery(name = "AreaBeacon.findByUpdated", query = "SELECT a FROM AreaBeacon a WHERE a.updated = :updated and a.deleted = 0 ")})
 public class AreaBeacon implements Serializable {
 
     private static final long serialVersionUID = 1L;

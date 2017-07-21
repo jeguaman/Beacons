@@ -256,7 +256,7 @@ public class BeaconController implements Serializable {
                         historialService.crear(h);
                     }
                 } else {
-                    areaBeaconService.eliminarAreaBeaconPorAreaId(beaconSelected.getBeaconId());
+                    areaBeaconService.eliminarAreaBeaconPorBeaconId(beaconSelected.getBeaconId());
                     getFacade().eliminar(beaconSelected);
                     h.setCodigoHistorial(ConstanteBeacon.ELIMINACION);
                     h.setDescripcion(successMessage + " BeaconId " + beaconSelected.getBeaconId()+ " User:" + handler.getCorreo());

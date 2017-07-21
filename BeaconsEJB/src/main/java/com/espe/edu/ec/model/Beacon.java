@@ -36,14 +36,14 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "beacon")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Beacon.findAll", query = "SELECT b FROM Beacon b")
-    , @NamedQuery(name = "Beacon.findByBeaconId", query = "SELECT b FROM Beacon b WHERE b.beaconId = :beaconId")
-    , @NamedQuery(name = "Beacon.findByUuid", query = "SELECT b FROM Beacon b WHERE b.uuid = :uuid")
-    , @NamedQuery(name = "Beacon.findByMajor", query = "SELECT b FROM Beacon b WHERE b.major = :major")
-    , @NamedQuery(name = "Beacon.findByMinor", query = "SELECT b FROM Beacon b WHERE b.minor = :minor")
-    , @NamedQuery(name = "Beacon.findByDescripcion", query = "SELECT b FROM Beacon b WHERE b.descripcion = :descripcion")
-    , @NamedQuery(name = "Beacon.findByInserted", query = "SELECT b FROM Beacon b WHERE b.inserted = :inserted")
-    , @NamedQuery(name = "Beacon.findByUpdated", query = "SELECT b FROM Beacon b WHERE b.updated = :updated")})
+    @NamedQuery(name = "Beacon.findAll", query = "SELECT b FROM Beacon b  where b.deleted = 0 ")
+    , @NamedQuery(name = "Beacon.findByBeaconId", query = "SELECT b FROM Beacon b WHERE b.beaconId = :beaconId and b.deleted = 0")
+    , @NamedQuery(name = "Beacon.findByUuid", query = "SELECT b FROM Beacon b WHERE b.uuid = :uuid and b.deleted = 0")
+    , @NamedQuery(name = "Beacon.findByMajor", query = "SELECT b FROM Beacon b WHERE b.major = :major and b.deleted = 0")
+    , @NamedQuery(name = "Beacon.findByMinor", query = "SELECT b FROM Beacon b WHERE b.minor = :minor and b.deleted = 0")
+    , @NamedQuery(name = "Beacon.findByDescripcion", query = "SELECT b FROM Beacon b WHERE b.descripcion = :descripcion and b.deleted = 0")
+    , @NamedQuery(name = "Beacon.findByInserted", query = "SELECT b FROM Beacon b WHERE b.inserted = :inserted and b.deleted = 0")
+    , @NamedQuery(name = "Beacon.findByUpdated", query = "SELECT b FROM Beacon b WHERE b.updated = :updated and b.deleted = 0")})
 public class Beacon implements Serializable {
 
     private static final long serialVersionUID = 1L;

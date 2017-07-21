@@ -21,10 +21,10 @@ import javax.ejb.LocalBean;
 @Stateless
 @LocalBean
 public class LugarService implements InterfaceService<Lugar>, Serializable {
-    
+
     @EJB
     LugarFacade lugarFacade;
-    
+
     @Override
     public void crear(Lugar object) {
         object.setInserted(new Date());
@@ -32,47 +32,51 @@ public class LugarService implements InterfaceService<Lugar>, Serializable {
         object.setDeleted(Boolean.FALSE);
         lugarFacade.create(object);
     }
-    
+
     @Override
     public void actualizar(Lugar object) {
         object.setUpdated(new Date());
         lugarFacade.edit(object);
     }
-    
+
     @Override
     public void eliminar(Lugar object) {
         object.setUpdated(new Date());
         object.setDeleted(Boolean.TRUE);
         lugarFacade.edit(object);
     }
-    
+
     @Override
     public List<Lugar> buscarTodos() {
         return lugarFacade.findAll();
     }
-    
+
     @Override
     public Lugar buscar(Integer id) {
         return lugarFacade.find(id);
     }
-    
+
     @Override
     public List<Lugar> traerLazzy(Integer first, Integer size) {
         return lugarFacade.traerLugaresLazzy(first, size);
     }
-    
+
     public List<Lugar> traerLugaresPorIdAreaNoBytes(Integer idArea) {
         return lugarFacade.traerLugaresPorIdAreaNoBytes(idArea);
     }
-    
+
+    public List<Lugar> traerLugaresPorIdArea(Integer idArea) {
+        return lugarFacade.traerLugaresPorIdArea(idArea);
+    }
+
     public List<Lugar> traerLugaresPorUUIDBeacon(String uuidBeacon) {
         return lugarFacade.traerLugaresPorUUIDBeacon(uuidBeacon);
     }
-    
+
     public List<Lugar> traerLugaresPorIdAreaNoBytesLazzy(Integer areaId, int first, int size) {
         return lugarFacade.traerLugaresPorIdAreaNoBytesLazzy(areaId, first, size);
     }
-    
+
     public int traerLugaresPorIdAreaNoBytesTotal(Integer areaId) {
         return lugarFacade.traerLugaresPorIdAreaNoBytesTotal(areaId);
     }
@@ -80,12 +84,13 @@ public class LugarService implements InterfaceService<Lugar>, Serializable {
     public Lugar traerImagenPorIdLugar(Integer lugarId) {
         return lugarFacade.traerImagenPorIdLugar(lugarId);
     }
-    
+
     public void eliminarLugaresPorIdArea(Integer areaId) {
         List<Lugar> lugares = traerLugaresPorIdAreaNoBytes(areaId);
         if (lugares != null && !lugares.isEmpty()) {
             for (Lugar lugare : lugares) {
-                eliminar(lugare);
+                Lugar tmp = buscar(lugare.getLugarId());
+                eliminar(tmp);
             }
         }
     }

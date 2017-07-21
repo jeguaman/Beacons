@@ -36,12 +36,12 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "area")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Area.findAll", query = "SELECT a FROM Area a")
-    , @NamedQuery(name = "Area.findByAreaId", query = "SELECT a FROM Area a WHERE a.areaId = :areaId")
-    , @NamedQuery(name = "Area.findByTitulo", query = "SELECT a FROM Area a WHERE a.titulo = :titulo")
-    , @NamedQuery(name = "Area.findByDescripcion", query = "SELECT a FROM Area a WHERE a.descripcion = :descripcion")
-    , @NamedQuery(name = "Area.findByInserted", query = "SELECT a FROM Area a WHERE a.inserted = :inserted")
-    , @NamedQuery(name = "Area.findByUpdated", query = "SELECT a FROM Area a WHERE a.updated = :updated")})
+    @NamedQuery(name = "Area.findAll", query = "SELECT a FROM Area a where a.deleted = 0 ")
+    , @NamedQuery(name = "Area.findByAreaId", query = "SELECT a FROM Area a WHERE a.areaId = :areaId  and a.deleted = 0 ")
+    , @NamedQuery(name = "Area.findByTitulo", query = "SELECT a FROM Area a WHERE a.titulo = :titulo  and a.deleted = 0 ")
+    , @NamedQuery(name = "Area.findByDescripcion", query = "SELECT a FROM Area a WHERE a.descripcion = :descripcion  and a.deleted = 0 ")
+    , @NamedQuery(name = "Area.findByInserted", query = "SELECT a FROM Area a WHERE a.inserted = :inserted  and a.deleted = 0 ")
+    , @NamedQuery(name = "Area.findByUpdated", query = "SELECT a FROM Area a WHERE a.updated = :updated and  a.deleted = 0 ")})
 public class Area implements Serializable {
 
     private static final long serialVersionUID = 1L;
