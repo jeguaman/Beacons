@@ -25,59 +25,62 @@ import javax.ejb.LocalBean;
 @Stateless
 @LocalBean
 public class UsuarioService implements InterfaceService<Usuario>, Serializable {
-
+    
     @EJB
     UsuarioFacade usuarioFacade;
     @EJB
     AsignacionPerfilFacade asignacionPerfilFacade;
     @EJB
     PerfilFacade perfilFacade;
-
+    
     @Override
     public void crear(Usuario object) {
         object.setInserted(new Date());
         object.setUpdated(new Date());
+        object.setDeleted(Boolean.FALSE);
         usuarioFacade.create(object);
     }
-
+    
     @Override
     public void actualizar(Usuario object) {
         object.setUpdated(new Date());
         usuarioFacade.edit(object);
     }
-
+    
     @Override
     public void eliminar(Usuario object) {
-
+        object.setUpdated(new Date());
+        object.setDeleted(Boolean.TRUE);
+        usuarioFacade.edit(object);
     }
-
+    
     @Override
     public List<Usuario> buscarTodos() {
         return usuarioFacade.findAll();
     }
-
+    
     @Override
     public Usuario buscar(Integer id) {
         return usuarioFacade.find(id);
     }
-
+    
     @Override
     public List<Usuario> traerLazzy(Integer first, Integer size) {
         return usuarioFacade.traerLazzy(first, size);
     }
-
+    
     public Usuario traerUsuarioPorCorreoContrasenia(String correo, String contrasenia) {
         return usuarioFacade.traerUsuario(correo, contrasenia);
     }
-
+    
     public boolean verificarUsuarioExistente(String correo) {
         return usuarioFacade.verificarUsuario(correo);
     }
-
+    
     public Integer totalRegistros() {
-        return usuarioFacade.count();
+        return usuarioFacade.totalUsuarios();
     }
-
+    
     public void crearUsuarioConPerfil(Usuario usuario, String codPerfil) {
         Perfil perfil = perfilFacade.traerPerfilPorCodigo(codPerfil);
         if (perfil != null) {
@@ -90,17 +93,17 @@ public class UsuarioService implements InterfaceService<Usuario>, Serializable {
             asignacionPerfilFacade.create(ap);
         }
     }
-
+    
     public List<Usuario> traerPorCorreoElectronicoLike(String correo, Integer first, Integer size) {
         return usuarioFacade.traerPorCorreoElectronicoLike(correo, first, size);
     }
-
+    
     public Integer totalPorCorreoElectronicoLike(String correo) {
         return usuarioFacade.totalPorCorreoElectronicoLike(correo);
     }
-
+    
     public Usuario traerPorCorreoElectronico(String correoElectronico) {
         return usuarioFacade.traerPorCorreoElectronico(correoElectronico);
     }
-
+    
 }

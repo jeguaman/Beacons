@@ -5,6 +5,7 @@ import com.espe.edu.ec.model.Lugar;
 import com.espe.edu.ec.services.LugarService;
 import com.espe.edu.ec.beacon.ui.util.JsfUtil;
 import com.espe.edu.ec.beacon.ui.util.JsfUtil.PersistAction;
+import com.espe.edu.ec.handler.SessionHandler;
 import com.espe.edu.ec.model.Area;
 import com.espe.edu.ec.model.Historial;
 import com.espe.edu.ec.services.HistorialService;
@@ -14,6 +15,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.faces.bean.ManagedBean;
@@ -35,9 +37,18 @@ public class LugarController implements Serializable {
     private List<Lugar> items = null;
     private Lugar selected;
     private UploadedFile file;
+    private UploadedFile icono;
     private Area area;
+    private String mensajeError;
+    private SessionHandler handler;
 
     public LugarController() {
+    }
+
+    @PostConstruct
+    public void init() {
+        mensajeError = "";
+        handler = new SessionHandler();
     }
 
     public Lugar getSelected() {
@@ -64,6 +75,14 @@ public class LugarController implements Serializable {
         this.selected = selected;
     }
 
+    public String getMensajeError() {
+        return mensajeError;
+    }
+
+    public void setMensajeError(String mensajeError) {
+        this.mensajeError = mensajeError;
+    }
+
     protected void setEmbeddableKeys() {
     }
 
@@ -74,6 +93,14 @@ public class LugarController implements Serializable {
         return lugarService;
     }
 
+    public UploadedFile getIcono() {
+        return icono;
+    }
+
+    public void setIcono(UploadedFile icono) {
+        this.icono = icono;
+    }
+
     public Lugar prepareCreate() {
         selected = new Lugar();
         initializeEmbeddableKey();
@@ -81,12 +108,16 @@ public class LugarController implements Serializable {
     }
 
     public void create(Area area) {
-        if (area != null) {
-            this.area = area;
-        }
-        persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("LugarCreated"));
-        if (!JsfUtil.isValidationFailed()) {
-            items = null;    // Invalidate list of items to trigger re-query.
+        if ((file != null && file.getFileName().compareTo("") != 0) && (icono != null && icono.getFileName().compareTo("") != 0)) {
+            if (area != null) {
+                this.area = area;
+            }
+            persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("LugarCreated"));
+            if (!JsfUtil.isValidationFailed()) {
+                items = null;    // Invalidate list of items to trigger re-query.
+            }
+        } else {
+            JsfUtil.addErrorMessage("Por favor agregar todos los campos del formulario.");
         }
     }
 
@@ -116,26 +147,36 @@ public class LugarController implements Serializable {
             try {
                 if (persistAction != PersistAction.DELETE) {
                     verificarCambioImagen();
-                    if (persistAction == PersistAction.CREATE) {
-                        if (area != null) {
-                            selected.setAreaId(area);
-                            getFacade().crear(selected);
-                            h.setCodigoHistorial(ConstanteBeacon.CREACION);
-                            h.setDescripcion(successMessage + " " + selected.getLugarId());
-                            historialService.crear(h);
+                    if (mensajeError.compareTo("") == 0) {
+                        if (persistAction == PersistAction.CREATE) {
+                            if (area != null) {
+                                selected.setAreaId(area);
+                                getFacade().crear(selected);
+                                h.setCodigoHistorial(ConstanteBeacon.CREACION);
+                                h.setDescripcion(successMessage + " LugarId " + selected.getLugarId() + " User:" + handler.getCorreo());
+                                historialService.crear(h);
+                            } else {
+                                JsfUtil.addErrorMessage("El lugar creado no esta asociado a un área.");
+                            }
                         } else {
-                            JsfUtil.addErrorMessage("El lugar creado no esta asociado a un área.");
+                            getFacade().actualizar(selected);
+                            h.setCodigoHistorial(ConstanteBeacon.ACTUALIZACION);
+                            h.setDescripcion(successMessage + " LugarId " + selected.getLugarId()+ " User:" + handler.getCorreo());
+                            historialService.crear(h);
                         }
+                        mensajeError = "";
                     } else {
-                        getFacade().actualizar(selected);
-                        h.setCodigoHistorial(ConstanteBeacon.ACTUALIZACION);
-                        h.setDescripcion(successMessage + " " + selected.getLugarId());
-                        historialService.crear(h);
+                        JsfUtil.addErrorMessage(mensajeError);
                     }
                 } else {
                     getFacade().eliminar(selected);
+                    h.setCodigoHistorial(ConstanteBeacon.ELIMINACION);
+                    h.setDescripcion(successMessage + " LugarId " + selected.getLugarId()+ " User:" + handler.getCorreo());
+                    historialService.crear(h);
                 }
-                JsfUtil.addSuccessMessage(successMessage);
+                if (mensajeError.compareTo("") == 0) {
+                    JsfUtil.addSuccessMessage(successMessage);
+                }
             } catch (EJBException ex) {
                 String msg = "";
                 Throwable cause = ex.getCause();
@@ -216,8 +257,19 @@ public class LugarController implements Serializable {
     }
 
     public void verificarCambioImagen() {
-        if (!file.getFileName().isEmpty()) {
-            selected.setImagen(file.getContents());
+        if (file != null && !file.getFileName().isEmpty()) {
+            if (file.getSize() <= ConstanteBeacon.TAMANIO_MAX_FOTO) {
+                selected.setImagen(file.getContents());
+            } else {
+                mensajeError = "El peso(Kb) de la imagen supera lo permitido 800KB.";
+            }
+        }
+        if (icono != null && !icono.getFileName().isEmpty()) {
+            if (icono.getSize() <= ConstanteBeacon.TAMANIO_MAX_ICONO) {
+                selected.setIcono(icono.getContents());
+            } else {
+                mensajeError = "El peso(Kb) del icono supera lo permitido 60Kb.";
+            }
         }
     }
 

@@ -28,6 +28,7 @@ public class AreaBeaconService implements InterfaceService<AreaBeacon> {
     public void crear(AreaBeacon object) {
         object.setInserted(new Date());
         object.setUpdated(new Date());
+        object.setDeleted(Boolean.FALSE);
         areaBeaconFacade.create(object);
     }
 
@@ -39,7 +40,9 @@ public class AreaBeaconService implements InterfaceService<AreaBeacon> {
 
     @Override
     public void eliminar(AreaBeacon object) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        object.setUpdated(new Date());
+        object.setDeleted(Boolean.TRUE);
+        areaBeaconFacade.edit(object);
     }
 
     @Override
@@ -63,6 +66,20 @@ public class AreaBeaconService implements InterfaceService<AreaBeacon> {
 
     public AreaBeacon traerAreaBeaconPorArea(Integer areaId) {
         return areaBeaconFacade.traerAreaBeaconPorArea(areaId);
+    }
+
+    public void eliminarAreaBeaconPorAreaId(Integer areaId) {
+        AreaBeacon ab = traerAreaBeaconPorArea(areaId);
+        if (ab != null) {
+            eliminar(ab);
+        }
+    }
+
+    public void eliminarAreaBeaconPorBeaconId(Integer beaconId) {
+        AreaBeacon ab = traerAreaBeaconPorBeacon(beaconId);
+        if (ab != null) {
+            eliminar(ab);
+        }
     }
 
 }

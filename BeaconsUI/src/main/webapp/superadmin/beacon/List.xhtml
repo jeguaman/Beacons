@@ -82,7 +82,7 @@
                                                              update=":BeaconEditForm" oncomplete="PF('BeaconEditDialog').show()" 
                                                              disabled="#{empty beaconController.beaconSelected}"/>
                                             <p:spacer height="30"></p:spacer>
-                                            <p:commandButton id="deleteButton" icon="ui-icon-trash" rendered="false" 
+                                            <p:commandButton id="deleteButton" icon="ui-icon-trash" rendered="false"
                                                              value="#{bundle.Delete}" actionListener="#{beaconController.destroy}" update=":growl,datalist" 
                                                              disabled="#{empty beaconController.beaconSelected}"/>
                                         </f:facet>
@@ -97,6 +97,7 @@
             <ui:include src="Edit.xhtml"/>
             <ui:include src="View.xhtml"/>
             <ui:include src="Asignar.xhtml"/>
+            <ui:include src="Delete.xhtml"/>
         </ui:define>
     </ui:composition>
 

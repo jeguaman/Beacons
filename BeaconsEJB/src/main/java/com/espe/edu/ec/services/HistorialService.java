@@ -27,6 +27,7 @@ public class HistorialService implements InterfaceService<Historial> {
     @Override
     public void crear(Historial object) {
         object.setInserted(new Date());
+        object.setDeleted(Boolean.FALSE);
         historialFacade.create(object);
     }
     

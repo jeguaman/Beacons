@@ -6,6 +6,7 @@ import com.espe.edu.ec.model.Usuario;
 import com.espe.edu.ec.beacon.ui.util.JsfUtil;
 import com.espe.edu.ec.beacon.ui.util.JsfUtil.PersistAction;
 import com.espe.edu.ec.beacon.ui.util.ValidationUtil;
+import com.espe.edu.ec.handler.SessionHandler;
 import com.espe.edu.ec.model.Area;
 import com.espe.edu.ec.model.AsignacionPerfil;
 import com.espe.edu.ec.model.Historial;
@@ -56,11 +57,15 @@ public class UsuarioController implements Serializable {
     private String correoBusqueda;
 
     private String messageError;
+    private String corEdita;
+    private SessionHandler handler;
 
 //    private List<Perfil> perfiles = new ArrayList();
     @PostConstruct
     public void init() {
         messageError = "";
+        corEdita = "";
+        handler = new SessionHandler();
 //        perfiles = perfilService.buscarTodos();
         getUsuarios();
     }
@@ -124,6 +129,14 @@ public class UsuarioController implements Serializable {
 
     private UsuarioService getFacade() {
         return usuarioService;
+    }
+
+    public String getCorEdita() {
+        return corEdita;
+    }
+
+    public void setCorEdita(String correo) {
+        this.corEdita = correo;
     }
 
     public Usuario prepareCreate() {
@@ -204,17 +217,21 @@ public class UsuarioController implements Serializable {
                     if (persistAction == PersistAction.CREATE) {
 //                        getFacade().crear(selected);
                         getFacade().crearUsuarioConPerfil(selected, ConstanteBeacon.COD_PERFIL_ADMIN);
-                        h.setCodigoHistorial(ConstanteBeacon.CREACION);
+                        h.setCodigoHistorial(ConstanteBeacon.CREACION + " UserId " + selected.getUsuarioId()+ " User:" + handler.getCorreo());
                         h.setDescripcion(successMessage + selected.getUsuarioId());
                         historialService.crear(h);
                     } else {
                         getFacade().actualizar(selected);
-                        h.setCodigoHistorial(ConstanteBeacon.ACTUALIZACION + selected.getUsuarioId());
+                        h.setCodigoHistorial(ConstanteBeacon.ACTUALIZACION + " UserId " + selected.getUsuarioId()+ " User:" + handler.getCorreo());
                         h.setDescripcion(successMessage);
                         historialService.crear(h);
                     }
+                    corEdita = "";
                 } else {
                     getFacade().eliminar(selected);
+                    h.setCodigoHistorial(ConstanteBeacon.ELIMINACION);
+                    h.setDescripcion(successMessage + "UserId " + selected.getUsuarioId()+ " User:" + handler.getCorreo());
+                    historialService.crear(h);
                 }
                 JsfUtil.addSuccessMessage(successMessage);
             } catch (EJBException ex) {
@@ -289,7 +306,7 @@ public class UsuarioController implements Serializable {
     }
 
     public void verificarCorreo() {
-        if (selected.getCorreoElectronico() != null) {
+        if (corEdita != null && corEdita.compareTo("") != 0) {
             if (!ValidationUtil.soloCorreoElectronicoInstitucional(selected.getCorreoElectronico())) {
                 messageError = "No es un email institucional.";
             } else {
@@ -297,6 +314,7 @@ public class UsuarioController implements Serializable {
                 if (tmp != null) {
                     messageError = "El correo ingresado ya se encuentra registrado.";
                 } else {
+                    selected.setCorreoElectronico(corEdita);
                     messageError = "";
                 }
             }
@@ -310,5 +328,11 @@ public class UsuarioController implements Serializable {
             }
         }
 
+    }
+
+    public void cargarData() {
+        if (selected != null) {
+            corEdita = selected.getCorreoElectronico();
+        }
     }
 }

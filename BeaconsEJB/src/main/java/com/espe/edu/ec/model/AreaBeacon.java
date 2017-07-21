@@ -59,6 +59,10 @@ public class AreaBeacon implements Serializable {
     @Column(name = "updated")
     @Temporal(TemporalType.TIMESTAMP)
     private Date updated;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "deleted", columnDefinition="tinyint(1) default 0")
+    private Boolean deleted;
     @JoinColumn(name = "area_id", referencedColumnName = "area_id")
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Area areaId;
@@ -128,6 +132,14 @@ public class AreaBeacon implements Serializable {
         this.beaconId = beaconId;
     }
 
+    public Boolean getDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(Boolean deleted) {
+        this.deleted = deleted;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -152,5 +164,5 @@ public class AreaBeacon implements Serializable {
     public String toString() {
         return "com.espe.edu.ec.model.AreaBeacon[ areaBeaconId=" + areaBeaconId + " ]";
     }
-    
+
 }

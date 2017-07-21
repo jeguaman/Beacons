@@ -22,11 +22,13 @@ public class UsuarioFacade extends AbstractFacade<Usuario> {
     @PersistenceContext(unitName = "com.espe.edu.ec_BeaconsEJB_ejb_1.0-SNAPSHOTPU")
     private EntityManager em;
 
-    private final String TRAER_POR_CORREO_PASS = "select u from Usuario u where u.correoElectronico = :correoElectronico and u.contrasenia = :contrasenia ";
-    private final String TRAER_POR_CORREO_LIKE = "select u from Usuario u where u.correoElectronico like :correoElectronico";
-    private final String TOTAL_POR_CORREO_LIKE = "select count(u) from Usuario u where u.correoElectronico like :correoElectronico";
+    private final String TRAER_POR_CORREO_PASS = "select u from Usuario u where u.correoElectronico = :correoElectronico and u.contrasenia = :contrasenia  and u.deleted = 0";
+    private final String TRAER_POR_CORREO_LIKE = "select u from Usuario u where u.correoElectronico like :correoElectronico and u.deleted = 0";
+    private final String TOTAL_POR_CORREO_LIKE = "select count(u) from Usuario u where u.correoElectronico like :correoElectronico and u.deleted = 0";
+    private final String TOTAL = "select count(u) from Usuario u where u.deleted = 0";
 
     @Override
+
     protected EntityManager getEntityManager() {
         return em;
     }
@@ -91,5 +93,11 @@ public class UsuarioFacade extends AbstractFacade<Usuario> {
         Query q = em.createNamedQuery("Usuario.findByCorreoElectronico");
         q.setParameter("correoElectronico", correoElectronico);
         return (Usuario) q.getSingleResult();
+    }
+
+    public Integer totalUsuarios() {
+        Query q = em.createQuery(TOTAL);
+        Long total = (Long) q.getSingleResult();
+        return total.intValue();
     }
 }

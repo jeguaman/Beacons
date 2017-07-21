@@ -29,6 +29,7 @@ public class PerfilService implements InterfaceService<Perfil>, Serializable {
     public void crear(Perfil object) {
         object.setInserted(new Date());
         object.setUpdated(new Date());
+        object.setDeleted(Boolean.FALSE);
         perfilFacade.create(object);
     }
     

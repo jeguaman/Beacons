@@ -28,6 +28,7 @@ public class DispositivoService implements InterfaceService<Dispositivo>, Serial
     @Override
     public void crear(Dispositivo object) {
         object.setInserted(new Date());
+        object.setDeleted(Boolean.FALSE);
         dispositivoFacade.create(object);
     }
 

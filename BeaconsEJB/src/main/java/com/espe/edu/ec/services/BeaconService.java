@@ -29,6 +29,7 @@ public class BeaconService implements InterfaceService<Beacon>, Serializable {
     public void crear(Beacon object) {
         object.setInserted(new Date());
         object.setUpdated(new Date());
+        object.setDeleted(Boolean.FALSE);
         beaconFacade.create(object);
     }
 
@@ -40,7 +41,9 @@ public class BeaconService implements InterfaceService<Beacon>, Serializable {
 
     @Override
     public void eliminar(Beacon object) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        object.setUpdated(new Date());
+        object.setDeleted(Boolean.TRUE);
+        beaconFacade.edit(object);
     }
 
     @Override

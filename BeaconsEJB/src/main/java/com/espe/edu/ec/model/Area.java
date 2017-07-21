@@ -75,6 +75,10 @@ public class Area implements Serializable {
     @Column(name = "updated")
     @Temporal(TemporalType.TIMESTAMP)
     private Date updated;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "deleted", columnDefinition="tinyint(1) default 0")
+    private Boolean deleted;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "areaId", fetch = FetchType.LAZY)
     private List<AreaBeacon> areaBeaconList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "areaId", fetch = FetchType.LAZY)
@@ -152,6 +156,14 @@ public class Area implements Serializable {
 
     public void setUpdated(Date updated) {
         this.updated = updated;
+    }
+
+    public Boolean getDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(Boolean deleted) {
+        this.deleted = deleted;
     }
 
     @XmlTransient

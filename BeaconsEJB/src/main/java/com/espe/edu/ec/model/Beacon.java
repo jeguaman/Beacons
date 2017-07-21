@@ -87,6 +87,10 @@ public class Beacon implements Serializable {
     @Column(name = "updated")
     @Temporal(TemporalType.TIMESTAMP)
     private Date updated;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "deleted", columnDefinition="tinyint(1) default 0")
+    private Boolean deleted;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "beaconId", fetch = FetchType.LAZY)
     private List<AreaBeacon> areaBeaconList;
 
@@ -172,6 +176,14 @@ public class Beacon implements Serializable {
         this.updated = updated;
     }
 
+    public Boolean getDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(Boolean deleted) {
+        this.deleted = deleted;
+    }
+
     @XmlTransient
     public List<AreaBeacon> getAreaBeaconList() {
         return areaBeaconList;
@@ -205,5 +217,5 @@ public class Beacon implements Serializable {
     public String toString() {
         return "com.espe.edu.ec.model.Beacon[ beaconId=" + beaconId + " ]";
     }
-    
+
 }

@@ -35,14 +35,13 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "usuario")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Usuario.findAll", query = "SELECT u FROM Usuario u")
+    @NamedQuery(name = "Usuario.findAll", query = "SELECT u FROM Usuario u where u.deleted = 0 ")
     , @NamedQuery(name = "Usuario.findByUsuarioId", query = "SELECT u FROM Usuario u WHERE u.usuarioId = :usuarioId")
     , @NamedQuery(name = "Usuario.findByNombres", query = "SELECT u FROM Usuario u WHERE u.nombres = :nombres")
     , @NamedQuery(name = "Usuario.findByApellidos", query = "SELECT u FROM Usuario u WHERE u.apellidos = :apellidos")
     , @NamedQuery(name = "Usuario.findByNombreUsuario", query = "SELECT u FROM Usuario u WHERE u.nombreUsuario = :nombreUsuario")
-    , @NamedQuery(name = "Usuario.findByCorreoElectronico", query = "SELECT u FROM Usuario u WHERE u.correoElectronico = :correoElectronico")
+    , @NamedQuery(name = "Usuario.findByCorreoElectronico", query = "SELECT u FROM Usuario u WHERE u.correoElectronico = :correoElectronico and u.deleted = 0")
     , @NamedQuery(name = "Usuario.findByContrasenia", query = "SELECT u FROM Usuario u WHERE u.contrasenia = :contrasenia")
-    , @NamedQuery(name = "Usuario.findByEstado", query = "SELECT u FROM Usuario u WHERE u.estado = :estado")
     , @NamedQuery(name = "Usuario.findByInserted", query = "SELECT u FROM Usuario u WHERE u.inserted = :inserted")
     , @NamedQuery(name = "Usuario.findByUpdated", query = "SELECT u FROM Usuario u WHERE u.updated = :updated")})
 public class Usuario implements Serializable {
@@ -80,10 +79,6 @@ public class Usuario implements Serializable {
     private String contrasenia;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "estado")
-    private short estado;
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "inserted")
     @Temporal(TemporalType.TIMESTAMP)
     private Date inserted;
@@ -92,6 +87,10 @@ public class Usuario implements Serializable {
     @Column(name = "updated")
     @Temporal(TemporalType.TIMESTAMP)
     private Date updated;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "deleted", columnDefinition="tinyint(1) default 0")
+    private Boolean deleted;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuarioId", fetch = FetchType.LAZY)
     private List<AsignacionPerfil> asignacionPerfilList;
 
@@ -109,7 +108,6 @@ public class Usuario implements Serializable {
         this.nombreUsuario = nombreUsuario;
         this.correoElectronico = correoElectronico;
         this.contrasenia = contrasenia;
-        this.estado = estado;
         this.inserted = inserted;
         this.updated = updated;
     }
@@ -162,14 +160,6 @@ public class Usuario implements Serializable {
         this.contrasenia = contrasenia;
     }
 
-    public short getEstado() {
-        return estado;
-    }
-
-    public void setEstado(short estado) {
-        this.estado = estado;
-    }
-
     public Date getInserted() {
         return inserted;
     }
@@ -186,6 +176,14 @@ public class Usuario implements Serializable {
         this.updated = updated;
     }
 
+    public Boolean getDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(Boolean deleted) {
+        this.deleted = deleted;
+    }
+    
     @XmlTransient
     public List<AsignacionPerfil> getAsignacionPerfilList() {
         return asignacionPerfilList;

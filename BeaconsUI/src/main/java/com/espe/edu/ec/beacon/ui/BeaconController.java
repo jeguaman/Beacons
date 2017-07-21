@@ -5,6 +5,7 @@ import com.espe.edu.ec.model.Beacon;
 import com.espe.edu.ec.services.BeaconService;
 import com.espe.edu.ec.beacon.ui.util.JsfUtil;
 import com.espe.edu.ec.beacon.ui.util.JsfUtil.PersistAction;
+import com.espe.edu.ec.handler.SessionHandler;
 import com.espe.edu.ec.model.Area;
 import com.espe.edu.ec.model.AreaBeacon;
 import com.espe.edu.ec.model.Historial;
@@ -59,6 +60,7 @@ public class BeaconController implements Serializable {
     private String nombreAreaAsignada;
     private AreaBeacon areaBeacon;
     private String uuidBusqueda;
+    private SessionHandler handler;
 
     public BeaconController() {
     }
@@ -66,6 +68,7 @@ public class BeaconController implements Serializable {
     @PostConstruct
     public void init() {
         flagSuccess = true;
+        handler = new SessionHandler();
         getBeacons();
     }
 
@@ -231,7 +234,7 @@ public class BeaconController implements Serializable {
                         verificarCambioImagen();
                         getFacade().crear(beaconSelected);
                         h.setCodigoHistorial(ConstanteBeacon.CREACION);
-                        h.setDescripcion(successMessage + " " + beaconSelected.getBeaconId());
+                        h.setDescripcion(successMessage + " " + beaconSelected.getBeaconId()+ " User:" + handler.getCorreo());
                         historialService.crear(h);
                     } else if (persistAction == PersistAction.ASIGNAR) {
                         AreaBeacon ab = new AreaBeacon();
@@ -240,7 +243,7 @@ public class BeaconController implements Serializable {
                         ab.setEstado(Boolean.TRUE);
                         areaBeaconService.crear(ab);
                         h.setCodigoHistorial(ConstanteBeacon.ASIGNAR);
-                        h.setDescripcion(successMessage + " " + beaconSelected.getBeaconId() + " al area " + idAreaSeleccionada);
+                        h.setDescripcion(successMessage + " BeaconId " + beaconSelected.getBeaconId() + " User:" + handler.getCorreo());
                         historialService.crear(h);
                         buscarAsignacionBeacon();
                     } else {
@@ -249,11 +252,15 @@ public class BeaconController implements Serializable {
                         areaBeacon.setAreaId(areaService.buscar(idAreaSeleccionada));
                         areaBeaconService.actualizar(areaBeacon);
                         h.setCodigoHistorial(ConstanteBeacon.ACTUALIZACION);
-                        h.setDescripcion(successMessage + " " + beaconSelected.getBeaconId());
+                        h.setDescripcion(successMessage + " BeaconId " + beaconSelected.getBeaconId()+ " User:" + handler.getCorreo());
                         historialService.crear(h);
                     }
                 } else {
+                    areaBeaconService.eliminarAreaBeaconPorAreaId(beaconSelected.getBeaconId());
                     getFacade().eliminar(beaconSelected);
+                    h.setCodigoHistorial(ConstanteBeacon.ELIMINACION);
+                    h.setDescripcion(successMessage + " BeaconId " + beaconSelected.getBeaconId()+ " User:" + handler.getCorreo());
+                    historialService.crear(h);
                 }
                 JsfUtil.addSuccessMessage(successMessage);
             } catch (EJBException ex) {

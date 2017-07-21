@@ -23,7 +23,7 @@ public class LugarFacade extends AbstractFacade<Lugar> {
     @PersistenceContext(unitName = "com.espe.edu.ec_BeaconsEJB_ejb_1.0-SNAPSHOTPU")
     private EntityManager em;
 
-    private static final String TRAER_TODOS_LUGARES_POR_AREA_NO_BYTES = "SELECT new Lugar(l.lugarId, l.titulo) FROM Lugar as l  WHERE l.areaId.areaId = :areaId";
+    private static final String TRAER_TODOS_LUGARES_POR_AREA_NO_BYTES = "SELECT new Lugar(l.lugarId, l.titulo, l.descripcion) FROM Lugar as l  WHERE l.areaId.areaId = :areaId";
     private static final String TRAER_TODOS_LUGARES_POR_AREA_TOTAL = "SELECT count(l) FROM Lugar as l WHERE l.areaId.areaId = :areaId";
     private static final String TRAER_TODOS_LUGARES_POR_UUID = "SELECT l FROM Lugar as l JOIN l.areaId as a JOIN a.areaBeaconList as ab WHERE ab.beaconId.uuid = :uuid";
 

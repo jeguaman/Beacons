@@ -55,6 +55,10 @@ public class Registro implements Serializable {
     @Column(name = "inserted")
     @Temporal(TemporalType.TIMESTAMP)
     private Date inserted;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "deleted", columnDefinition="tinyint(1) default 0")
+    private Boolean deleted;
     @JoinColumn(name = "area_id", referencedColumnName = "area_id")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Area areaId;
@@ -114,6 +118,16 @@ public class Registro implements Serializable {
     public void setDispositivoId(Dispositivo dispositivoId) {
         this.dispositivoId = dispositivoId;
     }
+
+    public Boolean getDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(Boolean deleted) {
+        this.deleted = deleted;
+    }
+    
+    
 
     @Override
     public int hashCode() {

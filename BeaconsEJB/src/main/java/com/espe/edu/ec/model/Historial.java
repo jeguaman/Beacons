@@ -58,7 +58,10 @@ public class Historial implements Serializable {
     @Column(name = "inserted")
     @Temporal(TemporalType.TIMESTAMP)
     private Date inserted;
-
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "deleted", columnDefinition="tinyint(1) default 0")
+    private Boolean deleted;
     public Historial() {
     }
 
@@ -104,6 +107,15 @@ public class Historial implements Serializable {
     public void setInserted(Date inserted) {
         this.inserted = inserted;
     }
+
+    public Boolean getDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(Boolean deleted) {
+        this.deleted = deleted;
+    }
+    
 
     @Override
     public int hashCode() {

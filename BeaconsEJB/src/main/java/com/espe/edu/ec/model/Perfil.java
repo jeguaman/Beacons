@@ -73,7 +73,11 @@ public class Perfil implements Serializable {
     @NotNull
     @Column(name = "updated")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date updated;
+    private Date updated;    
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "deleted", columnDefinition="tinyint(1) default 0")
+    private Boolean deleted;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "perfilId", fetch = FetchType.LAZY)
     private List<AsignacionPerfil> asignacionPerfilList;
 
@@ -141,6 +145,15 @@ public class Perfil implements Serializable {
         this.updated = updated;
     }
 
+    public Boolean getDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(Boolean deleted) {
+        this.deleted = deleted;
+    }
+
+    
     @XmlTransient
     public List<AsignacionPerfil> getAsignacionPerfilList() {
         return asignacionPerfilList;

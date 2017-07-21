@@ -5,8 +5,10 @@ import com.espe.edu.ec.model.Area;
 import com.espe.edu.ec.services.AreaService;
 import com.espe.edu.ec.beacon.ui.util.JsfUtil;
 import com.espe.edu.ec.beacon.ui.util.JsfUtil.PersistAction;
+import com.espe.edu.ec.handler.SessionHandler;
 import com.espe.edu.ec.model.Historial;
 import com.espe.edu.ec.model.Lugar;
+import com.espe.edu.ec.services.AreaBeaconService;
 import com.espe.edu.ec.services.HistorialService;
 import com.espe.edu.ec.services.LugarService;
 
@@ -41,18 +43,22 @@ public class AreaController implements Serializable {
     private LugarService lugarService;
     @EJB
     private HistorialService historialService;
+    @EJB
+    private AreaBeaconService areaBeaconService;
     private LazyDataModel<Area> areasLazy;
     private LazyDataModel<Lugar> lugarLazyDataModel;
     private Area selected;
     private UploadedFile file;
 
     private String titulo;
+    private SessionHandler handler;
 
     public AreaController() {
     }
 
     @PostConstruct
     public void init() {
+        handler = new SessionHandler();
         getAreas();
     }
 
@@ -206,16 +212,21 @@ public class AreaController implements Serializable {
                     if (persistAction == PersistAction.CREATE) {
                         getFacade().crear(selected);
                         h.setCodigoHistorial(ConstanteBeacon.CREACION);
-                        h.setDescripcion(successMessage + " " + selected.getAreaId());
+                        h.setDescripcion(successMessage + " AreaId " + selected.getAreaId() + " User:" + handler.getCorreo());
                         historialService.crear(h);
                     } else {
                         getFacade().actualizar(selected);
                         h.setCodigoHistorial(ConstanteBeacon.ACTUALIZACION);
-                        h.setDescripcion(successMessage + " " + selected.getAreaId());
+                        h.setDescripcion(successMessage + " AreaId " + selected.getAreaId() + " User:" + handler.getCorreo());
                         historialService.crear(h);
                     }
                 } else {
+                    lugarService.eliminarLugaresPorIdArea(selected.getAreaId());
+                    areaBeaconService.eliminarAreaBeaconPorAreaId(selected.getAreaId());
                     getFacade().eliminar(selected);
+                    h.setCodigoHistorial(ConstanteBeacon.ELIMINACION);
+                    h.setDescripcion(successMessage + " AreaId " + selected.getAreaId() + " User:" + handler.getCorreo());
+                    historialService.crear(h);
                     selected = null;
                 }
                 JsfUtil.addSuccessMessage(successMessage);

@@ -29,6 +29,7 @@ public class AsignacionPerfilService implements InterfaceService<AsignacionPerfi
     public void crear(AsignacionPerfil object) {
         object.setInserted(new Date());
         object.setUpdated(new Date());
+        object.setDeleted(Boolean.FALSE);
         asignacionPerfilFacade.create(object);
     }
 

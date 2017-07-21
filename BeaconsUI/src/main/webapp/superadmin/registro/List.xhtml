@@ -54,6 +54,12 @@
                                             </f:facet>
                                             <h:outputText value="#{item.tipo eq 'E' ? 'Entrada' : 'Salida' }"/>
                                         </p:column>
+                                        <p:column>
+                                            <f:facet name="header">
+                                                <h:outputText value="Fecha de Registro"/>
+                                            </f:facet>
+                                            <h:outputText value="#{item.inserted}"/>
+                                        </p:column>
                                         <f:facet name="footer">
                                             <p:commandButton class="btn btn-crear" id="viewButton"   icon="ui-icon-search" value="#{bundle.View}" update=":UsuarioViewForm" oncomplete="PF('UsuarioViewDialog').show()" disabled="#{empty registroController.selected}"/>
                                             <p:spacer height="30"></p:spacer>

@@ -67,6 +67,10 @@ public class Dispositivo implements Serializable {
     @Column(name = "updated")
     @Temporal(TemporalType.TIMESTAMP)
     private Date updated;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "deleted", columnDefinition="tinyint(1) default 0")
+    private Boolean deleted;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "dispositivoId", fetch = FetchType.LAZY)
     private List<Registro> registroList;
 
@@ -133,6 +137,14 @@ public class Dispositivo implements Serializable {
         this.registroList = registroList;
     }
 
+    public Boolean getDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(Boolean deleted) {
+        this.deleted = deleted;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -157,5 +169,5 @@ public class Dispositivo implements Serializable {
     public String toString() {
         return "com.espe.edu.ec.model.Dispositivo[ dispositivoId=" + dispositivoId + " ]";
     }
-    
+
 }

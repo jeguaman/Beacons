@@ -5,6 +5,7 @@ import com.espe.edu.ec.model.Notificacion;
 import com.espe.edu.ec.services.NotificacionService;
 import com.espe.edu.ec.beacon.ui.util.JsfUtil;
 import com.espe.edu.ec.beacon.ui.util.JsfUtil.PersistAction;
+import com.espe.edu.ec.handler.SessionHandler;
 import com.espe.edu.ec.model.Area;
 import com.espe.edu.ec.model.Historial;
 import com.espe.edu.ec.services.AreaService;
@@ -50,12 +51,14 @@ public class NotificacionController implements Serializable {
     private LazyDataModel<Area> areasLazy;
 
     private String titulo;
+    private SessionHandler handler;
 
     public NotificacionController() {
     }
 
     @PostConstruct
     public void init() {
+        handler = new SessionHandler();
         getAreas();
     }
 
@@ -190,17 +193,20 @@ public class NotificacionController implements Serializable {
                         notificacionSelected.setAreaId(areaSelected);
                         getFacade().crear(notificacionSelected);
                         h.setCodigoHistorial(ConstanteBeacon.CREACION);
-                        h.setDescripcion(successMessage + " " + notificacionSelected.getNotificacionId());
+                        h.setDescripcion(successMessage + " NotificacionId " + notificacionSelected.getNotificacionId()+ " User:" + handler.getCorreo());
                         historialService.crear(h);
                         notificacionesPorArea();
                     } else {
                         getFacade().actualizar(notificacionSelected);
                         h.setCodigoHistorial(ConstanteBeacon.ACTUALIZACION);
-                        h.setDescripcion(successMessage + " " + notificacionSelected.getNotificacionId());
+                        h.setDescripcion(successMessage + " NotificacionId " + notificacionSelected.getNotificacionId()+ " User:" + handler.getCorreo());
                         historialService.crear(h);
                     }
                 } else {
                     getFacade().eliminar(notificacionSelected);
+                    h.setCodigoHistorial(ConstanteBeacon.ELIMINACION);
+                    h.setDescripcion(successMessage + " NotificacionId " + notificacionSelected.getNotificacionId()+ " User:" + handler.getCorreo());
+                    historialService.crear(h);
                 }
                 JsfUtil.addSuccessMessage(successMessage);
             } catch (EJBException ex) {

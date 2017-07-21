@@ -22,7 +22,10 @@ public class ConstanteBeacon {
     public static String ELIMINACION = "E3";
     public static String CONSULTA = "C4";
     public static String ASIGNAR = "S5";
-    
+
     public static String CONTRASENIA_DEFECTO = "beacon.2017";
+
+    public static Integer TAMANIO_MAX_FOTO = 820000;
+    public static Integer TAMANIO_MAX_ICONO = 62000;
 
 }

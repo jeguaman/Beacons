@@ -65,9 +65,9 @@
                                             <p:spacer height="30"></p:spacer>
                                             <p:commandButton class="btn btn-crear" id="viewButton"   icon="ui-icon-search" value="#{bundle.View}" update=":UsuarioViewForm" oncomplete="PF('UsuarioViewDialog').show()" disabled="#{empty usuarioController.selected}"/>
                                             <p:spacer height="30"></p:spacer>
-                                            <p:commandButton class="btn btn-crear" id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update=":UsuarioEditForm" oncomplete="PF('UsuarioEditDialog').show()" disabled="#{empty usuarioController.selected}"/>
+                                            <p:commandButton class="btn btn-crear" id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update=":UsuarioEditForm" oncomplete="PF('UsuarioEditDialog').show()" disabled="#{empty usuarioController.selected}" actionListener="#{usuarioController.cargarData}"/>
                                             <p:spacer height="30"></p:spacer>
-                                            <p:commandButton class="btn btn-crear" id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{usuarioController.destroy}" update=":growl,datalist" disabled="#{empty usuarioController.selected}" rendered="false"/>
+                                            <p:commandButton class="btn btn-crear" id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" update=":UsuarioDeletedForm" oncomplete="PF('UsuarioDeleteDialog').show()" disabled="#{empty usuarioController.selected}"/>
                                         </f:facet>
                                     </p:dataTable>
                                 </p:panel>
@@ -85,6 +85,7 @@
             <ui:include src="Create.xhtml"/>
             <ui:include src="Edit.xhtml"/>
             <ui:include src="View.xhtml"/>
+            <ui:include src="Delete.xhtml"/>
         </ui:define>
     </ui:composition>
 

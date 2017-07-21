@@ -73,6 +73,15 @@ public class Lugar implements Serializable {
     @Column(name = "updated")
     @Temporal(TemporalType.TIMESTAMP)
     private Date updated;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "deleted", columnDefinition = "tinyint(1) default 0")
+    private Boolean deleted;
+    @Basic(optional = false)
+    @NotNull
+    @Lob
+    @Column(name = "icono")
+    private byte[] icono;
     @JoinColumn(name = "area_id", referencedColumnName = "area_id")
     @ManyToOne(optional = false)
     private Area areaId;
@@ -83,6 +92,12 @@ public class Lugar implements Serializable {
     public Lugar(Integer lugarId, String titulo) {
         this.lugarId = lugarId;
         this.titulo = titulo;
+    }
+
+    public Lugar(Integer lugarId, String titulo, String descripcion) {
+        this.lugarId = lugarId;
+        this.titulo = titulo;
+        this.descripcion = descripcion;
     }
 
     public Lugar(Integer lugarId) {
@@ -152,6 +167,22 @@ public class Lugar implements Serializable {
 
     public void setAreaId(Area areaId) {
         this.areaId = areaId;
+    }
+
+    public Boolean getDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(Boolean deleted) {
+        this.deleted = deleted;
+    }
+
+    public byte[] getIcono() {
+        return icono;
+    }
+
+    public void setIcono(byte[] icono) {
+        this.icono = icono;
     }
 
     @Override

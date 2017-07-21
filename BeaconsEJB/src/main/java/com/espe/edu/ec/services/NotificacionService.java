@@ -28,17 +28,21 @@ public class NotificacionService implements InterfaceService<Notificacion> {
     public void crear(Notificacion object) {
         object.setInserted(new Date());
         object.setUpdated(new Date());
+        object.setDeleted(Boolean.FALSE);
         notificacionFacade.create(object);
     }
 
     @Override
     public void actualizar(Notificacion object) {
+        object.setUpdated(new Date());
         notificacionFacade.edit(object);
     }
 
     @Override
     public void eliminar(Notificacion object) {
-
+        object.setUpdated(new Date());
+        object.setDeleted(Boolean.TRUE);
+        notificacionFacade.edit(object);
     }
 
     @Override

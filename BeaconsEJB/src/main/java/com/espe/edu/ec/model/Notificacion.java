@@ -33,12 +33,12 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "notificacion")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Notificacion.findAll", query = "SELECT n FROM Notificacion n")
-    , @NamedQuery(name = "Notificacion.findByNotificacionId", query = "SELECT n FROM Notificacion n WHERE n.notificacionId = :notificacionId")
-    , @NamedQuery(name = "Notificacion.findByDescripcion", query = "SELECT n FROM Notificacion n WHERE n.descripcion = :descripcion")
-    , @NamedQuery(name = "Notificacion.findByTipo", query = "SELECT n FROM Notificacion n WHERE n.tipo = :tipo")
-    , @NamedQuery(name = "Notificacion.findByInserted", query = "SELECT n FROM Notificacion n WHERE n.inserted = :inserted")
-    , @NamedQuery(name = "Notificacion.findByUpdated", query = "SELECT n FROM Notificacion n WHERE n.updated = :updated")})
+    @NamedQuery(name = "Notificacion.findAll", query = "SELECT n FROM Notificacion n where n.deleted = 0")
+    , @NamedQuery(name = "Notificacion.findByNotificacionId", query = "SELECT n FROM Notificacion n WHERE n.notificacionId = :notificacionId and n.deleted = 0")
+    , @NamedQuery(name = "Notificacion.findByDescripcion", query = "SELECT n FROM Notificacion n WHERE n.descripcion = :descripcion and n.deleted = 0")
+    , @NamedQuery(name = "Notificacion.findByTipo", query = "SELECT n FROM Notificacion n WHERE n.tipo = :tipo and n.deleted = 0")
+    , @NamedQuery(name = "Notificacion.findByInserted", query = "SELECT n FROM Notificacion n WHERE n.inserted = :inserted and n.deleted = 0")
+    , @NamedQuery(name = "Notificacion.findByUpdated", query = "SELECT n FROM Notificacion n WHERE n.updated = :updated and n.deleted = 0")})
 public class Notificacion implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -67,6 +67,10 @@ public class Notificacion implements Serializable {
     @Column(name = "updated")
     @Temporal(TemporalType.TIMESTAMP)
     private Date updated;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "deleted", columnDefinition="tinyint(1) default 0")
+    private Boolean deleted;
     @JoinColumn(name = "area_id", referencedColumnName = "area_id")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Area areaId;
@@ -133,6 +137,16 @@ public class Notificacion implements Serializable {
     public void setAreaId(Area areaId) {
         this.areaId = areaId;
     }
+
+    public Boolean getDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(Boolean deleted) {
+        this.deleted = deleted;
+    }
+    
+    
 
     @Override
     public int hashCode() {

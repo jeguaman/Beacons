@@ -7,6 +7,7 @@ package com.espe.edu.ec.services;
 
 import com.espe.edu.ec.facade.RegistroFacade;
 import com.espe.edu.ec.model.Registro;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -25,6 +26,8 @@ public class RegistroService implements InterfaceService<Registro> {
 
     @Override
     public void crear(Registro object) {
+        object.setInserted(new Date());
+        object.setDeleted(Boolean.FALSE);
         registroFacade.create(object);
     }
 
