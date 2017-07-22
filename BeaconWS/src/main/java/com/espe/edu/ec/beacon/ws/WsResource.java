@@ -169,7 +169,7 @@ public class WsResource {
     public WSResponse traerImagenPorIdLugar(@FormParam("id_lugar") Integer idLugar) {
         return restService.traerImagenPorIdLugar(idLugar);
     }
-    
+
     /**
      *
      * @param idArea
@@ -182,4 +182,15 @@ public class WsResource {
         return restService.traerImagenPorIdArea(idArea);
     }
 
+    /**
+     *
+     * @param idLugar
+     * @return
+     */
+    @POST
+    @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
+    @Path("/traerIconoPorIdLugar")
+    public WSResponse traerIconoPorIdLugar(@FormParam("id_lugar") Integer idLugar) {
+        return restService.traerIconoPorIdLugar(idLugar);
+    }
 }
