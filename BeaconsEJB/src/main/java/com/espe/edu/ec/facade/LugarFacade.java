@@ -24,6 +24,7 @@ public class LugarFacade extends AbstractFacade<Lugar> {
 
     private static final String TRAER_TODOS_LUGARES_POR_AREA_NO_BYTES = "SELECT new Lugar(l.lugarId, l.titulo, l.descripcion) FROM Lugar as l  WHERE l.areaId.areaId = :areaId and l.deleted = 0 ";
     private static final String TRAER_IMAGEN_POR_ID_LUGAR = "SELECT new Lugar(l.lugarId, l.imagen) FROM Lugar as l  WHERE l.lugarId = :lugarId and l.deleted = 0 ";
+    private static final String TRAER_ICONO_POR_ID_LUGAR = "SELECT new Lugar(l.lugarId, l.icono) FROM Lugar as l  WHERE l.lugarId = :lugarId and l.deleted = 0 ";
     private static final String TRAER_TODOS_LUGARES_POR_AREA_TOTAL = "SELECT count(l) FROM Lugar as l WHERE l.areaId.areaId = :areaId and l.deleted = 0 ";
     private static final String TRAER_TODOS_LUGARES_POR_UUID = "SELECT l FROM Lugar as l JOIN l.areaId as a JOIN a.areaBeaconList as ab WHERE ab.beaconId.uuid = :uuid and l.deleted = 0 ";
     private static final String TRAER_TODOS_LUGARES_POR_AREA = "SELECT l FROM Lugar as l  WHERE l.areaId.areaId = :areaId and l.deleted = 0 ";
@@ -50,7 +51,7 @@ public class LugarFacade extends AbstractFacade<Lugar> {
         q.setParameter("areaId", areaId);
         return q.getResultList();
     }
-    
+
     public List<Lugar> traerLugaresPorIdArea(Integer areaId) {
         Query q = em.createQuery(TRAER_TODOS_LUGARES_POR_AREA);
         q.setParameter("areaId", areaId);
@@ -78,10 +79,20 @@ public class LugarFacade extends AbstractFacade<Lugar> {
         return total.intValue();
     }
 
-    public Lugar traerImagenPorIdLugar(Integer areaId) {
+    public Lugar traerImagenPorIdLugar(Integer lugarId) {
         try {
             Query q = em.createQuery(TRAER_IMAGEN_POR_ID_LUGAR);
-            q.setParameter("lugarId", areaId);
+            q.setParameter("lugarId", lugarId);
+            return (Lugar) q.getSingleResult();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    public Lugar traerIconoPorIdLugar(Integer lugarId) {
+        try {
+            Query q = em.createQuery(TRAER_ICONO_POR_ID_LUGAR);
+            q.setParameter("lugarId", lugarId);
             return (Lugar) q.getSingleResult();
         } catch (Exception e) {
             return null;

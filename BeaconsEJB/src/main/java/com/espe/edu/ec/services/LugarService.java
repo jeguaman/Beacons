@@ -94,4 +94,9 @@ public class LugarService implements InterfaceService<Lugar>, Serializable {
             }
         }
     }
+    
+    public Lugar traerIconoPorIdLugar(Integer lugarId) {
+        return lugarFacade.traerIconoPorIdLugar(lugarId);
+    }
+
 }
