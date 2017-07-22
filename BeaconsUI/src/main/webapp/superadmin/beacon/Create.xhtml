@@ -46,7 +46,8 @@
                                     <div class="form-group">
                                         <p:outputLabel class="col-sm-3 col-sm-3 control-label" value="#{bundle.CreateBeaconLabel_imagen}" for="imagen" />
                                         <div class="col-sm-9">                                            
-                                            <p:fileUpload class="form-control" id="imagen" value="#{beaconController.file}" mode="simple" sizeLimit="100000" allowTypes="/(\.|\/)(jpe?g|png)$/"/>
+                                            <p:fileUpload class="form-control" id="imagen" value="#{beaconController.file}" mode="simple" 
+                                                          skinSimple="true" allowTypes="/(\.|\/)(jpe?g|png)$/" label="Imagen .png/jpg max(800KB)"/>
                                         </div>
                                     </div>
                                     <div style="text-align: center;">

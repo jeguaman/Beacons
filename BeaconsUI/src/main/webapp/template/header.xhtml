@@ -32,9 +32,33 @@ and open the template in the editor.
                             <p:fileDownload value="#{menuBean.file}" />
                         </p:commandLink>
                     </li>
+                    <li>
+                        <p:commandLink class="logout"  value="Acerca De" oncomplete="PF('acercaDeDialog').show();"/>
+                    </li>
                 </ul>
             </div>           
         </h:form>
     </header>
-    <!--header end-->
+    <p:dialog
+        widgetVar="acercaDeDialog"
+        id="AcercaDlg"
+        modal="true" 
+        resizable="false" 
+        appendTo="@(body)" 
+        class="twitter-panel pn"
+        header="Acerca De">
+        <section class="wrapper" style="margin-top: 0;">
+            <div class="row">
+                <div class="col-lg-12" >
+
+                    <!-- WHITE PANEL - TOP USER -->
+                    <div class="twitter-panel pn">
+                        <p><img src="#{request.contextPath}/resources/img/ui-sam.jpg" width="60"/></p>
+                        <p><b>Nombre del Sistema</b></p>
+                        <p>Es un sistema elaborado con la finalidad de administrar y entregar información <br/> a los usuarios finales en espacios indoor.</p>
+                        <p class="user">© CopyRight 2017</p>
+                    </div>
+                </div>
+            </div></section>
+    </p:dialog>
 </ui:composition>

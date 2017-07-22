@@ -61,6 +61,7 @@ public class BeaconController implements Serializable {
     private AreaBeacon areaBeacon;
     private String uuidBusqueda;
     private SessionHandler handler;
+    private String mensajeError;
 
     public BeaconController() {
     }
@@ -68,6 +69,7 @@ public class BeaconController implements Serializable {
     @PostConstruct
     public void init() {
         flagSuccess = true;
+        mensajeError = "";
         handler = new SessionHandler();
         getBeacons();
     }
@@ -106,6 +108,14 @@ public class BeaconController implements Serializable {
         this.uuidBusqueda = uuidBusqueda;
     }
 
+    public String getMensajeError() {
+        return mensajeError;
+    }
+
+    public void setMensajeError(String mensajeError) {
+        this.mensajeError = mensajeError;
+    }
+    
     public Beacon prepareCreate() {
         beaconSelected = new Beacon();
         initializeEmbeddableKey();
@@ -232,37 +242,43 @@ public class BeaconController implements Serializable {
                 if (persistAction != PersistAction.DELETE) {
                     if (persistAction == PersistAction.CREATE) {
                         verificarCambioImagen();
-                        getFacade().crear(beaconSelected);
-                        h.setCodigoHistorial(ConstanteBeacon.CREACION);
-                        h.setDescripcion(successMessage + " " + beaconSelected.getBeaconId()+ " User:" + handler.getCorreo());
-                        historialService.crear(h);
-                    } else if (persistAction == PersistAction.ASIGNAR) {
-                        AreaBeacon ab = new AreaBeacon();
-                        ab.setAreaId(areaService.buscar(idAreaSeleccionada));
-                        ab.setBeaconId(beaconSelected);
-                        ab.setEstado(Boolean.TRUE);
-                        areaBeaconService.crear(ab);
-                        h.setCodigoHistorial(ConstanteBeacon.ASIGNAR);
-                        h.setDescripcion(successMessage + " BeaconId " + beaconSelected.getBeaconId() + " User:" + handler.getCorreo());
-                        historialService.crear(h);
-                        buscarAsignacionBeacon();
+                        if (mensajeError.compareTo("") == 0) {
+                            getFacade().crear(beaconSelected);
+                            h.setCodigoHistorial(ConstanteBeacon.CREACION);
+                            h.setDescripcion(successMessage + " " + beaconSelected.getBeaconId() + " User:" + handler.getCorreo());
+                            historialService.crear(h);
+                        } else if (persistAction == PersistAction.ASIGNAR) {
+                            AreaBeacon ab = new AreaBeacon();
+                            ab.setAreaId(areaService.buscar(idAreaSeleccionada));
+                            ab.setBeaconId(beaconSelected);
+                            ab.setEstado(Boolean.TRUE);
+                            areaBeaconService.crear(ab);
+                            h.setCodigoHistorial(ConstanteBeacon.ASIGNAR);
+                            h.setDescripcion(successMessage + " BeaconId " + beaconSelected.getBeaconId() + " User:" + handler.getCorreo());
+                            historialService.crear(h);
+                            buscarAsignacionBeacon();
+                        } else {
+                            verificarCambioImagen();
+                            getFacade().actualizar(beaconSelected);
+                            areaBeacon.setAreaId(areaService.buscar(idAreaSeleccionada));
+                            areaBeaconService.actualizar(areaBeacon);
+                            h.setCodigoHistorial(ConstanteBeacon.ACTUALIZACION);
+                            h.setDescripcion(successMessage + " BeaconId " + beaconSelected.getBeaconId() + " User:" + handler.getCorreo());
+                            historialService.crear(h);
+                        }
+                        mensajeError = "";
                     } else {
-                        verificarCambioImagen();
-                        getFacade().actualizar(beaconSelected);
-                        areaBeacon.setAreaId(areaService.buscar(idAreaSeleccionada));
-                        areaBeaconService.actualizar(areaBeacon);
-                        h.setCodigoHistorial(ConstanteBeacon.ACTUALIZACION);
-                        h.setDescripcion(successMessage + " BeaconId " + beaconSelected.getBeaconId()+ " User:" + handler.getCorreo());
-                        historialService.crear(h);
+                        JsfUtil.addErrorMessage(mensajeError);
                     }
                 } else {
                     areaBeaconService.eliminarAreaBeaconPorBeaconId(beaconSelected.getBeaconId());
                     getFacade().eliminar(beaconSelected);
                     h.setCodigoHistorial(ConstanteBeacon.ELIMINACION);
-                    h.setDescripcion(successMessage + " BeaconId " + beaconSelected.getBeaconId()+ " User:" + handler.getCorreo());
+                    h.setDescripcion(successMessage + " BeaconId " + beaconSelected.getBeaconId() + " User:" + handler.getCorreo());
                     historialService.crear(h);
                 }
-                JsfUtil.addSuccessMessage(successMessage);
+                if (mensajeError.compareTo("") == 0) {
+                JsfUtil.addSuccessMessage(successMessage);}
             } catch (EJBException ex) {
                 String msg = "";
                 Throwable cause = ex.getCause();
@@ -337,6 +353,14 @@ public class BeaconController implements Serializable {
     public void verificarCambioImagen() {
         if (!file.getFileName().isEmpty()) {
             beaconSelected.setImagen(file.getContents());
+        }
+
+        if (file != null && !file.getFileName().isEmpty()) {
+            if (file.getSize() <= ConstanteBeacon.TAMANIO_MAX_FOTO) {
+                beaconSelected.setImagen(file.getContents());
+            } else {
+                mensajeError = "El peso(Kb) de la imagen supera lo permitido 800KB.";
+            }
         }
     }
 

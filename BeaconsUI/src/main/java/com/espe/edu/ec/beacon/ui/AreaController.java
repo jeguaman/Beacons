@@ -52,6 +52,7 @@ public class AreaController implements Serializable {
 
     private String titulo;
     private SessionHandler handler;
+    private String mensajeError;
 
     public AreaController() {
     }
@@ -59,6 +60,7 @@ public class AreaController implements Serializable {
     @PostConstruct
     public void init() {
         handler = new SessionHandler();
+        mensajeError = "";
         getAreas();
     }
 
@@ -110,6 +112,14 @@ public class AreaController implements Serializable {
 
     public void setTitulo(String titulo) {
         this.titulo = titulo;
+    }
+
+    public String getMensajeError() {
+        return mensajeError;
+    }
+
+    public void setMensajeError(String mensajeError) {
+        this.mensajeError = mensajeError;
     }
 
     public Area prepareCreate() {
@@ -209,16 +219,21 @@ public class AreaController implements Serializable {
             try {
                 if (persistAction != PersistAction.DELETE) {
                     verificarCambioImagen();
-                    if (persistAction == PersistAction.CREATE) {
-                        getFacade().crear(selected);
-                        h.setCodigoHistorial(ConstanteBeacon.CREACION);
-                        h.setDescripcion(successMessage + " AreaId " + selected.getAreaId() + " User:" + handler.getCorreo());
-                        historialService.crear(h);
+                    if (mensajeError.compareTo("") == 0) {
+                        if (persistAction == PersistAction.CREATE) {
+                            getFacade().crear(selected);
+                            h.setCodigoHistorial(ConstanteBeacon.CREACION);
+                            h.setDescripcion(successMessage + " AreaId " + selected.getAreaId() + " User:" + handler.getCorreo());
+                            historialService.crear(h);
+                        } else {
+                            getFacade().actualizar(selected);
+                            h.setCodigoHistorial(ConstanteBeacon.ACTUALIZACION);
+                            h.setDescripcion(successMessage + " AreaId " + selected.getAreaId() + " User:" + handler.getCorreo());
+                            historialService.crear(h);
+                        }
+                        mensajeError = "";
                     } else {
-                        getFacade().actualizar(selected);
-                        h.setCodigoHistorial(ConstanteBeacon.ACTUALIZACION);
-                        h.setDescripcion(successMessage + " AreaId " + selected.getAreaId() + " User:" + handler.getCorreo());
-                        historialService.crear(h);
+                        JsfUtil.addErrorMessage(mensajeError);
                     }
                 } else {
                     lugarService.eliminarLugaresPorIdArea(selected.getAreaId());
@@ -229,7 +244,9 @@ public class AreaController implements Serializable {
                     historialService.crear(h);
 //                    selected = null;
                 }
-                JsfUtil.addSuccessMessage(successMessage);
+                if (mensajeError.compareTo("") == 0) {
+                    JsfUtil.addSuccessMessage(successMessage);
+                }
             } catch (EJBException ex) {
                 String msg = "";
                 Throwable cause = ex.getCause();
@@ -302,8 +319,12 @@ public class AreaController implements Serializable {
     }
 
     public void verificarCambioImagen() {
-        if (!file.getFileName().isEmpty()) {
-            selected.setImagen(file.getContents());
+        if (file != null && !file.getFileName().isEmpty()) {
+            if (file.getSize() <= ConstanteBeacon.TAMANIO_MAX_FOTO) {
+                selected.setImagen(file.getContents());
+            } else {
+                mensajeError = "El peso(Kb) de la imagen supera lo permitido 800KB.";
+            }
         }
     }
 
