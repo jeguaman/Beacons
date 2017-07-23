@@ -65,11 +65,11 @@ public class BeaconService implements InterfaceService<Beacon>, Serializable {
         return beaconFacade.count();
     }
 
-    public List<Beacon> traerPorUuid(Integer first, Integer size, String uuid) {
-        return beaconFacade.traerPorUuid(first, size, uuid);
+    public List<Beacon> traerPorNombre(Integer first, Integer size, String nombre) {
+        return beaconFacade.traerPorNombre(first, size, nombre);
     }
 
-    public Integer totalPorUuid(String uuid) {
-        return beaconFacade.totalPorUuid(uuid);
+    public Integer totalPorNombre(String nombre) {
+        return beaconFacade.totalPorNombre(nombre);
     }
 }

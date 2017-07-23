@@ -15,7 +15,7 @@
                         <div class="col-md-12">
                             <div class="content-panel" style="padding-left: 1%;">
                                 <div class="form-group">
-                                    <p:inputText class="col-sm-3 col-sm-3 control-label" placeholder="Ingrese el identificador (UUID) del Beacon" value="#{beaconController.uuidBusqueda}"/>
+                                    <p:inputText class="col-sm-3 col-sm-3 control-label" placeholder="Ingrese el nombre del Beacon" value="#{beaconController.nombreBusqueda}"/>
                                     <div class="col-sm-9">
                                         <p:commandButton value="Buscar" actionListener="#{beaconController.getBeacons}" update="datalist"/>
                                     </div>
@@ -36,22 +36,28 @@
 
                                         <p:column>
                                             <f:facet name="header">
+                                                <h:outputText value="#{bundle.ListBeaconTitle_nombre}"/>
+                                            </f:facet>
+                                            <h:outputText value="#{item.nombre}"/>
+                                        </p:column>                
+                                        <p:column>
+                                            <f:facet name="header">
                                                 <h:outputText value="#{bundle.ListBeaconTitle_uuid}"/>
                                             </f:facet>
                                             <h:outputText value="#{item.uuid}"/>
                                         </p:column>
                                         <p:column>
                                             <f:facet name="header">
-                                                <h:outputText value="#{bundle.ListBeaconTitle_major}"/>
+                                                <h:outputText value="Identificador #{bundle.ListBeaconTitle_major}"/>
                                             </f:facet>
                                             <h:outputText value="#{item.major}"/>
                                         </p:column>
                                         <p:column>
                                             <f:facet name="header">
-                                                <h:outputText value="#{bundle.ListBeaconTitle_minor}"/>
+                                                <h:outputText value="Identificador #{bundle.ListBeaconTitle_minor}"/>
                                             </f:facet>
                                             <h:outputText value="#{item.minor}"/>
-                                        </p:column>
+                                        </p:column>                                             
                                         <p:column>
                                             <f:facet name="header">
                                                 <h:outputText value="#{bundle.ListBeaconTitle_descripcion}"/>

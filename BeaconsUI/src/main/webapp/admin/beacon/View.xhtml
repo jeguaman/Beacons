@@ -26,6 +26,12 @@
                                             </div>
                                         </div>
                                         <div class="form-group">
+                                            <h:outputText class="col-sm-4 col-sm-4 control-label" value="#{bundle.ViewBeaconLabel_nombre}"/>
+                                            <div class="col-sm-8">
+                                                <h:outputText value="#{beaconController.beaconSelected.nombre}" title="#{bundle.ViewBeaconTitle_nombre}"/>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
                                             <h:outputText class="col-sm-4 col-sm-4 control-label" value="#{bundle.ViewBeaconLabel_uuid}"/>
                                             <div class="col-sm-8">
                                                 <h:outputText value="#{beaconController.beaconSelected.uuid}" title="#{bundle.ViewBeaconTitle_uuid}"/>

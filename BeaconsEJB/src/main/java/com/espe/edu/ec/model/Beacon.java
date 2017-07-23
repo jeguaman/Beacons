@@ -69,6 +69,11 @@ public class Beacon implements Serializable {
     private String minor;
     @Basic(optional = false)
     @NotNull
+    @Size(min = 1, max = 200)
+    @Column(name = "nombre")
+    private String nombre;
+    @Basic(optional = false)
+    @NotNull
     @Size(min = 1, max = 500)
     @Column(name = "descripcion")
     private String descripcion;
@@ -144,6 +149,14 @@ public class Beacon implements Serializable {
         this.minor = minor;
     }
 
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+    
     public String getDescripcion() {
         return descripcion;
     }

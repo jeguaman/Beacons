@@ -59,7 +59,7 @@ public class BeaconController implements Serializable {
     private Integer idAreaEdit;
     private String nombreAreaAsignada;
     private AreaBeacon areaBeacon;
-    private String uuidBusqueda;
+    private String nombreBusqueda;
     private SessionHandler handler;
     private String mensajeError;
 
@@ -100,12 +100,12 @@ public class BeaconController implements Serializable {
         return beaconService;
     }
 
-    public String getUuidBusqueda() {
-        return uuidBusqueda;
+    public String getNombreBusqueda() {
+        return nombreBusqueda;
     }
 
-    public void setUuidBusqueda(String uuidBusqueda) {
-        this.uuidBusqueda = uuidBusqueda;
+    public void setNombreBusqueda(String nombreBusqueda) {
+        this.nombreBusqueda = nombreBusqueda;
     }
 
     public String getMensajeError() {
@@ -201,9 +201,9 @@ public class BeaconController implements Serializable {
             @Override
             public List load(int first, int pageSize, String sortField, SortOrder sortOrder, Map filters) {
                 List<Beacon> beacons = new ArrayList();
-                if (uuidBusqueda != null && uuidBusqueda.compareTo("") != 0) {
-                    beacons = beaconService.traerPorUuid(first, pageSize, uuidBusqueda);
-                    this.setRowCount(beaconService.totalPorUuid(uuidBusqueda));
+                if (nombreBusqueda != null && nombreBusqueda.compareTo("") != 0) {
+                    beacons = beaconService.traerPorNombre(first, pageSize, nombreBusqueda);
+                    this.setRowCount(beaconService.totalPorNombre(nombreBusqueda));
                 } else {
                     beacons = beaconService.traerLazzy(first, pageSize);
                     this.setRowCount(beaconService.totalRegistros());

@@ -22,7 +22,9 @@ public class BeaconFacade extends AbstractFacade<Beacon> {
     @PersistenceContext(unitName = "com.espe.edu.ec_BeaconsEJB_ejb_1.0-SNAPSHOTPU")
     private EntityManager em;
 
-    private final String TOTAL_POR_UUID = "select count(b) from Beacon b where b.uuid =:uuid and b.deleted = 0";
+    //private final String TOTAL_POR_UUID = "select count(b) from Beacon b where b.uuid =:uuid and b.deleted = 0";
+    private final String TOTAL_POR_NOMBRE = "select count(b) from Beacon b where b.nombre like :uuid and b.deleted = 0";
+    private final String TRAER_POR_NOMBRE = "select b from Beacon b where b.nombre like :uuid and b.deleted = 0";
 
     @Override
     protected EntityManager getEntityManager() {
@@ -40,18 +42,18 @@ public class BeaconFacade extends AbstractFacade<Beacon> {
         return q.getResultList();
     }
 
-    public List<Beacon> traerPorUuid(Integer first, Integer size, String uuid) {
-        Query q = em.createNamedQuery("Beacon.findByUuid");
-        q.setParameter("uuid", uuid);
+    public List<Beacon> traerPorNombre(Integer first, Integer size, String nombre) {
+        Query q = em.createQuery(TRAER_POR_NOMBRE);
+        q.setParameter("nombre", "%" + nombre + "%");
         q.setFirstResult(first);
         q.setMaxResults(size);
         List<Beacon> beacons = q.getResultList();
         return beacons;
     }
 
-    public Integer totalPorUuid(String uuid) {
-        Query q = em.createQuery(TOTAL_POR_UUID);
-        q.setParameter("uuid", uuid);
+    public Integer totalPorNombre(String nombre) {
+        Query q = em.createQuery(TOTAL_POR_NOMBRE);
+        q.setParameter("nombre", "%" + nombre + "%");
         Long total = (Long) q.getSingleResult();
         return total.intValue();
     }
