@@ -25,7 +25,7 @@ public class ConstanteBeacon {
 
     public static String CONTRASENIA_DEFECTO = "beacon.2017";
 
-    public static Integer TAMANIO_MAX_FOTO = 4200000;
+    public static Integer TAMANIO_MAX_FOTO = 1200000;
     public static Integer TAMANIO_MAX_ICONO = 62000;
 
 }

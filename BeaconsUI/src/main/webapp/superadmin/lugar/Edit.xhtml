@@ -28,7 +28,7 @@
                                     <div class="form-group">
                                         <p:outputLabel class="col-sm-3 col-sm-3 control-label" value="#{bundle.EditLugarLabel_imagen}" for="imagen" />
                                         <div class="col-sm-9">
-                                            <p:fileUpload class="form-control" id="imagen" value="#{lugarController.file}" mode="simple" label="Imagen .png/jpg max(800KB)"
+                                            <p:fileUpload class="form-control" id="imagen" value="#{lugarController.file}" mode="simple" label="Imagen .png/jpg max(1MB)"
                                                           skinSimple="true" allowTypes="/(\.|\/)(jpe?g|png)$/"/>
                                         </div>
                                     </div>
@@ -42,7 +42,7 @@
                                         <p:outputLabel class="col-sm-3 col-sm-3 control-label" value="#{bundle.CreateLugarLabel_icono}" for="icono" />
                                         <div class="col-sm-9">                                            
                                             <p:fileUpload id="icono" value="#{lugarController.icono}" mode="simple" skinSimple="true"
-                                                          invalidSizeMessage="Archivo pesa más de 600Kb." 
+                                                          invalidSizeMessage="Archivo pesa más de 60Kb." 
                                                           label="Icono .ico max(60Kb)"
                                                           update=":growl" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
                                         </div>
