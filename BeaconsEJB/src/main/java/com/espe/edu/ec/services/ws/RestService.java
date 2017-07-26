@@ -6,12 +6,16 @@
 package com.espe.edu.ec.services.ws;
 
 import com.espe.edu.ec.model.Area;
+import com.espe.edu.ec.model.AreaBeacon;
+import com.espe.edu.ec.model.Beacon;
 import com.espe.edu.ec.model.Dispositivo;
 import com.espe.edu.ec.model.Historial;
 import com.espe.edu.ec.model.Lugar;
 import com.espe.edu.ec.model.Notificacion;
 import com.espe.edu.ec.model.Registro;
+import com.espe.edu.ec.services.AreaBeaconService;
 import com.espe.edu.ec.services.AreaService;
+import com.espe.edu.ec.services.BeaconService;
 import com.espe.edu.ec.services.DispositivoService;
 import com.espe.edu.ec.services.HistorialService;
 import com.espe.edu.ec.services.LugarService;
@@ -19,6 +23,7 @@ import com.espe.edu.ec.services.NotificacionService;
 import com.espe.edu.ec.services.RegistroService;
 import com.espe.edu.ec.services.ws.util.Util;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
@@ -56,12 +61,32 @@ public class RestService implements Serializable {
     @EJB
     HistorialService historialService;
 
+    @EJB
+    BeaconService beaconService;
+
+    @EJB
+    AreaBeaconService areaBeaconService;
+
     public WSResponse traerAreasWS() {
         WSResponse response = new WSResponse();
         Util util = new Util();
         try {
             List<Area> listaArea = areaService.buscarTodos();
             response.setJsonEntity(util.convertirListaObjetoEnJsonString(listaArea));
+            response.setState(true);
+        } catch (Exception ex) {
+            LOGGER.error(ex);
+            response.setState(false);
+        }
+        return response;
+    }
+
+    public WSResponse traerBeaconsWS() {
+        WSResponse response = new WSResponse();
+        Util util = new Util();
+        try {
+            List<Beacon> listaBeacon = beaconService.traerTodosSinImagen();
+            response.setJsonEntity(util.convertirListaObjetoEnJsonString(listaBeacon));
             response.setState(true);
         } catch (Exception ex) {
             LOGGER.error(ex);
@@ -154,31 +179,39 @@ public class RestService implements Serializable {
         Util util = new Util();
         Historial h = null;
         try {
-            Dispositivo d = new Dispositivo();
-            d.setImei(imeiDispositivo);
-            d.setInserted(new Date());
-            d.setUpdated(new Date());
-            dispositivoService.crear(d);
+            Dispositivo d = dispositivoService.traerPorImei(imeiDispositivo);
+            if (d == null) {
+                d = new Dispositivo();
+                d.setImei(imeiDispositivo);
+                d.setInserted(new Date());
+                d.setUpdated(new Date());
+                dispositivoService.crear(d);
+            }
             //h.setCodigoHistorial(ConstanteBeacon.CREACION);
             h = new Historial();
             h.setCodigoHistorial("C1");
             h.setDescripcion("Dispositivo creado con éxito " + d.getDispositivoId());
             historialService.crear(h);
-            Area a = areaService.buscar(idArea);
 
-            Registro r = new Registro();
-            r.setAreaId(a);
-            r.setDispositivoId(d);
-            r.setInserted(new Date());
-            r.setTipo(tipo);
-            registroService.crear(r);
-            h = new Historial();
-            h.setCodigoHistorial("C1");
-            h.setDescripcion("Registro creado con éxito " + r.getRegistroId());
-            historialService.crear(h);
-
-            response.setState(true);
-            response.setJsonEntity(util.convertirObjetoEnJsonString(r));
+            Registro r = null;
+            if (areaService.verificarArea(idArea)) {
+                Area a = new Area(idArea);
+                r = new Registro();
+                r.setAreaId(a);
+                r.setDispositivoId(d);
+                r.setInserted(new Date());
+                r.setTipo(tipo);
+                registroService.crear(r);
+                h = new Historial();
+                h.setCodigoHistorial("C1");
+                h.setDescripcion("Registro creado con éxito " + r.getRegistroId());
+                historialService.crear(h);
+                response.setState(true);
+                response.setJsonEntity(util.convertirObjetoEnJsonString(r));
+            } else {
+                response.setJsonEntity(util.convertirObjetoEnJsonString(new Registro()));
+                response.setState(false);
+            }
         } catch (Exception e) {
             LOGGER.error(e);
             response.setState(false);
@@ -199,6 +232,53 @@ public class RestService implements Serializable {
             response.setJsonEntity(util.convertirObjetoEnJsonString(notificacion));
         } catch (Exception e) {
             LOGGER.error(e);
+            response.setState(false);
+        }
+        return response;
+    }
+
+    public WSResponse traerNotificacionPorBeaconTipo(Integer idBeacon, String tipo) {
+        WSResponse response = new WSResponse();
+        Util util = new Util();
+        try {
+            AreaBeacon ab = areaBeaconService.traerAreaBeaconIdPorBeacon(idBeacon);
+            if (ab != null) {
+                Notificacion notificacion = notificacionService.traerPorAreaYTipoWS(ab.getAreaId().getAreaId(), tipo);
+                if (notificacion != null) {
+                    response.setState(true);
+                } else {
+                    response.setState(false);
+                }
+                response.setJsonEntity(util.convertirObjetoEnJsonString(notificacion));
+            }
+        } catch (Exception e) {
+            LOGGER.error(e);
+            response.setState(false);
+        }
+        return response;
+    }
+    
+    public WSResponse traerNotificacionListPorBeacon(Integer idBeacon) {
+        WSResponse response = new WSResponse();
+        Util util = new Util();
+        List<Notificacion> notificaciones=new ArrayList();
+        try {
+            AreaBeacon ab = areaBeaconService.traerAreaBeaconIdPorBeacon(idBeacon);
+            if (ab != null) {
+                Notificacion notificacion = notificacionService.traerPorAreaYTipoWS(ab.getAreaId().getAreaId(), "E");
+                Notificacion notificacion2 = notificacionService.traerPorAreaYTipoWS(ab.getAreaId().getAreaId(), "S");
+                if (notificacion != null && notificacion2 != null) {
+                    notificaciones.add(notificacion);
+                    notificaciones.add(notificacion2);
+                    response.setState(true);
+                } else {
+                    response.setState(false);
+                }
+                response.setJsonEntity(util.convertirListaObjetoEnJsonString(notificaciones));
+            }
+        } catch (Exception e) {
+            LOGGER.error(e);
+            response.setJsonEntity(util.convertirListaObjetoEnJsonString(notificaciones));
             response.setState(false);
         }
         return response;
@@ -272,6 +352,45 @@ public class RestService implements Serializable {
             Lugar lugar = lugarService.traerIconoPorIdLugar(idLugar);
             response.setJsonEntity(util.convertirObjetoEnJsonString(lugar));
             response.setState(true);
+        } catch (Exception ex) {
+            LOGGER.error(ex);
+            response.setState(false);
+        }
+        return response;
+    }
+
+    public WSResponse traerAreaBeaconListaPorIdsBeacon(List<Integer> listIdBeacon) {
+        WSResponse response = new WSResponse();
+        Util util = new Util();
+        try {
+            List<AreaBeacon> listaArea = new ArrayList();
+            AreaBeacon areaBeacon = null;
+            for (Integer idBeacon : listIdBeacon) {
+                areaBeacon = areaBeaconService.traerAreaBeaconIdPorBeacon(idBeacon);
+                if (areaBeacon != null) {
+                    listaArea.add(areaBeacon);
+                }
+            }
+            response.setJsonEntity(util.convertirListaObjetoEnJsonString(listaArea));
+            response.setState(true);
+        } catch (Exception ex) {
+            LOGGER.error(ex);
+            response.setState(false);
+        }
+        return response;
+    }
+
+    public WSResponse traerAreaBeaconPorIdBeacon(Integer idBeacon) {
+        WSResponse response = new WSResponse();
+        Util util = new Util();
+        try {
+            AreaBeacon areaBeacon = areaBeaconService.traerAreaBeaconIdPorBeacon(idBeacon);
+            if (areaBeacon != null) {
+                response.setJsonEntity(util.convertirObjetoEnJsonString(areaBeacon));
+                response.setState(true);
+            } else {
+                response.setState(false);
+            }
         } catch (Exception ex) {
             LOGGER.error(ex);
             response.setState(false);

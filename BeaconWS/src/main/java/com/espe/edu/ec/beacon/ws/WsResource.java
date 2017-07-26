@@ -7,6 +7,8 @@ package com.espe.edu.ec.beacon.ws;
 
 import com.espe.edu.ec.services.ws.RestService;
 import com.espe.edu.ec.services.ws.WSResponse;
+import java.util.ArrayList;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
@@ -97,6 +99,22 @@ public class WsResource {
             @FormParam("tipo") String tipo) {
         return restService.traerNotificacionPorAreaTipo(idArea, tipo);
     }
+    
+    @POST
+    @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
+    @Path("/traerNotificacionPorBeaconTipo")
+    public WSResponse traerNotificacionPorBeaconTipo(@FormParam("id_beacon") Integer idBeacon,
+            @FormParam("tipo") String tipo) {
+        return restService.traerNotificacionPorBeaconTipo(idBeacon, tipo);
+    }
+    
+    @POST
+    @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
+    @Path("/traerNotificacionListPorBeacon")
+    public WSResponse traerNotificacionListPorBeacon(@FormParam("id_beacon") Integer idBeacon) {
+        return restService.traerNotificacionListPorBeacon(idBeacon);
+    }
+    
 
     /**
      *
@@ -192,5 +210,40 @@ public class WsResource {
     @Path("/traerIconoPorIdLugar")
     public WSResponse traerIconoPorIdLugar(@FormParam("id_lugar") Integer idLugar) {
         return restService.traerIconoPorIdLugar(idLugar);
+    }
+
+    @POST
+    @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
+    @Path("/traerBeacons")
+    public WSResponse traerBeacons() {
+        return restService.traerBeaconsWS();
+    }
+
+    @POST
+    @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
+    @Path("/traerAreaBeaconListaPorIdsBeacon")
+    public WSResponse traerAreaBeaconListaPorIdsBeacon(@FormParam("listaIdBeacon") String listaIdBeacon) {
+        if (listaIdBeacon != null) {
+            String[] listaId = listaIdBeacon.split(",");
+            List<Integer> idsBeacons = new ArrayList();
+            for (String listaId1 : listaId) {
+                idsBeacons.add(Integer.valueOf(listaId1));
+            }
+            return restService.traerAreaBeaconListaPorIdsBeacon(idsBeacons);
+        } else {
+            return null;
+        }
+    }
+
+    @POST
+    @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
+    @Path("/traerAreaBeaconPorIdBeacon")
+    public WSResponse traerAreaBeaconPorIdBeacon(@FormParam("idBeacon") String IdBeacon) {
+        if (IdBeacon != null) {
+            Integer id = Integer.valueOf(IdBeacon);
+            return restService.traerAreaBeaconPorIdBeacon(id);
+        } else {
+            return null;
+        }
     }
 }

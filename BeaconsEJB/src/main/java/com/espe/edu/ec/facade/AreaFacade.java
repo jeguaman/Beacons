@@ -104,4 +104,19 @@ public class AreaFacade extends AbstractFacade<Area> {
         }
     }
 
+    
+        public boolean verificarArea(Integer areaId) {
+        try {
+            Query q = em.createNamedQuery("Area.findByAreaId");
+            q.setParameter("areaId", areaId);
+            Area u = (Area) q.getSingleResult();
+            if (u != null) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (Exception e) {
+            return false;
+        }
+    }
 }

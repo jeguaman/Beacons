@@ -72,4 +72,8 @@ public class BeaconService implements InterfaceService<Beacon>, Serializable {
     public Integer totalPorNombre(String nombre) {
         return beaconFacade.totalPorNombre(nombre);
     }
+           
+    public List<Beacon> traerTodosSinImagen() {
+        return beaconFacade.traerTodosSinImagen();
+    }
 }

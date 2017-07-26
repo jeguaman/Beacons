@@ -64,6 +64,10 @@ public class AreaBeaconService implements InterfaceService<AreaBeacon> {
         return areaBeaconFacade.traerAreaBeaconPorBeacon(beaconId);
     }
 
+    public AreaBeacon traerAreaBeaconIdPorBeacon(Integer beaconId) {
+        return areaBeaconFacade.traerAreaBeaconIdPorBeacon(beaconId);
+    }
+
     public AreaBeacon traerAreaBeaconPorArea(Integer areaId) {
         return areaBeaconFacade.traerAreaBeaconPorArea(areaId);
     }

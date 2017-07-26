@@ -25,7 +25,7 @@ public class DispositivoFacade extends AbstractFacade<Dispositivo> {
    
     @Override
     protected EntityManager getEntityManager() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return em;
     }
     
 
@@ -38,6 +38,16 @@ public class DispositivoFacade extends AbstractFacade<Dispositivo> {
         q.setFirstResult(first);
         q.setMaxResults(size);
         return q.getResultList();
+    }
+    
+    public Dispositivo traerPorImei(String imei){    
+            try {
+            Query q = em.createNamedQuery("Dispositivo.findByImei");
+            q.setParameter("imei", imei);
+            return (Dispositivo) q.getSingleResult();
+        } catch (Exception e) {
+            return null;
+        }
     }
 
 }

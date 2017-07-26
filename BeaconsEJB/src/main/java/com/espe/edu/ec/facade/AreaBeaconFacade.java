@@ -24,6 +24,7 @@ public class AreaBeaconFacade extends AbstractFacade<AreaBeacon> {
 
     private static final String TRAER_AREA_BEACON_POR_BEACON_ID = "SELECT ab FROM AreaBeacon ab WHERE ab.beaconId.beaconId = :id and ab.deleted = 0 ";
     private static final String TRAER_AREA_BEACON_POR_AREA_ID = "SELECT ab FROM AreaBeacon ab WHERE ab.areaId.areaId = :idArea and ab.deleted = 0 ";
+    private static final String TRAER_AREA_BEACON_ID_POR_BEACON_ID = "SELECT ab.areaId.areaId, ab.beaconId.beaconId FROM AreaBeacon ab WHERE ab.beaconId.beaconId = :id and ab.deleted = 0 ";
 
     @Override
     protected EntityManager getEntityManager() {
@@ -57,6 +58,22 @@ public class AreaBeaconFacade extends AbstractFacade<AreaBeacon> {
             return null;
         }
     }
+
+    public AreaBeacon traerAreaBeaconIdPorBeacon(Integer beaconId) {
+        try {
+            Query q = em.createQuery(TRAER_AREA_BEACON_ID_POR_BEACON_ID);
+            q.setParameter("id", beaconId);
+            Object[] area = (Object[]) q.getSingleResult();
+            AreaBeacon ab = null;
+            if (area != null && area.length == 2) {
+                ab = new AreaBeacon((Integer)area[0],(Integer) area[1]);
+            }
+            return ab;
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
     public AreaBeacon traerAreaBeaconPorArea(Integer areaId) {
         try {
             Query q = em.createQuery(TRAER_AREA_BEACON_POR_AREA_ID);

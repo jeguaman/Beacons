@@ -27,9 +27,13 @@ public class DispositivoService implements InterfaceService<Dispositivo>, Serial
 
     @Override
     public void crear(Dispositivo object) {
-        object.setInserted(new Date());
-        object.setDeleted(Boolean.FALSE);
-        dispositivoFacade.create(object);
+        try {
+            object.setInserted(new Date());
+            object.setDeleted(Boolean.FALSE);
+            dispositivoFacade.create(object);
+        } catch (Exception ex) {
+            System.out.println("EX:" + ex);
+        }
     }
 
     @Override
@@ -56,6 +60,10 @@ public class DispositivoService implements InterfaceService<Dispositivo>, Serial
     @Override
     public List<Dispositivo> traerLazzy(Integer first, Integer size) {
         return dispositivoFacade.traerLazzy(first, size);
+    }
+
+    public Dispositivo traerPorImei(String imei) {
+        return dispositivoFacade.traerPorImei(imei);
     }
 
 }

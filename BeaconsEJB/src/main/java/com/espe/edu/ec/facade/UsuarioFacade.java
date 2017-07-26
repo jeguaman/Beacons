@@ -90,9 +90,13 @@ public class UsuarioFacade extends AbstractFacade<Usuario> {
     }
 
     public Usuario traerPorCorreoElectronico(String correoElectronico) {
-        Query q = em.createNamedQuery("Usuario.findByCorreoElectronico");
-        q.setParameter("correoElectronico", correoElectronico);
-        return (Usuario) q.getSingleResult();
+        try {
+            Query q = em.createNamedQuery("Usuario.findByCorreoElectronico");
+            q.setParameter("correoElectronico", correoElectronico);
+            return (Usuario) q.getSingleResult();
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     public Integer totalUsuarios() {

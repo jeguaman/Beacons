@@ -25,6 +25,7 @@ public class BeaconFacade extends AbstractFacade<Beacon> {
     //private final String TOTAL_POR_UUID = "select count(b) from Beacon b where b.uuid =:uuid and b.deleted = 0";
     private final String TOTAL_POR_NOMBRE = "select count(b) from Beacon b where b.nombre like :uuid and b.deleted = 0";
     private final String TRAER_POR_NOMBRE = "select b from Beacon b where b.nombre like :uuid and b.deleted = 0";
+    private final String TRAER_SIN_BYTES = "select new Beacon(b.beaconId, b.uuid, b.major, b.minor) from Beacon b where b.deleted = 0";
 
     @Override
     protected EntityManager getEntityManager() {
@@ -56,5 +57,11 @@ public class BeaconFacade extends AbstractFacade<Beacon> {
         q.setParameter("nombre", "%" + nombre + "%");
         Long total = (Long) q.getSingleResult();
         return total.intValue();
+    }
+
+    public List<Beacon> traerTodosSinImagen() {
+        Query q = em.createQuery(TRAER_SIN_BYTES);;
+        List<Beacon> beacons = q.getResultList();
+        return beacons;
     }
 }

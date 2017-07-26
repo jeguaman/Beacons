@@ -90,6 +90,7 @@ public class UsuarioService implements InterfaceService<Usuario>, Serializable {
             ap.setUpdated(new Date());
             ap.setUsuarioId(usuario);
             ap.setPerfilId(perfil);
+            ap.setDeleted(Boolean.FALSE);
             asignacionPerfilFacade.create(ap);
         }
     }

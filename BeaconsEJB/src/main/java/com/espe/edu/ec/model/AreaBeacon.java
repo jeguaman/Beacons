@@ -61,7 +61,7 @@ public class AreaBeacon implements Serializable {
     private Date updated;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "deleted", columnDefinition="tinyint(1) default 0")
+    @Column(name = "deleted", columnDefinition = "tinyint(1) default 0")
     private Boolean deleted;
     @JoinColumn(name = "area_id", referencedColumnName = "area_id")
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
@@ -82,6 +82,11 @@ public class AreaBeacon implements Serializable {
         this.estado = estado;
         this.inserted = inserted;
         this.updated = updated;
+    }
+
+    public AreaBeacon(Integer areaId, Integer beaconId) {
+        this.areaId = new Area(areaId);
+        this.beaconId = new Beacon(beaconId);
     }
 
     public Integer getAreaBeaconId() {

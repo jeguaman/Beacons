@@ -41,8 +41,8 @@ public class AreaService implements InterfaceService<Area>, Serializable {
 
     @Override
     public void eliminar(Area object) {
-       object.setUpdated(new Date());
-       object.setDeleted(Boolean.TRUE);
+        object.setUpdated(new Date());
+        object.setDeleted(Boolean.TRUE);
         areaFacade.edit(object);
     }
 
@@ -95,5 +95,9 @@ public class AreaService implements InterfaceService<Area>, Serializable {
 
     public Area traerImagenPorIdArea(Integer areaId) {
         return areaFacade.traerImagenPorIdArea(areaId);
+    }
+
+    public boolean verificarArea(Integer idArea) {
+        return areaFacade.verificarArea(idArea);
     }
 }

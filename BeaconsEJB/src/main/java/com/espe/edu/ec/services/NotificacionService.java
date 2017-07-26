@@ -7,6 +7,7 @@ package com.espe.edu.ec.services;
 
 import com.espe.edu.ec.facade.NotificacionFacade;
 import com.espe.edu.ec.model.Notificacion;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
@@ -19,7 +20,7 @@ import javax.ejb.LocalBean;
  */
 @Stateless
 @LocalBean
-public class NotificacionService implements InterfaceService<Notificacion> {
+public class NotificacionService implements InterfaceService<Notificacion>, Serializable {
 
     @EJB
     NotificacionFacade notificacionFacade;
@@ -62,6 +63,10 @@ public class NotificacionService implements InterfaceService<Notificacion> {
 
     public Notificacion traerPorAreaYTipo(Integer areaId, String tipo) {
         return notificacionFacade.traerPorAreaYTipo(areaId, tipo);
+    }
+
+    public Notificacion traerPorAreaYTipoWS(Integer areaId, String tipo) {
+        return notificacionFacade.traerPorAreaYTipoWS(areaId, tipo);
     }
 
     public List<Notificacion> traerNotificacionPorArea(Integer areaId) {

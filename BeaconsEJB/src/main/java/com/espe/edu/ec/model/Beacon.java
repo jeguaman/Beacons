@@ -105,6 +105,13 @@ public class Beacon implements Serializable {
     public Beacon(Integer beaconId) {
         this.beaconId = beaconId;
     }
+    
+    public Beacon(Integer beaconId, String uuid, String major, String minor){
+    this.beaconId= beaconId;
+    this.uuid= uuid;
+    this.major= major;
+    this.minor=minor;
+    }
 
     public Beacon(Integer beaconId, String uuid, String major, String minor, String descripcion, byte[] imagen, Date inserted, Date updated) {
         this.beaconId = beaconId;
