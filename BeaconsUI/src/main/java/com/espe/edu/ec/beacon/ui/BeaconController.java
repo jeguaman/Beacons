@@ -115,7 +115,7 @@ public class BeaconController implements Serializable {
     public void setMensajeError(String mensajeError) {
         this.mensajeError = mensajeError;
     }
-    
+
     public Beacon prepareCreate() {
         beaconSelected = new Beacon();
         initializeEmbeddableKey();
@@ -240,9 +240,10 @@ public class BeaconController implements Serializable {
             setEmbeddableKeys();
             try {
                 if (persistAction != PersistAction.DELETE) {
-                    if (persistAction == PersistAction.CREATE) {
-                        verificarCambioImagen();
-                        if (mensajeError.compareTo("") == 0) {
+                    verificarCambioImagen();
+                    if (mensajeError.compareTo("") == 0) {
+                        if (persistAction == PersistAction.CREATE) {
+                            verificarCambioImagen();
                             getFacade().crear(beaconSelected);
                             h.setCodigoHistorial(ConstanteBeacon.CREACION);
                             h.setDescripcion(successMessage + " " + beaconSelected.getBeaconId() + " User:" + handler.getCorreo());
@@ -260,8 +261,10 @@ public class BeaconController implements Serializable {
                         } else {
                             verificarCambioImagen();
                             getFacade().actualizar(beaconSelected);
-                            areaBeacon.setAreaId(areaService.buscar(idAreaSeleccionada));
-                            areaBeaconService.actualizar(areaBeacon);
+                            if (idAreaSeleccionada != null) {
+                                areaBeacon.setAreaId(areaService.buscar(idAreaSeleccionada));
+                                areaBeaconService.actualizar(areaBeacon);
+                            }
                             h.setCodigoHistorial(ConstanteBeacon.ACTUALIZACION);
                             h.setDescripcion(successMessage + " BeaconId " + beaconSelected.getBeaconId() + " User:" + handler.getCorreo());
                             historialService.crear(h);
@@ -278,7 +281,8 @@ public class BeaconController implements Serializable {
                     historialService.crear(h);
                 }
                 if (mensajeError.compareTo("") == 0) {
-                JsfUtil.addSuccessMessage(successMessage);}
+                    JsfUtil.addSuccessMessage(successMessage);
+                }
             } catch (EJBException ex) {
                 String msg = "";
                 Throwable cause = ex.getCause();
@@ -351,15 +355,11 @@ public class BeaconController implements Serializable {
     }
 
     public void verificarCambioImagen() {
-        if (!file.getFileName().isEmpty()) {
-            beaconSelected.setImagen(file.getContents());
-        }
-
         if (file != null && !file.getFileName().isEmpty()) {
             if (file.getSize() <= ConstanteBeacon.TAMANIO_MAX_FOTO) {
                 beaconSelected.setImagen(file.getContents());
             } else {
-                mensajeError = "El peso(Kb) de la imagen supera lo permitido 800KB.";
+                mensajeError = "El peso(Kb) de la imagen supera lo permitido 1MB.";
             }
         }
     }

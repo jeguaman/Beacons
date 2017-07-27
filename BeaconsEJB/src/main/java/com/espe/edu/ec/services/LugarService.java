@@ -45,6 +45,7 @@ public class LugarService implements InterfaceService<Lugar>, Serializable {
         object.setDeleted(Boolean.TRUE);
         lugarFacade.edit(object);
     }
+    
 
     @Override
     public List<Lugar> buscarTodos() {
@@ -94,7 +95,7 @@ public class LugarService implements InterfaceService<Lugar>, Serializable {
             }
         }
     }
-    
+
     public Lugar traerIconoPorIdLugar(Integer lugarId) {
         return lugarFacade.traerIconoPorIdLugar(lugarId);
     }

@@ -23,7 +23,7 @@
                                     <div class="form-group">
                                         <p:outputLabel class="col-sm-3 col-sm-3 control-label" value="Seleccione una área." />
                                         <div class="col-sm-9">
-                                            <p:selectOneMenu class="form-control" value="#{beaconController.idAreaSeleccionada}" required="true" requiredMessage="#{bundle.EditNotificacionRequiredMessage_areaId}">
+                                            <p:selectOneMenu class="form-control" value="#{beaconController.idAreaSeleccionada}" >
                                                 <f:selectItem itemLabel="Ninguna" itemValue="#{null}"/>
                                                 <f:selectItems value="#{beaconController.areasLista}" 
                                                                var="area" 

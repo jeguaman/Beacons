@@ -169,7 +169,8 @@ public class LugarController implements Serializable {
                         JsfUtil.addErrorMessage(mensajeError);
                     }
                 } else {
-                    getFacade().eliminar(selected);
+                    Lugar tmp = getFacade().buscar(selected.getLugarId());
+                    getFacade().eliminar(tmp);
                     h.setCodigoHistorial(ConstanteBeacon.ELIMINACION);
                     h.setDescripcion(successMessage + " LugarId " + selected.getLugarId()+ " User:" + handler.getCorreo());
                     historialService.crear(h);
