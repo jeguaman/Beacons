@@ -18,7 +18,7 @@
                             <h:form id="UsuarioDeletedForm" class="form-horizontal style-form">
                                 <h:panelGroup id="display">                                    
                                     <div class="form-group">
-                                        <p:outputLabel class="col-sm-12 col-sm-12 control-label" value="Esta seguro que desea eliminar el usuario #{usuarioController.selected.nombreUsuario} ?"/>
+                                        <p:outputLabel class="col-sm-12 col-sm-12 control-label" value="¿Está seguro que desea eliminar el usuario #{usuarioController.selected.nombreUsuario} ?"/>
                                     </div>
                                     <div style="text-align: center;">
                                         <p:commandButton class="btn btn-crear" actionListener="#{usuarioController.destroy}" value="#{bundle.Accept}" update="display,:UsuarioListForm:datalist,:growl" onclick="UsuarioDeleteDialog.hide()"/>

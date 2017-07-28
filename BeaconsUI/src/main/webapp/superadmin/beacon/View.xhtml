@@ -9,7 +9,7 @@
     <ui:composition>
         <p:dialog id="BeaconViewDlg" widgetVar="BeaconViewDialog" modal="true"
                   resizable="false" appendTo="@(body)" 
-                  header="#{bundle.ViewBeaconTitle}"
+                  header="Ver Información Beacon"
                   responsive="true"
                   >
             <section class="wrapper" style="margin-top: 0;">
@@ -50,7 +50,7 @@
                                             </div>
                                         </div>                                        
                                         <div class="form-group">
-                                            <h:outputText class="col-sm-4 col-sm-4 control-label" value="#{bundle.ViewBeaconLabel_descripcion}"/>
+                                            <h:outputText class="col-sm-4 col-sm-4 control-label" value="Descripción"/>
                                             <div class="col-sm-8">
                                                 <p:inputTextarea class="form-control" rows="3" cols="30" id="descripcion" value="#{beaconController.beaconSelected.descripcion}" title="#{bundle.ViewBeaconTitle_descripcion}" readonly="true"/>
                                             </div>
