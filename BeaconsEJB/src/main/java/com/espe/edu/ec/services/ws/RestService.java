@@ -95,6 +95,55 @@ public class RestService implements Serializable {
         return response;
     }
 
+    public WSResponse traerBeaconsAsignadasWS() {
+        WSResponse response = new WSResponse();
+        Util util = new Util();
+        try {
+            List<Beacon> listaBeacon = beaconService.traerBeaconsAsignadasWS();
+            response.setJsonEntity(util.convertirListaObjetoEnJsonString(listaBeacon));
+            response.setState(true);
+        } catch (Exception ex) {
+            LOGGER.error(ex);
+            response.setState(false);
+        }
+        return response;
+    }
+
+    public WSResponse traerEstimoteAsignadosWS() {
+        WSResponse response = new WSResponse();
+        Util util = new Util();
+        try {
+            List<BeaconEstimote> estimote = new ArrayList();
+            List<Notificacion> notificaciones;
+            BeaconEstimote estimoteBeacon;
+            List<Beacon> listaBeacon = beaconService.traerBeaconsAsignadasWS();
+            for (Beacon beacon : listaBeacon) {
+                AreaBeacon ab = areaBeaconService.traerAreaBeaconIdPorBeacon(beacon.getBeaconId());
+                if (ab != null) {
+                    notificaciones = new ArrayList();
+                    notificaciones = notificacionService.traerNotificacionPorAreaWS(ab.getAreaId().getAreaId());
+                    if (notificaciones != null & !notificaciones.isEmpty() && notificaciones.size() >= 2) {
+                        estimoteBeacon = new BeaconEstimote();
+                        estimoteBeacon.setAreaId(ab.getAreaId().getAreaId());
+                        estimoteBeacon.setBeaconId(beacon.getBeaconId());
+                        estimoteBeacon.setProximityUUID(beacon.getUuid());
+                        estimoteBeacon.setMajor(Integer.valueOf(beacon.getMajor()));
+                        estimoteBeacon.setMinor(Integer.valueOf(beacon.getMinor()));
+                        estimoteBeacon.setEnterMessage(notificaciones.get(0).getDescripcion());
+                        estimoteBeacon.setExitMessage(notificaciones.get(1).getDescripcion());
+                        estimote.add(estimoteBeacon);
+                    }
+                }
+            }
+            response.setJsonEntity(util.convertirListaObjetoEnJsonString(estimote));
+            response.setState(true);
+        } catch (Exception ex) {
+            LOGGER.error(ex);
+            response.setState(false);
+        }
+        return response;
+    }
+
     /**
      * Jose Guaman
      *
@@ -179,22 +228,24 @@ public class RestService implements Serializable {
         Util util = new Util();
         Historial h = null;
         try {
-            Dispositivo d = dispositivoService.traerPorImei(imeiDispositivo);
-            if (d == null) {
-                d = new Dispositivo();
-                d.setImei(imeiDispositivo);
-                d.setInserted(new Date());
-                d.setUpdated(new Date());
-                dispositivoService.crear(d);
-            }
-            //h.setCodigoHistorial(ConstanteBeacon.CREACION);
-            h = new Historial();
-            h.setCodigoHistorial("C1");
-            h.setDescripcion("Dispositivo creado con éxito " + d.getDispositivoId());
-            historialService.crear(h);
-
-            Registro r = null;
             if (areaService.verificarArea(idArea)) {
+                Dispositivo d = dispositivoService.traerPorImei(imeiDispositivo);
+                if (d == null) {
+                    d = new Dispositivo();
+                    d.setImei(imeiDispositivo);
+                    d.setInserted(new Date());
+                    d.setUpdated(new Date());
+                    dispositivoService.crear(d);
+                    //h.setCodigoHistorial(ConstanteBeacon.CREACION);
+                    h = new Historial();
+                    h.setCodigoHistorial("C1");
+                    h.setDescripcion("Dispositivo creado con éxito " + d.getDispositivoId());
+                    historialService.crear(h);
+                } else {
+                    LOGGER.info("Dispo Encontrado:" + d.getDispositivoId());
+                }
+
+                Registro r = null;
                 Area a = new Area(idArea);
                 r = new Registro();
                 r.setAreaId(a);
@@ -257,11 +308,11 @@ public class RestService implements Serializable {
         }
         return response;
     }
-    
+
     public WSResponse traerNotificacionListPorBeacon(Integer idBeacon) {
         WSResponse response = new WSResponse();
         Util util = new Util();
-        List<Notificacion> notificaciones=new ArrayList();
+        List<Notificacion> notificaciones = new ArrayList();
         try {
             AreaBeacon ab = areaBeaconService.traerAreaBeaconIdPorBeacon(idBeacon);
             if (ab != null) {

@@ -76,4 +76,8 @@ public class BeaconService implements InterfaceService<Beacon>, Serializable {
     public List<Beacon> traerTodosSinImagen() {
         return beaconFacade.traerTodosSinImagen();
     }
+
+    public List<Beacon> traerBeaconsAsignadasWS() {
+        return beaconFacade.traerBeaconsAsignadasWS();
+    }
 }

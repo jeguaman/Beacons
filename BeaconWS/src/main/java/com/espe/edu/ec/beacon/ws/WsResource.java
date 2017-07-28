@@ -99,7 +99,7 @@ public class WsResource {
             @FormParam("tipo") String tipo) {
         return restService.traerNotificacionPorAreaTipo(idArea, tipo);
     }
-    
+
     @POST
     @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
     @Path("/traerNotificacionPorBeaconTipo")
@@ -107,14 +107,13 @@ public class WsResource {
             @FormParam("tipo") String tipo) {
         return restService.traerNotificacionPorBeaconTipo(idBeacon, tipo);
     }
-    
+
     @POST
     @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
     @Path("/traerNotificacionListPorBeacon")
     public WSResponse traerNotificacionListPorBeacon(@FormParam("id_beacon") Integer idBeacon) {
         return restService.traerNotificacionListPorBeacon(idBeacon);
     }
-    
 
     /**
      *
@@ -217,6 +216,20 @@ public class WsResource {
     @Path("/traerBeacons")
     public WSResponse traerBeacons() {
         return restService.traerBeaconsWS();
+    }
+
+    @POST
+    @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
+    @Path("/traerBeaconsAsignadasWS")
+    public WSResponse traerBeaconsAsignadasWS() {
+        return restService.traerBeaconsAsignadasWS();
+    }
+
+    @POST
+    @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
+    @Path("/traerEstimoteAsignadosWS")
+    public WSResponse traerEstimoteAsignadosWS() {
+        return restService.traerEstimoteAsignadosWS();
     }
 
     @POST

@@ -161,7 +161,7 @@ public class LugarController implements Serializable {
                         } else {
                             getFacade().actualizar(selected);
                             h.setCodigoHistorial(ConstanteBeacon.ACTUALIZACION);
-                            h.setDescripcion(successMessage + " LugarId " + selected.getLugarId()+ " User:" + handler.getCorreo());
+                            h.setDescripcion(successMessage + " LugarId " + selected.getLugarId() + " User:" + handler.getCorreo());
                             historialService.crear(h);
                         }
                         mensajeError = "";
@@ -172,7 +172,7 @@ public class LugarController implements Serializable {
                     Lugar tmp = getFacade().buscar(selected.getLugarId());
                     getFacade().eliminar(tmp);
                     h.setCodigoHistorial(ConstanteBeacon.ELIMINACION);
-                    h.setDescripcion(successMessage + " LugarId " + selected.getLugarId()+ " User:" + handler.getCorreo());
+                    h.setDescripcion(successMessage + " LugarId " + selected.getLugarId() + " User:" + handler.getCorreo());
                     historialService.crear(h);
                 }
                 if (mensajeError.compareTo("") == 0) {
@@ -258,19 +258,27 @@ public class LugarController implements Serializable {
     }
 
     public void verificarCambioImagen() {
+        boolean exito = false;
         if (file != null && !file.getFileName().isEmpty()) {
             if (file.getSize() <= ConstanteBeacon.TAMANIO_MAX_FOTO) {
                 selected.setImagen(file.getContents());
+                exito = true;
             } else {
+                exito = false;
                 mensajeError = "El peso(Kb) de la imagen supera lo permitido 800KB.";
             }
         }
         if (icono != null && !icono.getFileName().isEmpty()) {
             if (icono.getSize() <= ConstanteBeacon.TAMANIO_MAX_ICONO) {
+                exito = true;
                 selected.setIcono(icono.getContents());
             } else {
+                exito = false;
                 mensajeError = "El peso(Kb) del icono supera lo permitido 60Kb.";
             }
+        }
+        if (exito) {
+            mensajeError = "";
         }
     }
 

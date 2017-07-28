@@ -11,6 +11,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import org.jboss.logging.Logger;
 
 /**
  *
@@ -21,6 +22,7 @@ public class AreaFacade extends AbstractFacade<Area> {
 
     @PersistenceContext(unitName = "com.espe.edu.ec_BeaconsEJB_ejb_1.0-SNAPSHOTPU")
     private EntityManager em;
+    private static final Logger LOGGER = Logger.getLogger(AreaFacade.class);
 
     private static final String TRAER_TODAS_AREAS_POR_BEACON_NO_BYTES_IMAGE = "SELECT new Area(a.areaId, a.titulo, a.descripcion) FROM Area as a JOIN a.areaBeaconList as ab WHERE ab.beaconId.beaconId = :beaconId and a.deleted = 0";
     private static final String TRAER_TOTAL_AREAS_POR_BEACON_NO_BYTES = "SELECT count(a) FROM Area as a JOIN a.areaBeaconList as ab WHERE ab.beaconId.beaconId = :beaconId and a.deleted = 0";
@@ -113,9 +115,11 @@ public class AreaFacade extends AbstractFacade<Area> {
             if (u != null) {
                 return true;
             } else {
+                 //LOGGER.info("No se encontraron resultados");
                 return false;
             }
         } catch (Exception e) {
+            //LOGGER.error(e);
             return false;
         }
     }

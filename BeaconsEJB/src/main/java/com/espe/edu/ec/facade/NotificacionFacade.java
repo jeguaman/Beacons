@@ -25,6 +25,7 @@ public class NotificacionFacade extends AbstractFacade<Notificacion> {
     private static final String TRAER_POR_AREA_Y_TIPO = "Select n from Notificacion as n join fetch n.areaId as a where a.areaId = :areaId and n.tipo = :tipo and n.deleted = 0";
     private static final String TRAER_POR_AREA = "Select n from Notificacion as n join fetch n.areaId as a where a.areaId = :areaId and n.deleted = 0";
     private static final String TRAER_POR_AREA_Y_TIPO_WS = "Select n from Notificacion as n where n.areaId.areaId = :areaId and n.tipo = :tipo and n.deleted = 0";
+    private static final String TRAER_POR_AREA_WS = "Select n from Notificacion as n where n.areaId.areaId = :areaId and n.deleted = 0";
     @PersistenceContext(unitName = "com.espe.edu.ec_BeaconsEJB_ejb_1.0-SNAPSHOTPU")
     private EntityManager em;
     
@@ -80,6 +81,11 @@ public class NotificacionFacade extends AbstractFacade<Notificacion> {
     
     public List<Notificacion> traerNotificacionPorArea(Integer areaId) {
         Query q = em.createQuery(TRAER_POR_AREA);
+        q.setParameter("areaId", areaId);
+        return q.getResultList();
+    }
+    public List<Notificacion> traerNotificacionPorAreaWS(Integer areaId) {
+        Query q = em.createQuery(TRAER_POR_AREA_WS);
         q.setParameter("areaId", areaId);
         return q.getResultList();
     }

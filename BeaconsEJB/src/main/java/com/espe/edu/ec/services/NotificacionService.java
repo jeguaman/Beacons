@@ -72,4 +72,7 @@ public class NotificacionService implements InterfaceService<Notificacion>, Seri
     public List<Notificacion> traerNotificacionPorArea(Integer areaId) {
         return notificacionFacade.traerNotificacionPorArea(areaId);
     }
+    public List<Notificacion> traerNotificacionPorAreaWS(Integer areaId) {
+        return notificacionFacade.traerNotificacionPorAreaWS(areaId);
+    }
 }
