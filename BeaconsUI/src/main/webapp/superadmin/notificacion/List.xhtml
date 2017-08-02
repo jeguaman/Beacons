@@ -84,8 +84,9 @@
                                             <p:commandButton id="createButton" icon="ui-icon-plus" 
                                                              value="#{bundle.Create}" 
                                                              actionListener="#{notificacionController.prepareCreate}" 
-                                                             update=":NotificacionCreateForm"/>
-                                            <p:spacer height="30"></p:spacer>
+                                                             update=":NotificacionCreateForm"
+                                                             rendered="false"/>
+                                            <p:spacer height="30" rendered="false"></p:spacer>
                                             <p:commandButton id="viewButton"   
                                                              icon="ui-icon-search" 
                                                              value="#{bundle.View}" 
@@ -99,8 +100,9 @@
                                                              update=":NotificacionEditForm" 
                                                              oncomplete="PF('NotificacionEditDialog').show()" 
                                                              disabled="#{empty notificacionController.notificacionSelected}"/>
-                                            <p:spacer height="30"></p:spacer>
+                                            <p:spacer height="30" rendered="false"></p:spacer>
                                             <p:commandButton id="deleteButton" 
+                                                             rendered="false"
                                                              icon="ui-icon-trash"  value="#{bundle.Delete}" 
                                                              update=":NotificacionDeletedForm" oncomplete="PF('NotificacionDeleteDialog').show()" 
                                                              disabled="#{empty notificacionController.notificacionSelected}"/>

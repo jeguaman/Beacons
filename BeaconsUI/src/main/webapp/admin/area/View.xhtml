@@ -23,17 +23,17 @@
                                     <div class="form-group">
                                         <h:outputText class="col-sm-4 col-sm-4 control-label" value="#{bundle.ViewAreaLabel_titulo}"/>
                                         <div class="col-sm-8">
-                                            <h:outputText value="#{areaController.selected.titulo}" title="#{bundle.ViewAreaTitle_titulo}"/>
+                                            <h:outputText value="#{areaController.selected.titulo}" title="Título"/>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <h:outputText class="col-sm-4 col-sm-4 control-label" value="#{bundle.ViewAreaLabel_imagen}"/>
                                         <div class="col-sm-8">
-                                            <o:graphicImage class="form-group" value="#{imageStreamer.getAreaImagen(areaController.selected.areaId)}" width="150" height="200" lastModified="#{areaController.selected.updated}"/>
+                                            <o:graphicImage class="form-group" value="#{imageStreamer.getAreaImagen(areaController.selected.areaId)}" width="200" height="200" lastModified="#{areaController.selected.updated}"/>
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <h:outputText class="col-sm-4 col-sm-4 control-label" value="#{bundle.ViewAreaLabel_descripcion}"/>
+                                        <h:outputText class="col-sm-4 col-sm-4 control-label" value="Descripción"/>
                                         <div class="col-sm-8">
                                             <p:inputTextarea class="form-control" rows="4" cols="30" id="descripcion" value="#{areaController.selected.descripcion}" title="#{bundle.ViewAreaTitle_descripcion}" readonly="true"/>
                                         </div>

@@ -8,9 +8,11 @@ import com.espe.edu.ec.beacon.ui.util.JsfUtil.PersistAction;
 import com.espe.edu.ec.handler.SessionHandler;
 import com.espe.edu.ec.model.Historial;
 import com.espe.edu.ec.model.Lugar;
+import com.espe.edu.ec.model.Notificacion;
 import com.espe.edu.ec.services.AreaBeaconService;
 import com.espe.edu.ec.services.HistorialService;
 import com.espe.edu.ec.services.LugarService;
+import com.espe.edu.ec.services.NotificacionService;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -45,6 +47,8 @@ public class AreaController implements Serializable {
     private HistorialService historialService;
     @EJB
     private AreaBeaconService areaBeaconService;
+    @EJB
+    private NotificacionService notificacionService;
     private LazyDataModel<Area> areasLazy;
     private LazyDataModel<Lugar> lugarLazyDataModel;
     private Area selected;
@@ -222,6 +226,16 @@ public class AreaController implements Serializable {
                     if (mensajeError.compareTo("") == 0) {
                         if (persistAction == PersistAction.CREATE) {
                             getFacade().crear(selected);
+                            Notificacion entrada= new Notificacion();
+                            entrada.setDescripcion("Ingresar notificacion");
+                            entrada.setTipo("E");
+                            entrada.setAreaId(selected);
+                            Notificacion salida =  new Notificacion();
+                            salida.setDescripcion("Ingresar notificacion");
+                            salida.setTipo("S");
+                            salida.setAreaId(selected);
+                            notificacionService.crear(entrada);
+                            notificacionService.crear(salida);
                             h.setCodigoHistorial(ConstanteBeacon.CREACION);
                             h.setDescripcion(successMessage + " AreaId " + selected.getAreaId() + " User:" + handler.getCorreo());
                             historialService.crear(h);
@@ -238,6 +252,7 @@ public class AreaController implements Serializable {
                 } else {
                     lugarService.eliminarLugaresPorIdArea(selected.getAreaId());
                     areaBeaconService.eliminarAreaBeaconPorAreaId(selected.getAreaId());
+                    notificacionService.eliminarNotificacionesPorIdArea(selected.getAreaId());
                     getFacade().eliminar(selected);
                     h.setCodigoHistorial(ConstanteBeacon.ELIMINACION);
                     h.setDescripcion(successMessage + " AreaId " + selected.getAreaId() + " User:" + handler.getCorreo());

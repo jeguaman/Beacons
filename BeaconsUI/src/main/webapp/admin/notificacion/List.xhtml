@@ -36,13 +36,13 @@
                                         <p:ajax event="rowUnselect" update=" viewButton editButton "/>
                                         <p:column>
                                             <f:facet name="header">
-                                                <h:outputText value="#{bundle.ListAreaTitle_titulo}"/>
+                                                <h:outputText value="Título"/>
                                             </f:facet>
                                             <h:outputText value="#{item.titulo}"/>
                                         </p:column>
                                         <p:column>
                                             <f:facet name="header">
-                                                <h:outputText value="#{bundle.ListAreaTitle_descripcion}"/>
+                                                <h:outputText value="Descripción"/>
                                             </f:facet>
                                             <h:outputText value="#{item.descripcion}"/>
                                         </p:column>   
@@ -84,8 +84,9 @@
                                             <p:commandButton id="createButton" icon="ui-icon-plus" 
                                                              value="#{bundle.Create}" 
                                                              actionListener="#{notificacionController.prepareCreate}" 
-                                                             update=":NotificacionCreateForm"/>
-                                            <p:spacer height="30"></p:spacer>
+                                                             update=":NotificacionCreateForm"
+                                                             rendered="false"/>
+                                            <p:spacer height="30" rendered="false"></p:spacer>
                                             <p:commandButton id="viewButton"   
                                                              icon="ui-icon-search" 
                                                              value="#{bundle.View}" 
@@ -99,8 +100,9 @@
                                                              update=":NotificacionEditForm" 
                                                              oncomplete="PF('NotificacionEditDialog').show()" 
                                                              disabled="#{empty notificacionController.notificacionSelected}"/>
-                                            <p:spacer height="30"></p:spacer>
+                                            <p:spacer height="30" rendered="false"></p:spacer>
                                             <p:commandButton id="deleteButton" 
+                                                             rendered="false"
                                                              icon="ui-icon-trash"  value="#{bundle.Delete}" 
                                                              update=":NotificacionDeletedForm" oncomplete="PF('NotificacionDeleteDialog').show()" 
                                                              disabled="#{empty notificacionController.notificacionSelected}"/>

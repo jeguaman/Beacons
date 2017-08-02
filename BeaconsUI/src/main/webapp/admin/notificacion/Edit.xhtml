@@ -32,7 +32,7 @@
                                     <div class="form-group">
                                         <p:outputLabel class="col-sm-4 col-sm-4 control-label" value="#{bundle.EditNotificacionLabel_descripcion}" for="descripcion" />
                                         <div class="col-sm-8">
-                                            <h:inputText class="form-control" id="descripcion" value="#{notificacionController.notificacionSelected.descripcion}" title="#{bundle.EditNotificacionTitle_descripcion}" required="true" requiredMessage="#{bundle.EditNotificacionRequiredMessage_descripcion}"/>
+                                            <p:inputTextarea  id="descripcion" class="form-control" rows="4" cols="30" value="#{notificacionController.notificacionSelected.descripcion}" title="#{bundle.EditNotificacionTitle_descripcion}" required="true" requiredMessage="#{bundle.EditNotificacionRequiredMessage_descripcion}"/>
                                         </div>
                                     </div>
                                     <div style="text-align: center;">
