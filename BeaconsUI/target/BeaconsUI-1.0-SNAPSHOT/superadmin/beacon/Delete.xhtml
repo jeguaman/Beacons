@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+    <ui:composition>
+        <p:dialog id="BeaconDeleteDlg" 
+                  widgetVar="BeaconDeleteDialog" 
+                  modal="true" 
+                  resizable="false" 
+                  appendTo="@(body)" 
+                  header="#{bundle.DeleteBeaconTitle}">
+            <section class="wrapper" style="margin-top: 0;">
+                <div class="row">
+                    <div class="col-lg-12" >
+                        <div class="form-panel">                            
+                            <h:form id="BeaconDeletedForm" class="form-horizontal style-form">
+                                <h:panelGroup id="display">                                    
+                                    <div class="form-group">
+                                        <p:outputLabel class="col-sm-12 col-sm-12 control-label" value="¿Está seguro que desea eliminar el Beacon con el identificador #{beaconController.beaconSelected.nombre} ?"/>
+                                    </div>
+                                    <div style="text-align: center;">
+                                        <p:commandButton class="btn btn-crear" actionListener="#{beaconController.destroy}" value="#{bundle.Accept}" update="display,:BeaconListForm:datalist,:growl" onclick="BeaconDeleteDialog.hide()"/>
+                                        <p:spacer height="30"></p:spacer>
+                                        <p:commandButton class="btn btn-crear" value="#{bundle.Cancel}" oncomplete="PF('BeaconDeleteDialog').hide();" immediate="true"/>                                        
+                                    </div>
+                                </h:panelGroup>
+                            </h:form>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </p:dialog>
+    </ui:composition>
+</html>

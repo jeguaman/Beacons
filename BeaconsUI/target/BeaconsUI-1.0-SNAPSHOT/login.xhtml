@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Willana Be</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link rel="shortcut icon" href="#{request.contextPath}/resources/img/beacon_blue.ico"/>
+        <h:outputStylesheet library="css"  name="default.css"/>
+        <h:outputStylesheet library="css"  name="cssLayout.css"/>
+        <!-- Bootstrap core CSS -->
+        <link href="#{request.contextPath}/resources/css/bootstrap.css" rel="stylesheet"/>
+        <!--external css-->
+        <link href="#{request.contextPath}/resources/font-awesome/css/font-awesome.css" rel="stylesheet" />
+
+        <!-- Custom styles for this template -->
+        <link href="#{request.contextPath}/resources/css/style.css" rel="stylesheet"/>
+        <link href="#{request.contextPath}/resources/css/style-responsive.css" rel="stylesheet"/>
+    </h:head>
+    <h:body>
+        <div id="login-page">
+            <div class="container">
+                <h:form class="form-login" >  
+                    <p:growl id="growl" sticky="true" showDetail="true" life="3000" />
+                    <h2 class="form-login-heading">
+                        <img src="#{request.contextPath}/resources/img/logo_beacon.png" width="90"/>
+                        Inicio de Sesión</h2>
+                    <div class="login-wrap">
+                        <h:inputText class="form-control"  id="username" value="#{loginBean.correo}" required="true"  
+                                     a:placeholder="Correo Institucional" requiredMessage="#{bundle.correoInstitucional_login}"
+                                     validatorMessage="Ingrese un correo institucional valido.">
+                            <!--<f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />-->
+                            <f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@(espe.edu.ec)$" />
+                        </h:inputText>
+                        <br/>
+                        <p:password class="form-control" id="password" value="#{loginBean.contrasenia}" required="true" placeholder="Contraseña" requiredMessage="#{bundle.contrasenia_login}" />
+                        <br/>
+                        <p:commandButton class="btn btn-theme btn-block" value="Ingresar" update="growl" actionListener="#{loginBean.verificarAcceso()}" />
+                    </div>
+                    <p:dialog 
+                        widgetVar="dialogSeleccionPerfil">
+                        <p:panelGrid columns="2">
+
+                            <p:commandButton value="Aceptar"/>
+                            <p:commandButton value="Cancelar" immediate="true" onclick="PF('dialogSeleccionPerfil').hide()"/>
+                        </p:panelGrid>
+                    </p:dialog>
+                </h:form>
+            </div>
+        </div>
+        <!-- js placed at the end of the document so the pages load faster -->
+        <script src="#{request.contextPath}/resources/js/jquery.js"></script>
+        <script src="#{request.contextPath}/resources/js/bootstrap.min.js"></script>
+
+        <!--BACKSTRETCH-->
+        <!-- You can use an image of whatever size. This script will stretch to fit in any screen size.-->
+        <script type="text/javascript" src="#{request.contextPath}/resources/js/jquery.backstretch.min.js"></script>
+        <script>
+                                $.backstretch("#{request.contextPath}/resources/img/login-bg.jpg", {speed: 500});
+        </script>
+    </h:body>
+</html>

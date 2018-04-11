@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="NotificacionCreateDlg" 
+                  widgetVar="AsignarAreaBeaconDialog" 
+                  modal="true" 
+                  resizable="false" 
+                  appendTo="@(body)" 
+                  header="Asignar área al beacon">
+            <h:form id="AsignarForm">
+                <h:panelGroup id="display">
+                    <div class="form-group">
+                        <p:outputLabel value="Seleccione una área para asociar al beacon" />
+                    </div>
+                    <div class="form-group">
+                        <p:selectOneMenu value="#{beaconController.idAreaSeleccionada}" required="true" requiredMessage="#{bundle.EditNotificacionRequiredMessage_areaId}">
+                            <f:selectItem itemLabel="Ninguna" itemValue="#{null}"/>
+                            <f:selectItems value="#{beaconController.areasLista}" 
+                                           var="area" 
+                                           itemLabel="#{area.titulo}"
+                                           itemValue="#{area.areaId}"/>
+                        </p:selectOneMenu>
+                    </div>
+                    <div style="text-align: center;">
+                        <p:commandButton actionListener="#{beaconController.asignar}" ajax="false" value="Asignar" update="display,:BeaconListForm,:growl" oncomplete="handleSubmit(args,'AsignarAreaBeaconDialog');"/>
+                        <p:spacer height="30"></p:spacer>
+                        <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('AsignarAreaBeaconDialog').hide();" immediate="true"/>
+                    </div>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

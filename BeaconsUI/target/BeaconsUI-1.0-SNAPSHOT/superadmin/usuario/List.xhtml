@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="../../template/template.xhtml">
+        <ui:define name="contenido" id="contenido">     
+            <!--main content start-->
+            <section class="wrapper">
+                <h3><i class="fa fa-user"></i> #{bundle.ListUsuarioTitle}</h3>
+                <h:form id="UsuarioListForm">
+                    <div class="row mt">
+                        <div class="col-md-12">
+                            <div class="content-panel" style="padding-left: 1%;">
+                                <div class="form-group">
+                                    <p:inputText class="col-sm-3 col-sm-3 control-label" placeholder="Ingrese correo electrónico" value="#{usuarioController.correoBusqueda}"/>
+                                    <div class="col-sm-9">
+                                        <p:commandButton value="Buscar" actionListener="#{usuarioController.getUsuarios}" update="datalist"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="content-panel">
+                                <p:panel>
+                                    <p:dataTable id="datalist" value="#{usuarioController.usuariosLazy}" var="item"
+                                                 selectionMode="single" selection="#{usuarioController.selected}"
+                                                 paginator="true"
+                                                 rowKey="#{item.usuarioId}"
+                                                 rows="10"
+                                                 lazy="true"
+                                                 paginatorPosition="bottom"
+                                                 emptyMessage="No se encontraron usuarios"
+                                                 >
+
+                                        <p:ajax event="rowSelect"   update="createButton viewButton editButton deleteButton"/>
+                                        <p:ajax event="rowUnselect" update="createButton viewButton editButton deleteButton"/>
+                                        <p:column>
+                                            <f:facet name="header">
+                                                <h:outputText value="#{bundle.ListUsuarioTitle_nombres}"/>
+                                            </f:facet>
+                                            <h:outputText value="#{item.nombres}"/>
+                                        </p:column>
+                                        <p:column>
+                                            <f:facet name="header">
+                                                <h:outputText value="#{bundle.ListUsuarioTitle_apellidos}"/>
+                                            </f:facet>
+                                            <h:outputText value="#{item.apellidos}"/>
+                                        </p:column>
+                                        <p:column>
+                                            <f:facet name="header">
+                                                <h:outputText value="#{bundle.ListUsuarioTitle_nombreUsuario}"/>
+                                            </f:facet>
+                                            <h:outputText value="#{item.nombreUsuario}"/>
+                                        </p:column>
+                                        <p:column>
+                                            <f:facet name="header">
+                                                <h:outputText value="#{bundle.ListUsuarioTitle_correoElectronico}"/>
+                                            </f:facet>
+                                            <h:outputText value="#{item.correoElectronico}"/>
+                                        </p:column>
+                                        <f:facet name="footer">
+                                            <p:commandButton class="btn btn-crear" id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{usuarioController.prepareCreate}" update=":UsuarioCreateForm" oncomplete="PF('UsuarioCreateDialog').show()"/>
+                                            <p:spacer height="30"></p:spacer>
+                                            <p:commandButton class="btn btn-crear" id="viewButton"   icon="ui-icon-search" value="#{bundle.View}" update=":UsuarioViewForm" oncomplete="PF('UsuarioViewDialog').show()" disabled="#{empty usuarioController.selected}"/>
+                                            <p:spacer height="30"></p:spacer>
+                                            <p:commandButton class="btn btn-crear" id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update=":UsuarioEditForm" oncomplete="PF('UsuarioEditDialog').show()" disabled="#{empty usuarioController.selected}" actionListener="#{usuarioController.cargarData}"/>
+                                            <p:spacer height="30"></p:spacer>
+                                            <p:commandButton class="btn btn-crear" id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" update=":UsuarioDeletedForm" oncomplete="PF('UsuarioDeleteDialog').show()" disabled="#{empty usuarioController.selected}"/>
+                                        </f:facet>
+                                    </p:dataTable>
+                                </p:panel>
+
+                            </div>
+                        </div>
+                    </div>                
+
+                </h:form>
+
+            </section><!--/wrapper -->
+
+            <!--main content end-->
+
+            <ui:include src="Create.xhtml"/>
+            <ui:include src="Edit.xhtml"/>
+            <ui:include src="View.xhtml"/>
+            <ui:include src="Delete.xhtml"/>
+        </ui:define>
+    </ui:composition>
+
+</html>
