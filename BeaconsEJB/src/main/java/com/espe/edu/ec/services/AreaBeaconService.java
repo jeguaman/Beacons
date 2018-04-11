@@ -29,6 +29,7 @@ public class AreaBeaconService implements InterfaceService<AreaBeacon> {
         object.setInserted(new Date());
         object.setUpdated(new Date());
         object.setDeleted(Boolean.FALSE);
+        
         areaBeaconFacade.create(object);
     }
 
