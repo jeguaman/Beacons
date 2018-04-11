@@ -18,7 +18,7 @@
                             <h:form id="BeaconDeletedForm" class="form-horizontal style-form">
                                 <h:panelGroup id="display">                                    
                                     <div class="form-group">
-                                        <p:outputLabel class="col-sm-12 col-sm-12 control-label" value="¿Está seguro que desea eliminar el Beacon con el identificador #{beaconController.beaconSelected.major} ?"/>
+                                        <p:outputLabel class="col-sm-12 col-sm-12 control-label" value="¿Está seguro que desea eliminar el Beacon con el identificador #{beaconController.beaconSelected.nombre} ?"/>
                                     </div>
                                     <div style="text-align: center;">
                                         <p:commandButton class="btn btn-crear" actionListener="#{beaconController.destroy}" value="#{bundle.Accept}" update="display,:BeaconListForm:datalist,:growl" onclick="BeaconDeleteDialog.hide()"/>
